@@ -45,14 +45,29 @@
     };
   </script>
   <style>
+    /* Brand display font: "عام الحرف اليدوية / Year of Handicrafts"
+       Applied to headings only to avoid layout shifts in paragraphs/forms. */
+    @font-face{
+      font-family: "YearOfHandicrafts";
+      src: url("https://arbfonts.com/wp-content/fonts/new-arabic-fonts/TheYearofHandicrafts-Regular.otf") format("opentype");
+      font-display: swap;
+      font-style: normal;
+      font-weight: 400;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Tajawal', sans-serif;
+      font-family: "YearOfHandicrafts", "Tajawal", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
       background: #0D0D0D;
       color: #F5F5F5;
       overflow-x: hidden;
     }
+
+    input, button, textarea, select {
+      font-family: inherit;
+    }
+
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: #0D0D0D; }
     ::-webkit-scrollbar-thumb {
