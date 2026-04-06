@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>لوحة التحكم - قادر برودكشن</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  background: #0D0D0D;
+  color: #F5F5F5;
+  overflow-x: hidden;
+}
+
+.poster-container {
+  width: 720px;
+  min-height: 1080px;
+  margin: 0 auto;
+  position: relative;
+  background: linear-gradient(180deg, #0D0D0D 0%, #0A0A0A 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-header {
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  padding: 25px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-logo {
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #C9A84C 0%, #E2C06E 50%, #A07830 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.admin-badge {
+  background: rgba(201, 168, 76, 0.15);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  padding: 8px 18px;
+  border-radius: 25px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #E2C06E;
+}
+
+.admin-body {
+  display: flex;
+  flex: 1;
+}
+
+.admin-sidebar {
+  width: 220px;
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(15px);
+  border-left: 1px solid rgba(201, 168, 76, 0.1);
+  padding: 30px 0;
+}
+
+.sidebar-menu {
+  list-style: none;
+}
+
+.sidebar-item {
+  padding: 18px 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-right: 3px solid transparent;
+  color: #B8B8B8;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sidebar-item:hover, .sidebar-item.active {
+  background: rgba(201, 168, 76, 0.1);
+  border-right-color: #C9A84C;
+  color: #E2C06E;
+}
+
+.sidebar-item .material-icons {
+  font-size: 24px;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.content-header {
+  margin-bottom: 40px;
+}
+
+.content-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: #F5F5F5;
+  margin-bottom: 10px;
+}
+
+.content-subtitle {
+  font-size: 15px;
+  color: #A8A8A8;
+}
+
+.edit-section {
+  background: rgba(30, 30, 30, 0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 35px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(201, 168, 76, 0.1);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #E2C06E;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title .material-icons {
+  font-size: 22px;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #B8B8B8;
+  margin-bottom: 8px;
+}
+
+.field-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(13, 13, 13, 0.5);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  border-radius: 12px;
+  color: #F5F5F5;
+  font-size: 14px;
+  font-family: 'Tajawal', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: rgba(201, 168, 76, 0.4);
+  background: rgba(13, 13, 13, 0.7);
+}
+
+.field-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-save {
+  flex: 1;
+  padding: 16px;
+  background: linear-gradient(135deg, #C9A84C 0%, #E2C06E 100%);
+  border: none;
+  border-radius: 12px;
+  color: #0D0D0D;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(201, 168, 76, 0.3);
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(201, 168, 76, 0.5);
+}
+
+.btn-reset {
+  padding: 16px 30px;
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 12px;
+  color: #E2C06E;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-reset:hover {
+  background: rgba(30, 30, 30, 0.7);
+  border-color: rgba(201, 168, 76, 0.4);
+}
+
+.toast-notification {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  border-radius: 14px;
+  padding: 18px 35px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.toast-notification .material-icons {
+  font-size: 26px;
+  color: #4CAF50;
+}
+
+.toast-text {
+  font-size: 15px;
+  font-weight: 700;
+  color: #F5F5F5;
+}
+
+.material-icons {
+  vertical-align: middle;
+}
+</style>
+</head>
+<body>
+<div class="poster-container">
+<div class="admin-header">
+<div class="admin-logo">لوحة التحكم</div>
+<div class="admin-badge">Admin Panel</div>
+</div>
+
+<div class="admin-body">
+<div class="admin-sidebar">
+<ul class="sidebar-menu">
+<li class="sidebar-item active">
+<i class="material-icons">article</i>
+<span>المحتوى الأساسي</span>
+</li>
+<li class="sidebar-item">
+<i class="material-icons">video_library</i>
+<span>الأعمال</span>
+</li>
+<li class="sidebar-item">
+<i class="material-icons">contact_mail</i>
+<span>معلومات التواصل</span>
+</li>
+</ul>
+</div>
+
+<div class="admin-content">
+<div class="content-header">
+<h2 class="content-title">تحرير المحتوى الأساسي</h2>
+<p class="content-subtitle">قم بتعديل النصوص والمعلومات الأساسية للموقع</p>
+</div>
+
+<div class="edit-section">
+<h3 class="section-title">
+<i class="material-icons">edit</i>
+قسم البطل
+</h3>
+
+<div class="form-field">
+<label class="field-label">العنوان الرئيسي</label>
+<input type="text" class="field-input" value="قادر برودكشن"/>
+</div>
+
+<div class="form-field">
+<label class="field-label">السطر الأول</label>
+<input type="text" class="field-input" value="إبداع يليق"/>
+</div>
+
+<div class="form-field">
+<label class="field-label">السطر الثاني</label>
+<input type="text" class="field-input" value="بكل لحظة"/>
+</div>
+
+<div class="form-field">
+<label class="field-label">النص الفرعي</label>
+<textarea class="field-input field-textarea">نصنع المحتوى البصري الذي يتحدث بدلاً عنك — بدقة احترافية، وإبداع لا حدود له.</textarea>
+</div>
+</div>
+
+<div class="edit-section">
+<h3 class="section-title">
+<i class="material-icons">business</i>
+من نحن
+</h3>
+
+<div class="form-field">
+<label class="field-label">وصف الشركة</label>
+<textarea class="field-input field-textarea">قادر برودكشن شركة متخصصة في الإنتاج الإعلامي وصناعة المحتوى البصري الاحترافي...</textarea>
+</div>
+
+<div class="form-field">
+<label class="field-label">رؤيتنا</label>
+<textarea class="field-input field-textarea">أن نكون من الشركات الرائدة في مجال الإنتاج الإعلامي في المملكة والمنطقة</textarea>
+</div>
+
+<div class="form-field">
+<label class="field-label">رسالتنا</label>
+<textarea class="field-input field-textarea">تقديم محتوى بصري احترافي يساعد العلامات التجارية على إيصال رسائلها بطريقة مؤثرة</textarea>
+</div>
+</div>
+
+<div class="action-buttons">
+<button class="btn-save">
+<i class="material-icons">check</i>
+حفظ التغييرات
+</button>
+<button class="btn-reset">
+إعادة ضبط
+</button>
+</div>
+</div>
+</div>
+
+<div class="toast-notification">
+<i class="material-icons">check_circle</i>
+<span class="toast-text">✓ تم الحفظ بنجاح</span>
+</div>
+</div>
+</body>
+</html>

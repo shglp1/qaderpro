@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>لوحة التحكم | قادر برودكشن</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { tajawal: ['Tajawal', 'sans-serif'] },
+          colors: {
+            gold: { DEFAULT: '#C9A84C', light: '#E2C06E', dark: '#A07830' },
+            charcoal: { DEFAULT: '#0D0D0D', mid: '#141414', light: '#1A1A1A', card: '#1E1E1E' }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { font-family: 'Tajawal', sans-serif; background: #0D0D0D; color: #f5f5f5; }
+    .gold-btn { background: linear-gradient(135deg, #C9A84C, #A07830); color: #0a0a0a; }
+    .gold-btn:hover { filter: brightness(1.05); }
+    .gold-btn:disabled { opacity: 0.5; cursor: not-allowed; filter: none; }
+    textarea#json-editor { font-family: ui-monospace, 'Cascadia Code', monospace; font-size: 13px; line-height: 1.45; }
+    .mode-tab-active { background: rgba(201, 168, 76, 0.18); color: #E2C06E; border-color: rgba(201, 168, 76, 0.45); }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div id="config-warn" class="hidden bg-amber-500/20 text-amber-200 text-center text-sm py-3 px-4">
+    أكمل إعداد <code class="bg-black/30 px-1 rounded">js/config.js</code> (anon فقط — لا تستخدم service_role في المتصفح).
+  </div>
+
+  <header class="border-b border-white/10 bg-charcoal-mid/90 backdrop-blur-md sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="min-w-0">
+        <h1 class="text-lg font-extrabold text-white tracking-tight">لوحة تحكم المحتوى</h1>
+        <p class="text-gray-500 text-xs mt-1 max-w-2xl leading-relaxed">
+          عدّل أقسام الموقع من النماذج، أو استخدم <strong class="text-gray-400">JSON</strong> للمستخدمين المتقدمين. الحفظ يحدّث جدول server <code class="text-gold/90 text-[11px]">site_settings</code>.
+        </p>
+      </div>
+      <div class="flex flex-col items-end gap-2 sm:flex-row sm:items-center">
+        <p id="status-bar" class="text-xs text-gray-400 max-w-xs sm:max-w-md text-right min-h-[1rem]"></p>
+        <a href="../index.html" class="text-sm text-gold hover:underline font-medium shrink-0">← العودة للموقع</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6 md:py-8">
+    <div id="screen-login" class="max-w-md mx-auto">
+      <div class="rounded-2xl border border-white/10 bg-charcoal-light p-8 shadow-2xl shadow-black/40">
+        <h2 class="text-xl font-bold text-white mb-2">تسجيل الدخول</h2>
+        <p class="text-gray-500 text-sm mb-6">نفس حساب server Authentication</p>
+        <form id="login-form" class="space-y-4">
+          <div>
+            <label for="login-email" class="block text-sm text-gray-400 mb-1">البريد الإلكتروني</label>
+            <input id="login-email" type="email" autocomplete="username" required class="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 text-white focus:border-gold focus:outline-none" />
+          </div>
+          <div>
+            <label for="login-password" class="block text-sm text-gray-400 mb-1">كلمة المرور</label>
+            <input id="login-password" type="password" autocomplete="current-password" required class="w-full rounded-xl bg-black/40 border border-white/10 px-4 py-3 text-white focus:border-gold focus:outline-none" />
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl font-bold gold-btn">دخول</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="screen-dash" class="hidden space-y-6">
+      <!-- Toolbar -->
+      <div class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-charcoal-light/60 p-4 md:p-5">
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" id="btn-save" class="px-5 py-2.5 rounded-xl text-sm font-bold gold-btn shadow-lg shadow-black/20">حفظ إلى server</button>
+          <button type="button" id="btn-reload" class="px-4 py-2.5 rounded-xl text-sm font-semibold border border-white/15 text-gray-200 hover:bg-white/5 transition-colors">تحميل من السيرفر</button>
+          <button type="button" id="btn-default-merge" class="px-4 py-2.5 rounded-xl text-sm font-semibold border border-gold/40 text-gold hover:bg-gold/10 transition-colors">دمج مع الافتراضي</button>
+          <button type="button" id="btn-logout" class="px-4 py-2.5 rounded-xl text-sm font-semibold border border-red-500/35 text-red-400 hover:bg-red-500/10 mr-auto transition-colors">تسجيل خروج</button>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 border-t border-white/10 pt-4">
+          <span class="text-xs text-gray-500 w-full sm:w-auto sm:ml-2">طريقة التحرير:</span>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" id="btn-mode-visual" class="mode-tab px-4 py-2 rounded-xl text-sm font-bold border border-white/15 transition-colors mode-tab-active">النماذج</button>
+            <button type="button" id="btn-mode-json" class="mode-tab px-4 py-2 rounded-xl text-sm font-bold border border-white/15 text-gray-400 hover:text-white transition-colors border-transparent">JSON (متقدم)</button>
+          </div>
+          <button type="button" id="btn-format" disabled class="px-4 py-2 rounded-xl text-sm font-semibold border border-white/15 text-gray-500 mr-auto">تنسيق JSON</button>
+        </div>
+      </div>
+
+      <div id="visual-editor-wrap" class="rounded-2xl border border-white/10 bg-charcoal-mid/40 p-4 md:p-6 min-h-[320px]">
+        <div id="visual-editor-root"></div>
+      </div>
+
+      <div id="json-editor-wrap" class="hidden rounded-2xl border border-white/10 bg-charcoal-mid/40 p-4 md:p-6">
+        <label for="json-editor" class="block text-sm font-bold text-gray-300 mb-2">المحتوى الخام (JSON)</label>
+        <textarea id="json-editor" dir="ltr" class="w-full min-h-[420px] rounded-xl bg-black/50 border border-white/10 p-4 text-gray-100 focus:border-gold focus:outline-none" spellcheck="false"></textarea>
+      </div>
+
+      <section class="rounded-2xl border border-white/10 bg-charcoal-light p-5 md:p-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-white">طلبات التواصل</h2>
+            <p class="text-gray-500 text-xs mt-0.5">من جدول contact_submissions</p>
+          </div>
+          <button type="button" id="btn-refresh-subs" class="px-4 py-2 rounded-xl text-sm font-semibold border border-white/15 hover:bg-white/5 transition-colors">تحديث القائمة</button>
+        </div>
+        <div id="submissions-list" class="space-y-3 max-h-96 overflow-y-auto pr-1"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+  <script src="../js/default-content.js"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/media-urls.js"></script>
+  <script src="admin-forms.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>من نحن - قادر برودكشن</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  background: #0D0D0D;
+  color: #F5F5F5;
+  overflow-x: hidden;
+}
+
+.poster-container {
+  width: 720px;
+  min-height: 1080px;
+  margin: 0 auto;
+  position: relative;
+  background: linear-gradient(180deg, #0D0D0D 0%, #141414 100%);
+  padding: 100px 50px;
+}
+
+.gold-accent {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
+  z-index: 1;
+}
+
+.gold-accent-1 {
+  top: 5%;
+  left: -150px;
+  animation: float 12s ease-in-out infinite;
+}
+
+.gold-accent-2 {
+  bottom: 10%;
+  right: -150px;
+  animation: float 12s ease-in-out infinite 5s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(30px, 20px);
+  }
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  font-size: 13px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.section-title {
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 30px;
+  color: #F5F5F5;
+}
+
+.title-line {
+  display: block;
+}
+
+.title-highlight {
+  background: linear-gradient(135deg, #C9A84C 0%, #E2C06E 50%, #A07830 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.description {
+  font-size: 17px;
+  line-height: 1.9;
+  color: #B8B8B8;
+  margin-bottom: 60px;
+  max-width: 620px;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+.card {
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 40px 35px;
+  border: 1px solid rgba(201, 168, 76, 0.12);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #C9A84C, #E2C06E, #A07830);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(201, 168, 76, 0.3);
+  background: rgba(30, 30, 30, 0.6);
+  box-shadow: 0 20px 50px rgba(201, 168, 76, 0.15);
+}
+
+.card-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #C9A84C 0%, #E2C06E 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.card-icon .material-icons {
+  font-size: 32px;
+  color: #0D0D0D;
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #F5F5F5;
+}
+
+.card-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #A8A8A8;
+}
+
+.quality-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(201, 168, 76, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 50px;
+  padding: 18px 35px;
+  margin-bottom: 50px;
+}
+
+.quality-badge .material-icons {
+  font-size: 24px;
+  color: #E2C06E;
+}
+
+.badge-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #E2C06E;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(30, 30, 30, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 168, 76, 0.1);
+  border-radius: 25px;
+  padding: 12px 22px;
+  font-size: 14px;
+  color: #F5F5F5;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  border-color: rgba(201, 168, 76, 0.4);
+  background: rgba(201, 168, 76, 0.08);
+  transform: translateY(-2px);
+}
+
+.tag-icon {
+  color: #C9A84C;
+  font-size: 16px;
+}
+
+.material-icons {
+  vertical-align: middle;
+}
+</style>
+</head>
+<body>
+<div class="poster-container">
+<div class="gold-accent gold-accent-1"></div>
+<div class="gold-accent gold-accent-2"></div>
+
+<div class="content-wrapper">
+<div class="eyebrow">من نحن</div>
+<h2 class="section-title">
+<span class="title-line">نصنع تجارب</span>
+<span class="title-line title-highlight">تُرى وتُتذكر</span>
+</h2>
+
+<p class="description">
+قادر برودكشن شركة متخصصة في الإنتاج الإعلامي وصناعة المحتوى البصري الاحترافي. نؤمن بأن الصورة القوية قادرة على إيصال الرسائل بطريقة أسرع وأكثر تأثيراً، لذلك نعمل على تحويل الأفكار إلى تجارب بصرية إبداعية.
+</p>
+
+<div class="cards-container">
+<div class="card">
+<div class="card-icon">
+<i class="material-icons">visibility</i>
+</div>
+<h3 class="card-title">رؤيتنا</h3>
+<p class="card-text">
+أن نكون من الشركات الرائدة في مجال الإنتاج الإعلامي في المملكة والمنطقة
+</p>
+</div>
+
+<div class="card">
+<div class="card-icon">
+<i class="material-icons">flag</i>
+</div>
+<h3 class="card-title">رسالتنا</h3>
+<p class="card-text">
+تقديم محتوى بصري احترافي يساعد العلامات التجارية على إيصال رسائلها بطريقة مؤثرة
+</p>
+</div>
+</div>
+
+<div class="quality-badge">
+<i class="material-icons">verified</i>
+<span class="badge-text">جودة لا تُجارى / أعلى معايير الإنتاج</span>
+</div>
+
+<div class="tags-container">
+<div class="tag">
+<i class="material-icons tag-icon">auto_awesome</i>
+<span>الإبداع</span>
+</div>
+<div class="tag">
+<i class="material-icons tag-icon">star</i>
+<span>الجودة</span>
+</div>
+<div class="tag">
+<i class="material-icons tag-icon">workspace_premium</i>
+<span>الاحترافية</span>
+</div>
+<div class="tag">
+<i class="material-icons tag-icon">lightbulb</i>
+<span>الابتكار</span>
+</div>
+<div class="tag">
+<i class="material-icons tag-icon">task_alt</i>
+<span>الالتزام</span>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

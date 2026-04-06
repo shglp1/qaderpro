@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قادر برودكشن | إبداع يليق بكل لحظة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { tajawal: ['Tajawal', 'sans-serif'] },
+          colors: {
+            gold: { DEFAULT: '#C9A84C', light: '#E2C06E', dark: '#A07830' },
+            charcoal: { DEFAULT: '#0D0D0D', mid: '#141414', light: '#1A1A1A', card: '#1E1E1E' }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: #0D0D0D;
+      color: #F5F5F5;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #0D0D0D; }
+    ::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 4px; }
+
+    /* ─── NAV ─── */
+    #navbar {
+      position: fixed; top: 0; right: 0; left: 0; z-index: 100;
+      transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+    }
+    #navbar.scrolled {
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 rgba(201,168,76,0.2);
+    }
+    .nav-link {
+      position: relative; color: #ccc; font-weight: 500; font-size: 0.95rem;
+      text-decoration: none; padding: 4px 0; transition: color 0.3s;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; right: 0; width: 0; height: 1px;
+      background: #C9A84C; transition: width 0.3s;
+    }
+    .nav-link:hover { color: #C9A84C; }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative; min-height: 100vh; display: flex; align-items: center;
+      overflow: hidden; background: #0D0D0D;
+    }
+    .hero-overlay { position: absolute; inset: 0; }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* ─── SECTION LABELS ─── */
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: #C9A84C; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    .section-eyebrow::before, .section-eyebrow::after {
+      content: ''; display: block; width: 28px; height: 1px; background: #C9A84C;
+    }
+
+    /* ─── GLASS CARD ─── */
+    .glass-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .glass-card:hover {
+      border-color: rgba(201,168,76,0.35);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(201,168,76,0.06);
+    }
+    .service-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+      border: 1px solid rgba(201,168,76,0.2);
+      font-size: 1.3rem; color: #C9A84C;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .glass-card:hover .service-icon {
+      background: linear-gradient(135deg, rgba(201,168,76,0.3), rgba(201,168,76,0.1));
+      transform: scale(1.1) rotate(-5deg);
+    }
+
+    /* ─── PORTFOLIO ─── */
+    .portfolio-card {
+      position: relative; border-radius: 16px; overflow: hidden; cursor: pointer;
+      aspect-ratio: 4/5; background: #1A1A1A;
+    }
+    .portfolio-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .portfolio-card:hover img { transform: scale(1.08); }
+    .portfolio-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.92) 40%, transparent 100%);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .portfolio-card:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      color: #0D0D0D; background: #C9A84C; padding: 3px 10px; border-radius: 50px;
+      margin-bottom: 8px;
+    }
+    .filter-btn {
+      padding: 8px 22px; border-radius: 50px; font-family: 'Tajawal', sans-serif;
+      font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.3s;
+      border: 1px solid rgba(255,255,255,0.12); background: transparent; color: #aaa;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: #C9A84C; color: #0D0D0D; border-color: #C9A84C; font-weight: 700;
+    }
+
+    /* ─── METHODOLOGY ─── */
+    .step-line {
+      position: absolute; top: 22px; right: 50%; left: 0;
+      height: 2px; background: linear-gradient(to left, #C9A84C, rgba(201,168,76,0.1));
+    }
+    .step-circle {
+      width: 46px; height: 46px; border-radius: 50%; border: 2px solid rgba(201,168,76,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 700; color: #C9A84C;
+      background: #141414; position: relative; z-index: 2;
+      transition: all 0.3s;
+    }
+    .step-item:hover .step-circle {
+      background: #C9A84C; color: #0D0D0D; border-color: #C9A84C;
+      box-shadow: 0 0 0 8px rgba(201,168,76,0.1);
+    }
+
+    /* ─── VIDEO MODAL ─── */
+    #modal-overlay {
+      position: fixed; inset: 0; z-index: 999; display: none;
+      background: rgba(0,0,0,0.92); backdrop-filter: blur(12px);
+      align-items: center; justify-content: center;
+    }
+    #modal-overlay.open { display: flex; }
+    .modal-box {
+      width: 90%; max-width: 900px; background: #141414;
+      border: 1px solid rgba(201,168,76,0.2); border-radius: 20px; overflow: hidden;
+      position: relative;
+    }
+    #modal-video-area {
+      aspect-ratio: 16/9; background: #000; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .modal-play-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(201,168,76,0.15); border: 2px solid #C9A84C;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: #C9A84C;
+    }
+
+    /* ─── ADMIN PANEL ─── */
+    #admin-panel {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.95); backdrop-filter: blur(20px);
+      overflow-y: auto;
+    }
+    #admin-panel.open { display: block; }
+    .admin-input {
+      width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      color: #F5F5F5; border-radius: 10px; padding: 10px 14px;
+      font-family: 'Tajawal', sans-serif; font-size: 0.9rem; outline: none;
+      transition: border-color 0.3s;
+    }
+    .admin-input:focus { border-color: #C9A84C; }
+    .admin-label { font-size: 0.8rem; color: #888; font-weight: 500; margin-bottom: 6px; display: block; }
+
+    /* ─── FOOTER ─── */
+    .footer-link { color: #888; font-size: 0.9rem; transition: color 0.3s; text-decoration: none; display: block; margin-bottom: 10px; }
+    .footer-link:hover { color: #C9A84C; }
+    .social-btn {
+      width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,0.1); color: #888; font-size: 0.9rem;
+      text-decoration: none; transition: all 0.3s;
+    }
+    .social-btn:hover { border-color: #C9A84C; color: #C9A84C; background: rgba(201,168,76,0.08); }
+
+    /* ─── MISC ─── */
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #E2C06E, #C9A84C, #A07830);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .divider { height: 1px; background: linear-gradient(to left, transparent, rgba(201,168,76,0.2), transparent); }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Fade-in utility */
+    .fade-up { opacity: 0; transform: translateY(40px); }
+    .fade-in { opacity: 0; }
+    
+    /* Counter */
+    .stat-number { font-size: 2.8rem; font-weight: 800; color: #C9A84C; line-height: 1; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+  NAVBAR
+══════════════════════════════════════════ -->
+<nav id="navbar" class="py-5">
+  <div class="max-w-7xl mx-auto px-8 flex items-center justify-between">
+
+    <!-- RIGHT: Logo (كما في الصورة — اليمين) -->
+    <a href="#hero" class="flex flex-col items-end no-underline">
+      <p class="text-white font-black text-xl leading-none" style="letter-spacing:-0.01em">قادر برودكشن</p>
+      <p class="text-gold font-light text-xs mt-0.5" style="letter-spacing:0.25em">QADER PRODUCTION</p>
+    </a>
+
+    <!-- CENTER: Nav Links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#about" class="nav-link">من نحن</a>
+      <a href="#services" class="nav-link">الخدمات</a>
+      <a href="#solutions" class="nav-link">الحلول</a>
+      <a href="#methodology" class="nav-link">لماذا نحن</a>
+      <a href="#portfolio" class="nav-link">أعمالنا</a>
+    </div>
+
+    <!-- LEFT: CTA Button + Admin -->
+    <div class="hidden md:flex items-center gap-3">
+      <button onclick="openAdmin()" class="text-xs text-gray-600 hover:text-gold transition-colors" title="لوحة التحكم">
+        <i class="fa fa-cog"></i>
+      </button>
+      <a href="#contact" class="px-6 py-2.5 rounded-lg text-sm font-bold text-black border border-gold transition-all hover:shadow-lg hover:shadow-gold/20" style="background:linear-gradient(135deg,#C9A84C,#A07830)">
+        تواصل معنا
+      </a>
+    </div>
+
+    <!-- Hamburger (mobile) -->
+    <button id="hamburger" class="md:hidden text-white text-xl" onclick="toggleMobile()">
+      <i class="fa fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden px-6 pt-4 pb-6" style="background:rgba(13,13,13,0.98);border-top:1px solid rgba(201,168,76,0.1)">
+    <div class="flex flex-col gap-4">
+      <a href="#about" onclick="toggleMobile()" class="nav-link text-lg">من نحن</a>
+      <a href="#services" onclick="toggleMobile()" class="nav-link text-lg">الخدمات</a>
+      <a href="#solutions" onclick="toggleMobile()" class="nav-link text-lg">الحلول</a>
+      <a href="#methodology" onclick="toggleMobile()" class="nav-link text-lg">لماذا نحن</a>
+      <a href="#portfolio" onclick="toggleMobile()" class="nav-link text-lg">أعمالنا</a>
+      <button onclick="openAdmin();toggleMobile()" class="text-right text-gold text-sm">⚙ لوحة التحكم</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+  HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <!-- Background: pure black + subtle noise texture -->
+  <div class="hero-overlay" style="background:#0D0D0D"></div>
+
+  <!-- Diagonal gold lines pattern (bottom-right decorative) -->
+  <div id="hero-pattern" style="
+    position:absolute; inset:0; overflow:hidden; pointer-events:none;
+  ">
+    <!-- SVG diagonal lines pattern -->
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:0.18">
+      <defs>
+        <pattern id="diag" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+          <line x1="0" y1="0" x2="0" y2="40" stroke="#C9A84C" stroke-width="0.6"/>
+        </pattern>
+        <mask id="diag-mask">
+          <radialGradient id="rg" cx="80%" cy="80%" r="60%">
+            <stop offset="0%" stop-color="white" stop-opacity="1"/>
+            <stop offset="100%" stop-color="white" stop-opacity="0"/>
+          </radialGradient>
+          <rect width="100%" height="100%" fill="url(#rg)"/>
+        </mask>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#diag)" mask="url(#diag-mask)"/>
+    </svg>
+    <!-- Soft gold glow bottom-left -->
+    <div style="
+      position:absolute; bottom:-10%; left:-5%;
+      width:500px; height:500px; border-radius:50%;
+      background:radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+      pointer-events:none;
+    "></div>
+  </div>
+
+  <!-- HERO CONTENT — right-aligned like the image -->
+  <div class="relative z-10 w-full h-full flex flex-col justify-center px-8 md:px-16 lg:px-24" style="padding-top:80px">
+
+    <!-- Top label: "QADER PRODUCTION ———" (top right, like the image) -->
+    <div id="h-tag" class="flex items-center justify-end gap-4 mb-10 md:mb-14 fade-in" style="opacity:0">
+      <span class="text-gold font-light text-xs md:text-sm" style="letter-spacing:0.35em">QADER PRODUCTION</span>
+      <div style="width:60px;height:1px;background:#C9A84C;flex-shrink:0"></div>
+    </div>
+
+    <!-- MAIN TITLE — huge, right-aligned, matches image exactly -->
+    <div class="text-right">
+      <h1 id="h-title" class="fade-up font-black leading-none mb-8" style="opacity:0;transform:translateY(40px);font-size:clamp(3rem,9vw,8rem);line-height:1.05">
+        <span class="text-white block">قادر برودكشن..</span>
+        <span class="text-white block">إبداع يليق</span>
+        <span class="block gold-gradient-text">بكل لحظة</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p id="h-sub" class="fade-up text-gray-400 text-base md:text-lg font-light mb-10 md:mb-14 max-w-xl mr-0 ml-auto leading-relaxed" style="opacity:0;transform:translateY(40px)">
+        نصنع المحتوى البصري الذي يتحدث بدلاً عنك — بدقة احترافية، وإبداع لا حدود له.
+      </p>
+
+      <!-- CTA Buttons — right-aligned -->
+      <div id="h-btns" class="fade-up flex items-center justify-end gap-4 flex-wrap" style="opacity:0;transform:translateY(40px)">
+        <a href="#portfolio" class="px-8 py-3.5 rounded-lg font-bold text-black text-sm transition-all hover:scale-105 hover:shadow-xl" style="background:linear-gradient(135deg,#C9A84C,#A07830);box-shadow:0 8px 30px rgba(201,168,76,0.25)">
+          اكتشف خدماتنا
+        </a>
+        <a href="#portfolio" class="px-8 py-3.5 rounded-lg font-bold text-white text-sm border transition-all hover:border-gold hover:text-gold" style="border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.04)">
+          أعمالنا
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600">
+    <div class="w-px h-10 bg-gradient-to-b from-transparent via-gold to-transparent" style="animation:pulse 2s ease-in-out infinite"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  STATS BAR
+══════════════════════════════════════════ -->
+<section class="py-14" style="background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(201,168,76,0.02))">
+  <div class="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div class="stat-item fade-up">
+      <div class="stat-number" data-target="150">0</div>
+      <div class="text-gray-500 text-sm mt-1 font-medium">مشروع منجز</div>
+    </div>
+    <div class="stat-item fade-up">
+      <div class="stat-number" data-target="80">0</div>
+      <div class="text-gray-500 text-sm mt-1 font-medium">عميل راضٍ</div>
+    </div>
+    <div class="stat-item fade-up">
+      <div class="stat-number" data-target="7">0</div>
+      <div class="text-gray-500 text-sm mt-1 font-medium">سنوات خبرة</div>
+    </div>
+    <div class="stat-item fade-up">
+      <div class="stat-number" data-target="3">0</div>
+      <div class="text-gray-500 text-sm mt-1 font-medium">مدن خدمة</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  ABOUT
+══════════════════════════════════════════ -->
+<section id="about" class="py-28 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+      <!-- Image side -->
+      <div class="fade-up order-2 md:order-1 relative">
+        <div class="rounded-2xl overflow-hidden aspect-square" style="background:linear-gradient(135deg,#1A1A1A,#141414);border:1px solid rgba(201,168,76,0.15)">
+          <div class="w-full h-full flex items-center justify-center">
+            <!-- Decorative composition -->
+            <div class="relative w-64 h-64">
+              <div class="absolute inset-0 rounded-full" style="border:1px solid rgba(201,168,76,0.15);animation:spin 20s linear infinite"></div>
+              <div class="absolute inset-8 rounded-full" style="border:1px dashed rgba(201,168,76,0.1);animation:spin 14s linear infinite reverse"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <div class="text-7xl font-black gold-gradient-text">Q</div>
+                  <div class="text-xs text-gray-500 tracking-widest mt-1">QADER PRODUCTION</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Floating badge -->
+        <div class="absolute -bottom-5 -left-5 glass-card p-4 rounded-2xl">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(201,168,76,0.15)">
+              <i class="fa fa-award text-gold"></i>
+            </div>
+            <div>
+              <div class="text-white text-sm font-bold">جودة لا تُجارى</div>
+              <div class="text-gray-500 text-xs">أعلى معايير الإنتاج</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text side -->
+      <div class="fade-up order-1 md:order-2">
+        <div class="section-eyebrow">من نحن</div>
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">
+          نصنع تجارب<br/><span class="gold-gradient-text">تُرى وتُتذكر</span>
+        </h2>
+        <p class="text-gray-400 text-lg leading-relaxed mb-8 font-light" id="about-text">
+          قادر برودكشن شركة متخصصة في الإنتاج الإعلامي وصناعة المحتوى البصري الاحترافي. نؤمن بأن الصورة القوية قادرة على إيصال الرسائل بطريقة أسرع وأكثر تأثيراً، لذلك نعمل على تحويل الأفكار إلى تجارب بصرية إبداعية.
+        </p>
+
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="glass-card p-5 rounded-2xl">
+            <div class="text-gold text-2xl mb-2"><i class="fa fa-eye"></i></div>
+            <div class="text-white font-bold mb-1">رؤيتنا</div>
+            <div class="text-gray-500 text-sm leading-relaxed">أن نكون من الشركات الرائدة في مجال الإنتاج الإعلامي في المملكة والمنطقة</div>
+          </div>
+          <div class="glass-card p-5 rounded-2xl">
+            <div class="text-gold text-2xl mb-2"><i class="fa fa-bullseye"></i></div>
+            <div class="text-white font-bold mb-1">رسالتنا</div>
+            <div class="text-gray-500 text-sm leading-relaxed">تقديم محتوى بصري احترافي يساعد العلامات التجارية على إيصال رسائلها بطريقة مؤثرة</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <span class="px-4 py-2 rounded-lg text-sm text-gold-light border font-medium" style="border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.05)">✦ الإبداع</span>
+          <span class="px-4 py-2 rounded-lg text-sm text-gold-light border font-medium" style="border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.05)">✦ الجودة</span>
+          <span class="px-4 py-2 rounded-lg text-sm text-gold-light border font-medium" style="border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.05)">✦ الاحترافية</span>
+          <span class="px-4 py-2 rounded-lg text-sm text-gold-light border font-medium" style="border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.05)">✦ الابتكار</span>
+          <span class="px-4 py-2 rounded-lg text-sm text-gold-light border font-medium" style="border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.05)">✦ الالتزام</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  SERVICES
+══════════════════════════════════════════ -->
+<section id="services" class="py-28 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16 fade-up">
+      <div class="section-eyebrow justify-center">خدماتنا</div>
+      <h2 class="text-4xl md:text-5xl font-black text-white">حلول <span class="gold-gradient-text">متكاملة</span> لكل احتياج</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="services-grid">
+      <!-- Cards injected by JS or static -->
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  PORTFOLIO
+══════════════════════════════════════════ -->
+<section id="portfolio" class="py-28 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12 fade-up">
+      <div class="section-eyebrow justify-center">أعمالنا</div>
+      <h2 class="text-4xl md:text-5xl font-black text-white">معرض <span class="gold-gradient-text">الأعمال</span></h2>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="flex flex-wrap justify-center gap-3 mb-12 fade-up" id="filter-btns">
+      <button class="filter-btn active" data-filter="all">الكل</button>
+      <button class="filter-btn" data-filter="commercial">إعلانات تجارية</button>
+      <button class="filter-btn" data-filter="corporate">أفلام تعريفية</button>
+      <button class="filter-btn" data-filter="events">فعاليات</button>
+      <button class="filter-btn" data-filter="digital">محتوى رقمي</button>
+    </div>
+
+    <!-- Portfolio Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="portfolio-grid"></div>
+  </div>
+</section>
+
+<!-- Video Modal -->
+<div id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal-box">
+    <div id="modal-video-area">
+      <div class="text-center">
+        <div class="modal-play-icon mx-auto mb-4">
+          <i class="fa fa-play mr-[-4px]"></i>
+        </div>
+        <p class="text-gray-400 text-sm">رابط الفيديو سيُحمَّل هنا</p>
+        <p class="text-gray-600 text-xs mt-1" id="modal-video-url">—</p>
+      </div>
+    </div>
+    <div class="p-6">
+      <h3 class="text-white font-bold text-xl mb-2" id="modal-title">عنوان المشروع</h3>
+      <p class="text-gray-400 text-sm" id="modal-desc">وصف المشروع</p>
+    </div>
+    <button onclick="closeModal()" class="absolute top-4 left-4 w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-all text-sm">✕</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  METHODOLOGY
+══════════════════════════════════════════ -->
+<section id="methodology" class="py-28 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 fade-up">
+      <div class="section-eyebrow justify-center">منهجيتنا</div>
+      <h2 class="text-4xl md:text-5xl font-black text-white">كيف <span class="gold-gradient-text">نعمل؟</span></h2>
+    </div>
+
+    <!-- Desktop Horizontal Steps -->
+    <div class="hidden md:grid grid-cols-5 gap-4 fade-up relative">
+      <div class="absolute top-[22px] right-[10%] left-[10%] h-px" style="background:linear-gradient(to left,rgba(201,168,76,0.5),rgba(201,168,76,0.1));z-index:0"></div>
+      <div class="step-item text-center relative z-10" id="step-1">
+        <div class="step-circle mx-auto mb-4">١</div>
+        <div class="text-white font-bold text-sm mb-1">فهم الاحتياجات</div>
+        <div class="text-gray-500 text-xs leading-relaxed">فهم متطلبات العميل وأهداف المشروع</div>
+      </div>
+      <div class="step-item text-center relative z-10">
+        <div class="step-circle mx-auto mb-4">٢</div>
+        <div class="text-white font-bold text-sm mb-1">تطوير الفكرة</div>
+        <div class="text-gray-500 text-xs leading-relaxed">بناء الاستراتيجية الإبداعية المثالية</div>
+      </div>
+      <div class="step-item text-center relative z-10">
+        <div class="step-circle mx-auto mb-4">٣</div>
+        <div class="text-white font-bold text-sm mb-1">التخطيط</div>
+        <div class="text-gray-500 text-xs leading-relaxed">وضع خطة تفصيلية للتنفيذ</div>
+      </div>
+      <div class="step-item text-center relative z-10">
+        <div class="step-circle mx-auto mb-4">٤</div>
+        <div class="text-white font-bold text-sm mb-1">الإنتاج</div>
+        <div class="text-gray-500 text-xs leading-relaxed">التصوير والإنتاج بأعلى جودة</div>
+      </div>
+      <div class="step-item text-center relative z-10">
+        <div class="step-circle mx-auto mb-4">٥</div>
+        <div class="text-white font-bold text-sm mb-1">التسليم</div>
+        <div class="text-gray-500 text-xs leading-relaxed">تسليم المشروع بكامل الاحترافية</div>
+      </div>
+    </div>
+
+    <!-- Mobile Vertical Steps -->
+    <div class="md:hidden flex flex-col gap-6 fade-up">
+      <div class="flex gap-5 items-start">
+        <div class="step-circle flex-shrink-0">١</div>
+        <div><div class="text-white font-bold mb-1">فهم الاحتياجات</div><div class="text-gray-500 text-sm">فهم متطلبات العميل وأهداف المشروع</div></div>
+      </div>
+      <div class="flex gap-5 items-start">
+        <div class="step-circle flex-shrink-0">٢</div>
+        <div><div class="text-white font-bold mb-1">تطوير الفكرة</div><div class="text-gray-500 text-sm">بناء الاستراتيجية الإبداعية المثالية</div></div>
+      </div>
+      <div class="flex gap-5 items-start">
+        <div class="step-circle flex-shrink-0">٣</div>
+        <div><div class="text-white font-bold mb-1">التخطيط</div><div class="text-gray-500 text-sm">وضع خطة تفصيلية للتنفيذ</div></div>
+      </div>
+      <div class="flex gap-5 items-start">
+        <div class="step-circle flex-shrink-0">٤</div>
+        <div><div class="text-white font-bold mb-1">الإنتاج</div><div class="text-gray-500 text-sm">التصوير والإنتاج بأعلى جودة</div></div>
+      </div>
+      <div class="flex gap-5 items-start">
+        <div class="step-circle flex-shrink-0">٥</div>
+        <div><div class="text-white font-bold mb-1">التسليم</div><div class="text-gray-500 text-sm">تسليم المشروع بكامل الاحترافية</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  WHY US
+══════════════════════════════════════════ -->
+<section class="py-24 px-6" style="background:linear-gradient(135deg,rgba(201,168,76,0.04),transparent)">
+  <div class="max-w-6xl mx-auto text-center">
+    <div class="section-eyebrow justify-center fade-up">لماذا قادر؟</div>
+    <h2 class="text-4xl md:text-5xl font-black text-white mb-16 fade-up">شريكك <span class="gold-gradient-text">الإبداعي</span> الأمثل</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-5">
+      <div class="glass-card p-6 fade-up text-center rounded-2xl">
+        <div class="text-3xl text-gold mb-3"><i class="fa fa-star"></i></div>
+        <div class="text-white font-bold mb-2">جودة إنتاج عالية</div>
+        <div class="text-gray-500 text-sm">معايير عالمية في كل مشروع</div>
+      </div>
+      <div class="glass-card p-6 fade-up text-center rounded-2xl">
+        <div class="text-3xl text-gold mb-3"><i class="fa fa-lightbulb"></i></div>
+        <div class="text-white font-bold mb-2">أفكار مبتكرة</div>
+        <div class="text-gray-500 text-sm">حلول إبداعية خارج الصندوق</div>
+      </div>
+      <div class="glass-card p-6 fade-up text-center rounded-2xl">
+        <div class="text-3xl text-gold mb-3"><i class="fa fa-users"></i></div>
+        <div class="text-white font-bold mb-2">فريق متخصص</div>
+        <div class="text-gray-500 text-sm">كفاءات متعددة التخصصات</div>
+      </div>
+      <div class="glass-card p-6 fade-up text-center rounded-2xl">
+        <div class="text-3xl text-gold mb-3"><i class="fa fa-bolt"></i></div>
+        <div class="text-white font-bold mb-2">تنفيذ سريع</div>
+        <div class="text-gray-500 text-sm">احترام الجداول الزمنية</div>
+      </div>
+      <div class="glass-card p-6 fade-up text-center rounded-2xl">
+        <div class="text-3xl text-gold mb-3"><i class="fa fa-microchip"></i></div>
+        <div class="text-white font-bold mb-2">أحدث التقنيات</div>
+        <div class="text-gray-500 text-sm">معدات وبرمجيات متطورة</div>
+      </div>
+      <div class="glass-card p-6 fade-up text-center rounded-2xl">
+        <div class="text-3xl text-gold mb-3"><i class="fa fa-puzzle-piece"></i></div>
+        <div class="text-white font-bold mb-2">حلول متكاملة</div>
+        <div class="text-gray-500 text-sm">من الفكرة للتسليم في مكان واحد</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  CONTACT
+══════════════════════════════════════════ -->
+<section id="contact" class="py-28 px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-14 fade-up">
+      <div class="section-eyebrow justify-center">تواصل معنا</div>
+      <h2 class="text-4xl md:text-5xl font-black text-white">لنبدأ <span class="gold-gradient-text">مشروعك</span> معاً</h2>
+    </div>
+
+    <div class="glass-card p-8 md:p-12 rounded-3xl fade-up">
+      <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <label class="admin-label">الاسم الكامل</label>
+          <input type="text" placeholder="أدخل اسمك" class="admin-input" />
+        </div>
+        <div>
+          <label class="admin-label">رقم الجوال</label>
+          <input type="text" placeholder="+966 5XX XXX XXXX" class="admin-input" />
+        </div>
+      </div>
+      <div class="mb-6">
+        <label class="admin-label">البريد الإلكتروني</label>
+        <input type="email" placeholder="email@example.com" class="admin-input" />
+      </div>
+      <div class="mb-6">
+        <label class="admin-label">نوع الخدمة</label>
+        <select class="admin-input">
+          <option value="">اختر الخدمة المطلوبة</option>
+          <option>الإنتاج المرئي</option>
+          <option>التصوير الاحترافي</option>
+          <option>الإخراج الإبداعي</option>
+          <option>ما بعد الإنتاج</option>
+          <option>تنظيم الفعاليات</option>
+          <option>التسويق وصناعة الهوية</option>
+          <option>البرمجة والحلول التقنية</option>
+        </select>
+      </div>
+      <div class="mb-8">
+        <label class="admin-label">تفاصيل المشروع</label>
+        <textarea rows="4" placeholder="أخبرنا عن مشروعك..." class="admin-input resize-none"></textarea>
+      </div>
+      <button onclick="submitContact()" class="w-full py-4 rounded-xl font-bold text-black text-base transition-all hover:scale-[1.02] hover:shadow-2xl" style="background:linear-gradient(135deg,#C9A84C,#A07830);box-shadow:0 10px 40px rgba(201,168,76,0.2)">
+        إرسال الطلب ✦
+      </button>
+    </div>
+
+    <!-- City badges -->
+    <div class="flex justify-center gap-4 mt-8 flex-wrap fade-up">
+      <span class="flex items-center gap-2 text-gray-400 text-sm"><i class="fa fa-map-marker-alt text-gold"></i> المدينة المنورة</span>
+      <span class="text-gray-700">·</span>
+      <span class="flex items-center gap-2 text-gray-400 text-sm"><i class="fa fa-map-marker-alt text-gold"></i> الرياض</span>
+      <span class="text-gray-700">·</span>
+      <span class="flex items-center gap-2 text-gray-400 text-sm"><i class="fa fa-map-marker-alt text-gold"></i> جدة</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  FOOTER
+══════════════════════════════════════════ -->
+<footer style="background:#0A0A0A;border-top:1px solid rgba(201,168,76,0.1)">
+  <div class="max-w-7xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+      <!-- Brand -->
+      <div class="col-span-2 md:col-span-1">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#C9A84C,#A07830)">
+            <span class="text-black font-black text-base flex items-center justify-center w-full h-full">Q</span>
+          </div>
+          <div>
+            <p class="text-white font-bold leading-none">قادر برودكشن</p>
+            <p class="text-gold text-xs" style="letter-spacing:0.08em">QADER PRODUCTION</p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm leading-relaxed mb-5">إبداع يليق بكل لحظة — نصنع محتوى بصرياً يجعل علامتك تُرى وتُتذكر.</p>
+        <div class="flex gap-2">
+          <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-snapchat"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-tiktok"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 class="text-white font-bold text-sm mb-5 tracking-wider">خدماتنا</h4>
+        <a href="#services" class="footer-link">الإنتاج المرئي</a>
+        <a href="#services" class="footer-link">التصوير الاحترافي</a>
+        <a href="#services" class="footer-link">الإخراج الإبداعي</a>
+        <a href="#services" class="footer-link">ما بعد الإنتاج</a>
+        <a href="#services" class="footer-link">تنظيم الفعاليات</a>
+      </div>
+
+      <!-- More Services -->
+      <div>
+        <h4 class="text-white font-bold text-sm mb-5 tracking-wider">المزيد</h4>
+        <a href="#services" class="footer-link">التسويق والهوية</a>
+        <a href="#services" class="footer-link">البرمجة والتقنية</a>
+        <a href="#portfolio" class="footer-link">معرض الأعمال</a>
+        <a href="#methodology" class="footer-link">منهجيتنا</a>
+        <a href="#about" class="footer-link">من نحن</a>
+      </div>
+
+      <!-- Cities -->
+      <div>
+        <h4 class="text-white font-bold text-sm mb-5 tracking-wider">نخدم في</h4>
+        <div class="footer-link flex items-center gap-2"><i class="fa fa-map-marker-alt text-gold text-xs"></i> المدينة المنورة</div>
+        <div class="footer-link flex items-center gap-2"><i class="fa fa-map-marker-alt text-gold text-xs"></i> الرياض</div>
+        <div class="footer-link flex items-center gap-2"><i class="fa fa-map-marker-alt text-gold text-xs"></i> جدة</div>
+        <div class="mt-6">
+          <a href="#contact" class="px-5 py-2.5 rounded-lg text-sm font-bold text-black inline-block" style="background:linear-gradient(135deg,#C9A84C,#A07830)">
+            تواصل معنا
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider mb-8"></div>
+
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-gray-600 text-sm">©️ 2025 قادر برودكشن. جميع الحقوق محفوظة.</p>
+      <div class="flex items-center gap-2 text-gray-600 text-sm">
+        <span>🇸🇦</span>
+        <span>صُنع بفخر في المملكة العربية السعودية</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+  ADMIN DASHBOARD
+══════════════════════════════════════════ -->
+<div id="admin-panel">
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <div class="flex items-center justify-between mb-10">
+      <div>
+        <h2 class="text-2xl font-black text-white">لوحة التحكم</h2>
+        <p class="text-gray-500 text-sm mt-1">إدارة محتوى الموقع — يتم الحفظ في LocalStorage</p>
+      </div>
+      <button onclick="closeAdmin()" class="px-5 py-2 rounded-lg text-sm font-bold border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors">
+        ✕ إغلاق
+      </button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-3 mb-8 border-b" style="border-color:rgba(255,255,255,0.06)">
+      <button class="admin-tab-btn active px-5 py-3 text-sm font-bold text-gold border-b-2 border-gold -mb-px" onclick="switchTab('content',this)">المحتوى الأساسي</button>
+      <button class="admin-tab-btn px-5 py-3 text-sm font-bold text-gray-500 border-b-2 border-transparent -mb-px hover:text-white transition-colors" onclick="switchTab('portfolio',this)">الأعمال</button>
+      <button class="admin-tab-btn px-5 py-3 text-sm font-bold text-gray-500 border-b-2 border-transparent -mb-px hover:text-white transition-colors" onclick="switchTab('contact',this)">معلومات التواصل</button>
+    </div>
+
+    <!-- Content Tab -->
+    <div id="tab-content" class="admin-tab-content">
+      <div class="grid gap-5">
+        <div>
+          <label class="admin-label">شعار الموقع (العنوان الرئيسي)</label>
+          <input id="a-hero-title" type="text" class="admin-input" placeholder="إبداع يليق بكل لحظة" />
+        </div>
+        <div>
+          <label class="admin-label">الوصف التعريفي</label>
+          <textarea id="a-hero-sub" rows="2" class="admin-input resize-none" placeholder="نحوّل أفكارك إلى تجارب بصرية..."></textarea>
+        </div>
+        <div>
+          <label class="admin-label">نص من نحن</label>
+          <textarea id="a-about-text" rows="4" class="admin-input resize-none"></textarea>
+        </div>
+        <div class="flex gap-3 justify-end pt-2">
+          <button onclick="saveContent()" class="px-6 py-2.5 rounded-lg text-sm font-bold text-black" style="background:linear-gradient(135deg,#C9A84C,#A07830)">
+            حفظ التغييرات
+          </button>
+          <button onclick="resetContent()" class="px-5 py-2.5 rounded-lg text-sm font-bold text-gray-400 border border-gray-700 hover:text-white transition-colors">
+            إعادة ضبط
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Portfolio Tab -->
+    <div id="tab-portfolio" class="admin-tab-content hidden">
+      <div id="portfolio-admin-list" class="flex flex-col gap-4"></div>
+      <button onclick="addPortfolioItem()" class="mt-4 px-5 py-2.5 rounded-lg text-sm font-bold border border-gold text-gold hover:bg-gold/10 transition-colors">
+        + إضافة مشروع جديد
+      </button>
+    </div>
+
+    <!-- Contact Tab -->
+    <div id="tab-contact" class="admin-tab-content hidden">
+      <div class="grid gap-5">
+        <div>
+          <label class="admin-label">رقم الواتساب</label>
+          <input id="a-whatsapp" type="text" class="admin-input" placeholder="+966 5XX XXX XXXX" />
+        </div>
+        <div>
+          <label class="admin-label">البريد الإلكتروني</label>
+          <input id="a-email" type="email" class="admin-input" placeholder="info@qaderproduction.com" />
+        </div>
+        <div>
+          <label class="admin-label">رابط إنستغرام</label>
+          <input id="a-instagram" type="text" class="admin-input" placeholder="https://instagram.com/..." />
+        </div>
+        <div>
+          <label class="admin-label">رابط تويتر / X</label>
+          <input id="a-twitter" type="text" class="admin-input" placeholder="https://x.com/..." />
+        </div>
+        <button onclick="saveContact()" class="px-6 py-2.5 rounded-lg text-sm font-bold text-black self-start" style="background:linear-gradient(135deg,#C9A84C,#A07830)">
+          حفظ التغييرات
+        </button>
+      </div>
+    </div>
+
+    <!-- Save notice -->
+    <div id="save-notice" class="hidden mt-6 p-4 rounded-xl text-center text-sm font-bold text-black" style="background:linear-gradient(135deg,#C9A84C,#A07830)">
+      ✓ تم الحفظ بنجاح!
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  SCRIPTS
+══════════════════════════════════════════ -->
+<script>
+// ─── DATA ───────────────────────────────
+const SERVICES_DATA = [
+  { icon: 'fa-film', title: 'الإنتاج المرئي', items: ['إعلانات تجارية', 'أفلام تعريفية', 'محتوى تسويقي', 'فيديوهات إبداعية'] },
+  { icon: 'fa-camera', title: 'التصوير الاحترافي', items: ['تصوير المنتجات', 'التصوير التجاري', 'التصوير الإعلاني', 'تغطية الفعاليات'] },
+  { icon: 'fa-magic', title: 'الإخراج الإبداعي', items: ['تطوير الأفكار', 'كتابة السيناريو', 'التخطيط البصري', 'إدارة الإنتاج'] },
+  { icon: 'fa-cut', title: 'ما بعد الإنتاج', items: ['المونتاج الاحترافي', 'تصحيح الألوان', 'موشن جرافيك', 'المؤثرات البصرية'] },
+  { icon: 'fa-calendar-alt', title: 'الفعاليات والمعارض', items: ['تنظيم المعارض', 'تنظيم المؤتمرات', 'إدارة الفعاليات', 'الإنتاج الإعلامي'] },
+  { icon: 'fa-chart-line', title: 'التسويق والهوية', items: ['استراتيجيات تسويقية', 'إدارة الحملات', 'محتوى رقمي', 'هوية بصرية'] },
+  { icon: 'fa-code', title: 'البرمجة والتقنية', items: ['تصميم المواقع', 'تطبيقات رقمية', 'متاجر إلكترونية', 'حلول تقنية'] }
+];
+
+const DEFAULT_PORTFOLIO = [
+  { id:1, title:'إعلان سامسونج الخليج', cat:'commercial', tag:'إعلان تجاري', desc:'إنتاج إعلان تجاري احترافي لعلامة عالمية', color:'#1a2a3a', video:'https://example.com/v1' },
+  { id:2, title:'فيلم تعريفي أرامكو', cat:'corporate', tag:'فيلم مؤسسي', desc:'فيلم تعريفي يعكس قيم ورؤية الشركة', color:'#2a1a1a', video:'https://example.com/v2' },
+  { id:3, title:'حفل المكافآت السنوي', cat:'events', tag:'فعالية', desc:'تغطية فعالية ليلة المكافآت الكبرى', color:'#1a2a1a', video:'https://example.com/v3' },
+  { id:4, title:'حملة رمضان الرقمية', cat:'digital', tag:'محتوى رقمي', desc:'سلسلة محتوى إبداعي لشهر رمضان', color:'#2a1a2a', video:'https://example.com/v4' },
+  { id:5, title:'إعلان عطر الفخر', cat:'commercial', tag:'إعلان تجاري', desc:'تصوير إعلاني راقٍ لعطر فاخر', color:'#1a1a2a', video:'https://example.com/v5' },
+  { id:6, title:'الملتقى التقني السنوي', cat:'events', tag:'مؤتمر', desc:'تغطية شاملة للمؤتمر التقني الأبرز', color:'#2a2a1a', video:'https://example.com/v6' },
+  { id:7, title:'هوية بصرية ستارتب', cat:'digital', tag:'هوية بصرية', desc:'بناء هوية بصرية متكاملة من الصفر', color:'#1a2a2a', video:'https://example.com/v7' },
+  { id:8, title:'فيلم مدرسة المستقبل', cat:'corporate', tag:'فيلم تعريفي', desc:'قصة إلهامية عن مستقبل التعليم', color:'#2a1a1a', video:'https://example.com/v8' },
+];
+
+// ─── LOAD / SAVE ─────────────────────────
+function getData(key, def) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; }
+  catch { return def; }
+}
+function setData(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+let portfolioItems = getData('qader_portfolio', DEFAULT_PORTFOLIO);
+
+// ─── NAV ─────────────────────────────────
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+function toggleMobile() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+// ─── GSAP ANIMATIONS ─────────────────────
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero entrance
+window.addEventListener('load', () => {
+  gsap.timeline()
+    .to('#h-tag',   { opacity:1, duration:0.6, delay:0.3 })
+    .to('#h-title', { opacity:1, y:0, duration:0.8, ease:'power3.out' }, '-=0.2')
+    .to('#h-sub',   { opacity:1, y:0, duration:0.7, ease:'power3.out' }, '-=0.5')
+    .to('#h-btns',  { opacity:1, y:0, duration:0.6, ease:'power3.out' }, '-=0.4');
+});
+
+// ScrollTrigger for all .fade-up elements
+document.querySelectorAll('.fade-up').forEach((el, i) => {
+  gsap.to(el, {
+    scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
+    opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: (i % 4) * 0.1
+  });
+});
+
+// Stat counters
+document.querySelectorAll('.stat-number').forEach(el => {
+  const target = +el.dataset.target;
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 85%',
+    once: true,
+    onEnter: () => {
+      gsap.to({ val: 0 }, {
+        val: target, duration: 1.5, ease: 'power2.out',
+        onUpdate: function() { el.textContent = Math.round(this.targets()[0].val) + '+'; }
+      });
+    }
+  });
+});
+
+// ─── RENDER SERVICES ─────────────────────
+function renderServices() {
+  const grid = document.getElementById('services-grid');
+  grid.innerHTML = SERVICES_DATA.map((s, i) => `
+    <div class="glass-card p-6 rounded-2xl fade-up" style="opacity:0;transform:translateY(40px)">
+      <div class="service-icon mb-4"><i class="fa ${s.icon}"></i></div>
+      <h3 class="text-white font-bold text-base mb-3">${s.title}</h3>
+      <ul class="space-y-1.5">
+        ${s.items.map(item => `<li class="text-gray-500 text-sm flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>${item}</li>`).join('')}
+      </ul>
+    </div>
+  `).join('');
+  // Re-register GSAP for new elements
+  grid.querySelectorAll('.fade-up').forEach((el, i) => {
+    gsap.to(el, {
+      scrollTrigger: { trigger: el, start: 'top 88%' },
+      opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: (i % 4) * 0.08
+    });
+  });
+}
+
+// ─── RENDER PORTFOLIO ────────────────────
+let currentFilter = 'all';
+
+function renderPortfolio() {
+  const grid = document.getElementById('portfolio-grid');
+  const filtered = currentFilter === 'all' ? portfolioItems : portfolioItems.filter(p => p.cat === currentFilter);
+  grid.innerHTML = filtered.map(p => `
+    <div class="portfolio-card fade-up" onclick="openModal(${p.id})" style="opacity:0;transform:translateY(40px)">
+      <div class="w-full h-full flex items-end justify-start p-0" style="background:${p.color || '#1a1a1a'}">
+        <div class="w-full h-full flex items-center justify-center" style="background:linear-gradient(135deg,${p.color}99,rgba(0,0,0,0.5))">
+          <i class="fa fa-play-circle text-5xl" style="color:rgba(201,168,76,0.3)"></i>
+        </div>
+      </div>
+      <div class="portfolio-overlay">
+        <span class="portfolio-tag">${p.tag}</span>
+        <h3 class="text-white font-bold text-base">${p.title}</h3>
+        <p class="text-gray-300 text-xs mt-1">${p.desc}</p>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.fade-up').forEach((el, i) => {
+    gsap.to(el, {
+      scrollTrigger: { trigger: el, start: 'top 90%' },
+      opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: (i % 4) * 0.07
+    });
+  });
+}
+
+// Filter buttons
+document.getElementById('filter-btns').addEventListener('click', (e) => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = btn.dataset.filter;
+  renderPortfolio();
+});
+
+// ─── MODAL ───────────────────────────────
+function openModal(id) {
+  const p = portfolioItems.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('modal-title').textContent = p.title;
+  document.getElementById('modal-desc').textContent = p.desc;
+  document.getElementById('modal-video-url').textContent = p.video || '—';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal-overlay') || !e.currentTarget) {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+// ─── ADMIN ───────────────────────────────
+function openAdmin() {
+  loadAdminFields();
+  loadAdminPortfolio();
+  document.getElementById('admin-panel').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAdmin() {
+  document.getElementById('admin-panel').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.admin-tab-content').forEach(t => t.classList.add('hidden'));
+  document.querySelectorAll('.admin-tab-btn').forEach(b => {
+    b.classList.remove('text-gold', 'border-gold');
+    b.classList.add('text-gray-500', 'border-transparent');
+  });
+  document.getElementById('tab-' + name).classList.remove('hidden');
+  btn.classList.add('text-gold', 'border-gold');
+  btn.classList.remove('text-gray-500', 'border-transparent');
+}
+
+function loadAdminFields() {
+  const c = getData('qader_content', {});
+  document.getElementById('a-hero-title').value = c.heroTitle || 'إبداع يليق بكل لحظة';
+  document.getElementById('a-hero-sub').value = c.heroSub || 'نحوّل أفكارك إلى تجارب بصرية إبداعية تجعل علامتك التجارية تُرى وتُتذكر';
+  document.getElementById('a-about-text').value = c.aboutText || document.getElementById('about-text').textContent;
+  const ci = getData('qader_contact', {});
+  document.getElementById('a-whatsapp').value = ci.whatsapp || '';
+  document.getElementById('a-email').value = ci.email || '';
+  document.getElementById('a-instagram').value = ci.instagram || '';
+  document.getElementById('a-twitter').value = ci.twitter || '';
+}
+
+function saveContent() {
+  setData('qader_content', {
+    heroTitle: document.getElementById('a-hero-title').value,
+    heroSub: document.getElementById('a-hero-sub').value,
+    aboutText: document.getElementById('a-about-text').value
+  });
+  // Apply live
+  const h1 = document.querySelector('#hero h1');
+  if (h1) {
+    h1.innerHTML = `<span class="gold-gradient-text">${document.getElementById('a-hero-title').value.split(' ')[0]}</span><br/><span class="text-white">${document.getElementById('a-hero-title').value.split(' ').slice(1).join(' ')}</span>`;
+  }
+  document.getElementById('about-text').textContent = document.getElementById('a-about-text').value;
+  showSaveNotice();
+}
+
+function saveContact() {
+  setData('qader_contact', {
+    whatsapp: document.getElementById('a-whatsapp').value,
+    email: document.getElementById('a-email').value,
+    instagram: document.getElementById('a-instagram').value,
+    twitter: document.getElementById('a-twitter').value
+  });
+  showSaveNotice();
+}
+
+function resetContent() {
+  localStorage.removeItem('qader_content');
+  localStorage.removeItem('qader_contact');
+  location.reload();
+}
+
+function showSaveNotice() {
+  const n = document.getElementById('save-notice');
+  n.classList.remove('hidden');
+  setTimeout(() => n.classList.add('hidden'), 2500);
+}
+
+// Admin portfolio list
+function loadAdminPortfolio() {
+  const list = document.getElementById('portfolio-admin-list');
+  list.innerHTML = portfolioItems.map((p, i) => `
+    <div class="glass-card p-5 rounded-2xl flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-gold" style="background:${p.color}66">
+        <i class="fa fa-film"></i>
+      </div>
+      <div class="flex-1 grid grid-cols-2 gap-3">
+        <div>
+          <label class="admin-label">العنوان</label>
+          <input type="text" value="${p.title}" class="admin-input" onchange="updatePortfolioItem(${p.id},'title',this.value)" />
+        </div>
+        <div>
+          <label class="admin-label">التصنيف</label>
+          <select class="admin-input" onchange="updatePortfolioItem(${p.id},'cat',this.value)">
+            <option value="commercial" ${p.cat==='commercial'?'selected':''}>إعلانات تجارية</option>
+            <option value="corporate" ${p.cat==='corporate'?'selected':''}>أفلام تعريفية</option>
+            <option value="events" ${p.cat==='events'?'selected':''}>فعاليات</option>
+            <option value="digital" ${p.cat==='digital'?'selected':''}>محتوى رقمي</option>
+          </select>
+        </div>
+        <div class="col-span-2">
+          <label class="admin-label">رابط الفيديو</label>
+          <input type="text" value="${p.video || ''}" placeholder="https://..." class="admin-input" onchange="updatePortfolioItem(${p.id},'video',this.value)" />
+        </div>
+      </div>
+      <button onclick="deletePortfolioItem(${p.id})" class="text-red-400 hover:text-red-300 text-sm transition-colors flex-shrink-0">
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
+  `).join('');
+}
+
+function updatePortfolioItem(id, key, val) {
+  portfolioItems = portfolioItems.map(p => p.id === id ? {...p, [key]: val} : p);
+  setData('qader_portfolio', portfolioItems);
+  renderPortfolio();
+}
+
+function deletePortfolioItem(id) {
+  portfolioItems = portfolioItems.filter(p => p.id !== id);
+  setData('qader_portfolio', portfolioItems);
+  loadAdminPortfolio();
+  renderPortfolio();
+}
+
+function addPortfolioItem() {
+  const newItem = {
+    id: Date.now(), title: 'مشروع جديد', cat: 'commercial',
+    tag: 'إعلان تجاري', desc: 'وصف المشروع', color: '#1a1a2a', video: ''
+  };
+  portfolioItems.push(newItem);
+  setData('qader_portfolio', portfolioItems);
+  loadAdminPortfolio();
+  renderPortfolio();
+}
+
+// ─── CONTACT FORM ────────────────────────
+function submitContact() {
+  const btn = event.target;
+  btn.textContent = '✓ تم إرسال طلبك بنجاح!';
+  btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+  setTimeout(() => {
+    btn.textContent = 'إرسال الطلب ✦';
+    btn.style.background = 'linear-gradient(135deg,#C9A84C,#A07830)';
+  }, 3000);
+}
+
+// ─── APPLY SAVED CONTENT ─────────────────
+function applyStoredContent() {
+  const c = getData('qader_content', null);
+  if (c) {
+    if (c.aboutText) document.getElementById('about-text').textContent = c.aboutText;
+  }
+}
+
+// ─── SPIN ANIMATION ──────────────────────
+const spinStyle = document.createElement('style');
+spinStyle.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+document.head.appendChild(spinStyle);
+
+// ─── INIT ─────────────────────────────────
+applyStoredContent();
+renderServices();
+renderPortfolio();
+
+// Keyboard close admin
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeAdmin();
+    closeModal();
+  }
+});
+</script>
+</body>
+</html>

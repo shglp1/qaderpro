@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>إدارة الأعمال - قادر برودكشن</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  background: #0D0D0D;
+  color: #F5F5F5;
+  overflow-x: hidden;
+}
+
+.poster-container {
+  width: 720px;
+  min-height: 1080px;
+  margin: 0 auto;
+  position: relative;
+  background: linear-gradient(180deg, #0D0D0D 0%, #0A0A0A 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-header {
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  padding: 25px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-logo {
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #C9A84C 0%, #E2C06E 50%, #A07830 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.admin-body {
+  display: flex;
+  flex: 1;
+}
+
+.admin-sidebar {
+  width: 220px;
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(15px);
+  border-left: 1px solid rgba(201, 168, 76, 0.1);
+  padding: 30px 0;
+}
+
+.sidebar-menu {
+  list-style: none;
+}
+
+.sidebar-item {
+  padding: 18px 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-right: 3px solid transparent;
+  color: #B8B8B8;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sidebar-item:hover, .sidebar-item.active {
+  background: rgba(201, 168, 76, 0.1);
+  border-right-color: #C9A84C;
+  color: #E2C06E;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.content-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: #F5F5F5;
+}
+
+.btn-add {
+  background: linear-gradient(135deg, #C9A84C 0%, #E2C06E 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  color: #0D0D0D;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(201, 168, 76, 0.3);
+}
+
+.btn-add:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(201, 168, 76, 0.5);
+}
+
+.upload-area {
+  background: rgba(30, 30, 30, 0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 50px;
+  border: 2px dashed rgba(201, 168, 76, 0.3);
+  text-align: center;
+  margin-bottom: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+  border-color: rgba(201, 168, 76, 0.5);
+  background: rgba(201, 168, 76, 0.05);
+}
+
+.upload-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, rgba(201, 168, 76, 0.2) 0%, rgba(226, 192, 110, 0.1) 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+.upload-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #F5F5F5;
+  margin-bottom: 8px;
+}
+
+.upload-hint {
+  font-size: 14px;
+  color: #A8A8A8;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.project-card {
+  background: rgba(30, 30, 30, 0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(201, 168, 76, 0.1);
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  border-color: rgba(201, 168, 76, 0.3);
+  transform: translateY(-5px);
+}
+
+.project-thumbnail {
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.project-play {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #C9A84C 0%, #E2C06E 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-info {
+  padding: 20px;
+}
+
+.project-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #F5F5F5;
+  margin-bottom: 5px;
+}
+
+.project-category {
+  font-size: 13px;
+  color: #E2C06E;
+  margin-bottom: 15px;
+}
+
+.project-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-edit, .btn-delete {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #E2C06E;
+}
+
+.btn-edit:hover {
+  background: rgba(201, 168, 76, 0.1);
+  border-color: rgba(201, 168, 76, 0.4);
+}
+
+.btn-delete {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.2);
+}
+
+.btn-delete:hover {
+  background: rgba(255, 107, 107, 0.1);
+  border-color: rgba(255, 107, 107, 0.4);
+}
+
+.material-icons {
+  vertical-align: middle;
+}
+</style>
+</head>
+<body>
+<div class="poster-container">
+<div class="admin-header">
+<div class="admin-logo">إدارة الأعمال</div>
+</div>
+
+<div class="admin-body">
+<div class="admin-sidebar">
+<ul class="sidebar-menu">
+<li class="sidebar-item">
+<i class="material-icons">article</i>
+<span>المحتوى الأساسي</span>
+</li>
+<li class="sidebar-item active">
+<i class="material-icons">video_library</i>
+<span>الأعمال</span>
+</li>
+<li class="sidebar-item">
+<i class="material-icons">contact_mail</i>
+<span>معلومات التواصل</span>
+</li>
+</ul>
+</div>
+
+<div class="admin-content">
+<div class="content-header">
+<h2 class="content-title">معرض الأعمال</h2>
+<button class="btn-add">
+<i class="material-icons">add</i>
+إضافة مشروع
+</button>
+</div>
+
+<div class="upload-area">
+<div class="upload-icon">
+<i class="material-icons" style="font-size: 40px; color: #E2C06E;">cloud_upload</i>
+</div>
+<div class="upload-text">رفع فيديو أو صورة جديدة</div>
+<div class="upload-hint">انقر أو اسحب الملفات هنا</div>
+</div>
+
+<div class="projects-grid">
+<div class="project-card">
+<div class="project-thumbnail">
+<div class="project-play">
+<i class="material-icons" style="font-size: 28px; color: #0D0D0D; margin-right: -2px;">play_arrow</i>
+</div>
+</div>
+<div class="project-info">
+<div class="project-title">إعلان سامسونج الخليج</div>
+<div class="project-category">إعلان تجاري</div>
+<div class="project-actions">
+<button class="btn-edit">تعديل</button>
+<button class="btn-delete">حذف</button>
+</div>
+</div>
+</div>
+
+<div class="project-card">
+<div class="project-thumbnail">
+<div class="project-play">
+<i class="material-icons" style="font-size: 28px; color: #0D0D0D; margin-right: -2px;">play_arrow</i>
+</div>
+</div>
+<div class="project-info">
+<div class="project-title">فيلم تعريفي أرامكو</div>
+<div class="project-category">فيلم مؤسسي</div>
+<div class="project-actions">
+<button class="btn-edit">تعديل</button>
+<button class="btn-delete">حذف</button>
+</div>
+</div>
+</div>
+
+<div class="project-card">
+<div class="project-thumbnail">
+<div class="project-play">
+<i class="material-icons" style="font-size: 28px; color: #0D0D0D; margin-right: -2px;">play_arrow</i>
+</div>
+</div>
+<div class="project-info">
+<div class="project-title">حفل المكافآت السنوي</div>
+<div class="project-category">فعالية</div>
+<div class="project-actions">
+<button class="btn-edit">تعديل</button>
+<button class="btn-delete">حذف</button>
+</div>
+</div>
+</div>
+
+<div class="project-card">
+<div class="project-thumbnail">
+<div class="project-play">
+<i class="material-icons" style="font-size: 28px; color: #0D0D0D; margin-right: -2px;">play_arrow</i>
+</div>
+</div>
+<div class="project-info">
+<div class="project-title">حملة رمضان الرقمية</div>
+<div class="project-category">محتوى رقمي</div>
+<div class="project-actions">
+<button class="btn-edit">تعديل</button>
+<button class="btn-delete">حذف</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

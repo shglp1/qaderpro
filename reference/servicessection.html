@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>خدماتنا - قادر برودكشن</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  background: #0D0D0D;
+  color: #F5F5F5;
+  overflow-x: hidden;
+}
+
+.poster-container {
+  width: 720px;
+  min-height: 1080px;
+  margin: 0 auto;
+  position: relative;
+  background: linear-gradient(180deg, #0D0D0D 0%, #141414 100%);
+  padding: 100px 50px;
+}
+
+.gold-accent {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
+  z-index: 1;
+}
+
+.gold-accent-1 {
+  top: 10%;
+  right: -150px;
+}
+
+.gold-accent-2 {
+  bottom: 10%;
+  left: -150px;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.eyebrow {
+  font-size: 13px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.section-title {
+  font-size: 52px;
+  font-weight: 900;
+  color: #F5F5F5;
+  line-height: 1.2;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.service-card {
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 35px 30px;
+  border: 1px solid rgba(201, 168, 76, 0.12);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #C9A84C, #E2C06E, #A07830);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.service-card:hover::before {
+  transform: scaleX(1);
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(201, 168, 76, 0.3);
+  background: rgba(30, 30, 30, 0.6);
+  box-shadow: 0 25px 50px rgba(201, 168, 76, 0.2);
+}
+
+.service-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, rgba(201, 168, 76, 0.2) 0%, rgba(226, 192, 110, 0.1) 100%);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+.service-icon .material-icons {
+  font-size: 36px;
+  color: #E2C06E;
+}
+
+.service-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #F5F5F5;
+}
+
+.service-list {
+  list-style: none;
+  padding: 0;
+}
+
+.service-list li {
+  font-size: 14px;
+  color: #A8A8A8;
+  line-height: 1.8;
+  padding-right: 20px;
+  position: relative;
+}
+
+.service-list li::before {
+  content: '✦';
+  position: absolute;
+  right: 0;
+  color: #C9A84C;
+  font-size: 12px;
+}
+
+.material-icons {
+  vertical-align: middle;
+}
+</style>
+</head>
+<body>
+<div class="poster-container">
+<div class="gold-accent gold-accent-1"></div>
+<div class="gold-accent gold-accent-2"></div>
+
+<div class="content-wrapper">
+<div class="section-header">
+<div class="eyebrow">خدماتنا</div>
+<h2 class="section-title">حلول متكاملة لكل احتياج</h2>
+</div>
+
+<div class="services-grid">
+<div class="service-card">
+<div class="service-icon">
+<i class="material-icons">videocam</i>
+</div>
+<h3 class="service-title">الإنتاج المرئي</h3>
+<ul class="service-list">
+<li>إعلانات تجارية</li>
+<li>أفلام تعريفية</li>
+<li>محتوى تسويقي</li>
+<li>فيديوهات إبداعية</li>
+</ul>
+</div>
+
+<div class="service-card">
+<div class="service-icon">
+<i class="material-icons">photo_camera</i>
+</div>
+<h3 class="service-title">التصوير الاحترافي</h3>
+<ul class="service-list">
+<li>تصوير المنتجات</li>
+<li>التصوير التجاري</li>
+<li>التصوير الإعلاني</li>
+<li>تغطية الفعاليات</li>
+</ul>
+</div>
+
+<div class="service-card">
+<div class="service-icon">
+<i class="material-icons">movie_creation</i>
+</div>
+<h3 class="service-title">الإخراج الإبداعي</h3>
+<ul class="service-list">
+<li>تطوير الأفكار</li>
+<li>كتابة السيناريو</li>
+<li>التخطيط البصري</li>
+<li>إدارة الإنتاج</li>
+</ul>
+</div>
+
+<div class="service-card">
+<div class="service-icon">
+<i class="material-icons">auto_fix_high</i>
+</div>
+<h3 class="service-title">ما بعد الإنتاج</h3>
+<ul class="service-list">
+<li>المونتاج الاحترافي</li>
+<li>تصحيح الألوان</li>
+<li>موشن جرافيك</li>
+<li>المؤثرات البصرية</li>
+</ul>
+</div>
+
+<div class="service-card">
+<div class="service-icon">
+<i class="material-icons">event</i>
+</div>
+<h3 class="service-title">الفعاليات والمعارض</h3>
+<ul class="service-list">
+<li>تنظيم المعارض</li>
+<li>تنظيم المؤتمرات</li>
+<li>إدارة الفعاليات</li>
+<li>الإنتاج الإعلامي</li>
+</ul>
+</div>
+
+<div class="service-card">
+<div class="service-icon">
+<i class="material-icons">campaign</i>
+</div>
+<h3 class="service-title">التسويق والهوية</h3>
+<ul class="service-list">
+<li>استراتيجيات تسويقية</li>
+<li>إدارة الحملات</li>
+<li>محتوى رقمي</li>
+<li>هوية بصرية</li>
+</ul>
+</div>
+
+<div class="service-card">
+<div class="service-icon">
+<i class="material-icons">code</i>
+</div>
+<h3 class="service-title">البرمجة والتقنية</h3>
+<ul class="service-list">
+<li>تصميم المواقع</li>
+<li>تطبيقات رقمية</li>
+<li>متاجر إلكترونية</li>
+<li>حلول تقنية متكاملة</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

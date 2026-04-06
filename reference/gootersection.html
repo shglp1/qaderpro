@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>قادر برودكشن</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  background: #0D0D0D;
+  color: #F5F5F5;
+  overflow-x: hidden;
+}
+
+.poster-container {
+  width: 720px;
+  min-height: 1080px;
+  margin: 0 auto;
+  position: relative;
+  background: linear-gradient(180deg, #0D0D0D 0%, #0A0A0A 100%);
+  padding: 100px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.gold-accent {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.06) 0%, transparent 70%);
+  filter: blur(80px);
+  z-index: 1;
+}
+
+.gold-accent-1 {
+  top: 5%;
+  right: -150px;
+}
+
+.gold-accent-2 {
+  bottom: 15%;
+  left: -150px;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+.footer-brand {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.footer-logo {
+  font-size: 42px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #C9A84C 0%, #E2C06E 50%, #A07830 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+}
+
+.footer-tagline {
+  font-size: 20px;
+  font-weight: 700;
+  color: #F5F5F5;
+  margin-bottom: 15px;
+}
+
+.footer-description {
+  font-size: 15px;
+  color: #A8A8A8;
+  line-height: 1.8;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 70px;
+}
+
+.footer-column {
+  background: rgba(30, 30, 30, 0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 35px 30px;
+  border: 1px solid rgba(201, 168, 76, 0.1);
+}
+
+.column-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #E2C06E;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.column-title .material-icons {
+  font-size: 22px;
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: #B8B8B8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: #E2C06E;
+  transform: translateX(-5px);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 40px;
+  border-top: 1px solid rgba(201, 168, 76, 0.1);
+}
+
+.copyright {
+  font-size: 15px;
+  color: #A8A8A8;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.made-with-pride {
+  font-size: 14px;
+  color: #A07830;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.made-with-pride .material-icons {
+  font-size: 18px;
+  color: #C9A84C;
+}
+
+.material-icons {
+  vertical-align: middle;
+}
+</style>
+</head>
+<body>
+<div class="poster-container">
+<div class="gold-accent gold-accent-1"></div>
+<div class="gold-accent gold-accent-2"></div>
+
+<div class="content-wrapper">
+<div class="footer-brand">
+<h2 class="footer-logo">قادر برودكشن</h2>
+<p class="footer-tagline">إبداع يليق بكل لحظة</p>
+<p class="footer-description">
+نصنع محتوى بصرياً يجعل علامتك تُرى وتُتذكر
+</p>
+</div>
+
+<div class="footer-columns">
+<div class="footer-column">
+<h3 class="column-title">
+<i class="material-icons">business_center</i>
+خدماتنا
+</h3>
+<ul class="footer-links">
+<li><a href="#">الإنتاج المرئي</a></li>
+<li><a href="#">التصوير الاحترافي</a></li>
+<li><a href="#">الإخراج الإبداعي</a></li>
+<li><a href="#">ما بعد الإنتاج</a></li>
+<li><a href="#">تنظيم الفعاليات</a></li>
+</ul>
+</div>
+
+<div class="footer-column">
+<h3 class="column-title">
+<i class="material-icons">explore</i>
+المزيد
+</h3>
+<ul class="footer-links">
+<li><a href="#">التسويق والهوية</a></li>
+<li><a href="#">البرمجة والتقنية</a></li>
+<li><a href="#">معرض الأعمال</a></li>
+<li><a href="#">منهجيتنا</a></li>
+<li><a href="#">من نحن</a></li>
+</ul>
+</div>
+
+<div class="footer-column">
+<h3 class="column-title">
+<i class="material-icons">location_on</i>
+نخدم في
+</h3>
+<ul class="footer-links">
+<li><a href="#">المدينة المنورة</a></li>
+<li><a href="#">الرياض</a></li>
+<li><a href="#">جدة</a></li>
+</ul>
+</div>
+</div>
+
+<div class="footer-bottom">
+<p class="copyright">©️ 2025 قادر برودكشن. جميع الحقوق محفوظة.</p>
+<p class="made-with-pride">
+<i class="material-icons">favorite</i>
+صُنع بفخر في المملكة العربية السعودية
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قادر برودكشن | إبداع يليق بكل لحظة</title>
+  <meta name="description" content="قادر برودكشن — إنتاج إعلامي ومحتوى بصري احترافي في السعودية. إبداع يليق بكل لحظة." />
+  <link rel="canonical" href="https://example.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="قادر برودكشن | إبداع يليق بكل لحظة" />
+  <meta property="og:description" content="قادر برودكشن — إنتاج إعلامي ومحتوى بصري احترافي في السعودية." />
+  <meta property="og:url" content="https://example.com/" />
+  <meta property="og:site_name" content="قادر برودكشن" />
+  <meta property="og:locale" content="ar_SA" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="قادر برودكشن | إبداع يليق بكل لحظة" />
+  <meta name="twitter:description" content="قادر برودكشن — إنتاج إعلامي ومحتوى بصري احترافي في السعودية." />
+  <meta name="theme-color" content="#0D0D0D" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <!-- Helps YouTube (and other) embeds receive a referrer; avoids player error 153 with strict policies -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="alternate" hreflang="ar" href="https://example.com/" />
+  <link rel="alternate" hreflang="en" href="https://example.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://example.com/" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { tajawal: ['Tajawal', 'sans-serif'] },
+          colors: {
+            gold: { DEFAULT: '#EC5B24', light: '#FF7A45', dark: '#C7471D' },
+            charcoal: { DEFAULT: '#0D0D0D', mid: '#141414', light: '#1A1A1A', card: '#1E1E1E' }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: #0D0D0D;
+      color: #F5F5F5;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #0D0D0D; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #FF7A45, #EC5B24);
+      border-radius: 4px;
+    }
+
+    /* ─── NAV ─── */
+    #navbar {
+      position: fixed; top: 0; right: 0; left: 0; z-index: 100;
+      transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+    }
+    #navbar.scrolled {
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 rgba(236,91,36,0.2);
+    }
+    .nav-link {
+      position: relative; color: #ccc; font-weight: 500; font-size: 0.95rem;
+      text-decoration: none; padding: 4px 0; transition: color 0.3s;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; right: 0; width: 0; height: 1px;
+      background: #EC5B24; transition: width 0.3s;
+    }
+    .nav-link:hover { color: #EC5B24; }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative; min-height: 100vh; min-height: 100svh;
+      display: flex; align-items: center;
+      overflow: hidden; background: #0D0D0D;
+    }
+    @media (max-width: 767px) {
+      #hero {
+        min-height: 0;
+        align-items: flex-start;
+        padding-bottom: 1.25rem;
+      }
+      #hero-inner {
+        width: 100%;
+        min-height: 0;
+        padding-top: 4.75rem !important;
+        padding-bottom: 0.5rem;
+      }
+      #hero-scroll-hint { display: none; }
+    }
+    .hero-overlay { position: absolute; inset: 0; }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* HERO title: prevent Arabic diacritics clipping/overlap between lines */
+    #h-title > span { display: block; }
+    #h-title > span.gold-gradient-text { padding-top: 0.14em; }
+    #h-title > span.text-white { padding-bottom: 0.04em; }
+
+    /* HERO left patterns: keep text layout unchanged (absolute on left) */
+    #hero-pattern-images{
+      position: absolute;
+      left: clamp(16px, 4vw, 64px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: min(46vw, 560px);
+      height: clamp(240px, 42vw, 360px);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      opacity: 0.98;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: clamp(14px, 2.6vw, 28px);
+    }
+    #hero-pattern-images .hero-pattern{
+      flex: 1 1 0%;
+      min-width: 0;
+      height: 100%;
+      position: relative;
+      filter: drop-shadow(0 20px 45px rgba(0,0,0,0.55));
+      will-change: transform;
+      transform: translate3d(0,0,0);
+      animation: heroPatternDrift 14s ease-in-out infinite;
+    }
+    /* tint using mask (keeps brand color even if svg is black) */
+    #hero-pattern-images .hero-pattern::before{
+      content: "";
+      position: absolute;
+      inset: -10%;
+      background-color: rgba(236,91,36,0.92);
+    }
+    #hero-pattern-images .hero-pattern.palm::before{
+      -webkit-mask-image: url("logo_Plam_Pattern.svg");
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      -webkit-mask-size: contain;
+      mask-image: url("logo_Plam_Pattern.svg");
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      opacity: 0.35;
+      transform: rotate(-10deg) translateY(-4%);
+    }
+    #hero-pattern-images .hero-pattern.haram::before{
+      -webkit-mask-image: url("logo_Haram_Pattern.svg");
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      -webkit-mask-size: contain;
+      mask-image: url("logo_Haram_Pattern.svg");
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      opacity: 0.50;
+      transform: rotate(8deg) translateY(4%);
+    }
+    #hero-pattern-images .hero-pattern.palm{ animation-duration: 16s; }
+    #hero-pattern-images .hero-pattern.haram{ animation-duration: 13s; animation-direction: reverse; }
+    @keyframes heroPatternDrift{
+      0%,100% { transform: translate3d(0,0,0) scale(1); }
+      50%     { transform: translate3d(10px,-8px,0) scale(1.02); }
+    }
+    @media (max-width: 767px){
+      #hero-pattern-images{
+        position: absolute;
+        left: 12px;
+        top: clamp(132px, 24vw, 172px);
+        transform: none;
+        width: 188px;
+        height: 122px;
+        margin: 0;
+        gap: 10px;
+        opacity: 0.88;
+        align-items: flex-end;
+      }
+      #hero-pattern-images .hero-pattern{
+        animation: none;
+        filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+      }
+      /* Mobile: elegant diagonal composition instead of flat row */
+      #hero-pattern-images .hero-pattern.palm{
+        transform: translateY(-16px) scale(0.94);
+      }
+      #hero-pattern-images .hero-pattern.haram{
+        transform: translateY(2px) scale(1);
+      }
+      #hero-pattern-images .hero-pattern.palm::before{
+        opacity: 0.34;
+      }
+      #hero-pattern-images .hero-pattern.haram::before{
+        opacity: 0.48;
+      }
+    }
+
+    /* ABOUT title: keep Arabic diacritics fully visible */
+    #about-title-line1,
+    #about-title-highlight {
+      line-height: 1.25;
+      display: block;
+      overflow: visible;
+    }
+    #about-title-highlight {
+      margin-top: 0.22em;
+      padding-top: 0.18em;
+      padding-bottom: 0.14em;
+    }
+
+    /* ─── SECTION LABELS ─── */
+    .section-eyebrow {
+      position: relative;
+      display: inline-block;
+      padding: 0;
+      margin-bottom: 18px;
+
+      color: rgba(255, 122, 69, 0.92);
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+
+      /* Crisp, premium feel */
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+    /* Micro-glow underline (no lines/dots) */
+    .section-eyebrow::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      width: clamp(44px, 20%, 76px);
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(0,0,0,0), rgba(236,91,36,0.95), rgba(0,0,0,0));
+      filter: blur(0.2px);
+      opacity: 0.75;
+    }
+
+    @media (max-width: 767px) {
+      .section-eyebrow {
+        font-size: 0.84rem;
+        letter-spacing: 0.075em;
+        margin-bottom: 16px;
+      }
+      .section-eyebrow::after {
+        bottom: -9px;
+        width: clamp(40px, 24%, 70px);
+        opacity: 0.7;
+      }
+    }
+
+    /* ─── GLASS CARD ─── */
+    .glass-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .service-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, rgba(236,91,36,0.15), rgba(236,91,36,0.05));
+      border: 1px solid rgba(236,91,36,0.2);
+      font-size: 1.3rem; color: #EC5B24;
+      transition: background 0.3s, transform 0.3s;
+    }
+    /* ─── PORTFOLIO ─── */
+    .portfolio-card {
+      position: relative; border-radius: 16px; overflow: hidden; cursor: pointer;
+      aspect-ratio: 4/5; background: #1A1A1A;
+    }
+    .portfolio-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .portfolio-card:hover img { transform: scale(1.08); }
+    .portfolio-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.92) 40%, transparent 100%);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .portfolio-card:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      color: #0D0D0D; background: #EC5B24; padding: 3px 10px; border-radius: 50px;
+      margin-bottom: 8px;
+    }
+    .filter-btn {
+      padding: 8px 22px; border-radius: 50px; font-family: 'Tajawal', sans-serif;
+      font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.3s;
+      border: 1px solid rgba(255,255,255,0.12); background: transparent; color: #aaa;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: linear-gradient(135deg, #FF7A45, #EC5B24, #C7471D);
+      color: #0D0D0D; border-color: rgba(236,91,36, 0.55); font-weight: 700;
+    }
+
+    /* ─── METHODOLOGY ─── */
+    .step-line {
+      position: absolute; top: 22px; right: 50%; left: 0;
+      height: 2px; background: linear-gradient(to left, #EC5B24, rgba(236,91,36,0.1));
+    }
+    .step-circle {
+      width: 46px; height: 46px; border-radius: 50%; border: 2px solid rgba(236,91,36,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 700; color: #EC5B24;
+      background: #141414; position: relative; z-index: 2;
+      transition: all 0.3s;
+    }
+    .step-item:hover .step-circle {
+      background: #EC5B24; color: #0D0D0D; border-color: #EC5B24;
+      box-shadow: 0 0 0 8px rgba(236,91,36,0.1);
+    }
+
+    /* ─── VIDEO MODAL ─── */
+    #modal-overlay {
+      position: fixed; inset: 0; z-index: 999; display: none;
+      background: rgba(0,0,0,0.92); backdrop-filter: blur(12px);
+      align-items: center; justify-content: center;
+    }
+    #modal-overlay.open { display: flex; }
+    .modal-box {
+      width: 90%; max-width: 900px; background: #141414;
+      border: 1px solid rgba(236,91,36,0.2); border-radius: 20px; overflow: hidden;
+      position: relative;
+    }
+    #modal-video-area {
+      aspect-ratio: 16/9; background: #000; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .modal-play-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(236,91,36,0.15); border: 2px solid #EC5B24;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: #EC5B24;
+    }
+
+    #content-fallback-banner {
+      display: block; background: rgba(236,91,36,0.12); border-bottom: 1px solid rgba(236,91,36,0.25);
+      color: #FF7A45; font-size: 0.85rem; text-align: center; padding: 10px 16px;
+    }
+    #content-fallback-banner.hidden { display: none; }
+
+    .admin-input {
+      width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      color: #F5F5F5; border-radius: 10px; padding: 10px 14px;
+      font-family: 'Tajawal', sans-serif; font-size: 0.9rem; outline: none;
+      transition: border-color 0.3s;
+      min-height: 44px;
+    }
+    textarea.admin-input { min-height: 7rem; }
+    .admin-input:focus { border-color: #EC5B24; }
+    .admin-input.is-invalid,
+    .contact-service-trigger.is-invalid {
+      border-color: rgba(248, 113, 113, 0.55) !important;
+      box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.15);
+    }
+    .contact-field-error {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.8125rem;
+      line-height: 1.45;
+      color: #f0a8a8;
+      text-align: right;
+    }
+    .contact-field-error:empty,
+    .contact-field-error.hidden { display: none !important; }
+    .contact-form-status {
+      display: block;
+      margin-bottom: 1rem;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      text-align: right;
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      background: rgba(180, 40, 40, 0.18);
+      color: #fecaca;
+    }
+    .contact-form-status:empty,
+    .contact-form-status.hidden { display: none !important; }
+
+    /* Contact: custom service picker (native <select> lists are often white on mobile) */
+    .contact-service-wrap { position: relative; }
+    .contact-service-trigger {
+      cursor: pointer;
+      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      width: 100%;
+    }
+    .contact-service-wrap.is-open .contact-service-chevron {
+      transform: rotate(180deg);
+    }
+    .contact-service-list {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      left: 0;
+      z-index: 60;
+      max-height: 16rem;
+      overflow-y: auto;
+      margin: 0;
+      padding: 6px;
+      list-style: none;
+      border-radius: 12px;
+      background: #141414;
+      border: 1px solid rgba(236,91,36, 0.28);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+    }
+    .contact-service-list[hidden] { display: none !important; }
+    .contact-service-option {
+      margin: 0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #e8e8e8;
+      font-size: 0.9rem;
+      line-height: 1.35;
+      transition: background 0.15s, color 0.15s;
+    }
+    .contact-service-option:hover,
+    .contact-service-option:focus-visible {
+      background: rgba(236,91,36, 0.12);
+      color: #fff;
+      outline: none;
+    }
+    .contact-service-option.is-placeholder {
+      color: #888;
+    }
+    .contact-service-option[aria-selected="true"] {
+      background: rgba(236,91,36, 0.18);
+      color: #FF7A45;
+    }
+    .admin-label { font-size: 0.8rem; color: #888; font-weight: 500; margin-bottom: 6px; display: block; }
+
+    /* ─── FOOTER ─── */
+    .footer-link { color: #888; font-size: 0.9rem; transition: color 0.3s; text-decoration: none; display: block; margin-bottom: 10px; }
+    .footer-link:hover { color: #EC5B24; }
+    .social-btn {
+      width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,0.1); color: #888; font-size: 0.9rem;
+      text-decoration: none; transition: all 0.3s;
+    }
+    .social-btn:hover { border-color: #EC5B24; color: #EC5B24; background: rgba(236,91,36,0.08); }
+
+    /* ─── MISC ─── */
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FF7A45, #EC5B24, #C7471D);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    /* Old divider line is replaced by section glow transitions */
+    .divider { display: none; }
+
+    /* Pro section transitions (no lines/dots) */
+    .section-block {
+      position: relative;
+      isolation: isolate;
+    }
+    .section-block::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0;
+      bottom: -1px;
+      height: 84px;
+      pointer-events: none;
+      z-index: -1;
+      background: radial-gradient(
+        70% 140% at 50% 0%,
+        rgba(236,91,36,0.22) 0%,
+        rgba(236,91,36,0.10) 38%,
+        rgba(0,0,0,0) 72%
+      );
+      filter: blur(10px);
+      opacity: 0.95;
+    }
+    /* Slightly smaller on mobile */
+    @media (max-width: 767px) {
+      .section-block::after { height: 64px; filter: blur(9px); opacity: 0.9; }
+    }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Fade-in utility */
+    .fade-up { opacity: 0; transform: translateY(40px); }
+    .fade-in { opacity: 0; }
+    
+    /* Counter */
+    .stat-number { font-size: 2.8rem; font-weight: 800; color: #EC5B24; line-height: 1; }
+
+    /* ─── Mobile comfort: less visual glare, calmer gold, softer body text ─── */
+    @media (max-width: 767px) {
+      html { -webkit-tap-highlight-color: rgba(236,91,36, 0.12); }
+      body {
+        color: #e0e0e0;
+        color-scheme: dark;
+      }
+      #hero-pattern svg { opacity: 0.09 !important; }
+      .gold-gradient-text {
+        filter: saturate(0.88) brightness(0.92);
+      }
+      .stat-number { font-size: 2rem; }
+      .section-eyebrow { font-size: 0.72rem; letter-spacing: 0.14em; }
+    }
+
+    /* Hover lift only for devices that support hover (reduces jitter on touch) */
+    @media (hover: hover) and (pointer: fine) {
+      .glass-card:hover {
+        border-color: rgba(236,91,36,0.35);
+        transform: translateY(-6px);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(236,91,36,0.06);
+      }
+      .glass-card:hover .service-icon {
+        background: linear-gradient(135deg, rgba(236,91,36,0.3), rgba(236,91,36,0.1));
+        transform: scale(1.1) rotate(-5deg);
+      }
+    }
+
+    /* Disable default glass hover transform on touch-first */
+    @media (hover: none), (pointer: coarse) {
+      .glass-card:hover { transform: none; }
+    }
+
+    /* Services: accordion body (mobile) — fully hidden when closed (no bullet leak) */
+    @media (max-width: 767px) {
+      .service-card__body {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.38s ease;
+        overflow: hidden;
+      }
+      .service-card.is-open .service-card__body {
+        grid-template-rows: 1fr;
+      }
+      .service-card__body > .service-card__ul {
+        overflow: hidden;
+        min-height: 0;
+      }
+      .service-card:not(.is-open) .service-card__body {
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .service-card.is-open .service-card__body {
+        visibility: visible;
+        pointer-events: auto;
+      }
+      .service-card:not(.is-open) .service-card__body > .service-card__ul {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+      }
+      .service-card.is-open .service-card__chevron {
+        transform: rotate(180deg);
+      }
+      .service-card__toggle:focus-visible {
+        outline: 2px solid rgba(236,91,36, 0.65);
+        outline-offset: 2px;
+      }
+    }
+    @media (min-width: 768px) {
+      .service-card__body {
+        display: block;
+      }
+    }
+
+    /* Portfolio: show title overlay on touch / small screens (no hover) */
+    @media (hover: none), (pointer: coarse), (max-width: 767px) {
+      .portfolio-card .portfolio-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0,0,0,0.88) 35%, rgba(0,0,0,0.2) 65%, transparent 100%);
+        padding: 16px;
+      }
+    }
+
+    /* Filter chips: horizontal scroll on phone */
+    .filter-strip {
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(236,91,36,0.35) transparent;
+    }
+    .filter-strip::-webkit-scrollbar { height: 4px; }
+    .filter-strip::-webkit-scrollbar-thumb {
+      background: rgba(236,91,36,0.35);
+      border-radius: 4px;
+    }
+    @media (max-width: 767px) {
+      .filter-btn { flex-shrink: 0; scroll-snap-align: start; }
+      .social-btn { min-width: 44px; min-height: 44px; }
+      .modal-box { width: 94%; max-height: 92vh; overflow-y: auto; border-radius: 16px; }
+    }
+
+    /* Clients marquee — pixel-based shift (reliable after images load) */
+    .clients-marquee-wrap {
+      overflow: hidden;
+      /* No edge fade: user wants logos always visible */
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+    [dir="rtl"] .clients-marquee-wrap {
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+    @keyframes clients-marquee-slide {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(var(--marquee-shift, 50%), 0, 0); }
+    }
+    .clients-marquee-track {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+      --marquee-duration: 8s;
+      --marquee-shift: 50%;
+      /* Move left → right */
+      animation: clients-marquee-slide var(--marquee-duration) linear infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .clients-marquee-track {
+        animation-duration: 28s;
+      }
+    }
+
+    #clients .clients-eyebrow { color: #EC5B24; }
+    #clients .clients-eyebrow::before,
+    #clients .clients-eyebrow::after { background: #EC5B24; }
+
+    /* WhatsApp FAB */
+    #wa-fab {
+      position: fixed;
+      z-index: 95;
+      left: max(1rem, env(safe-area-inset-left));
+      bottom: max(1rem, env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      text-decoration: none;
+    }
+    #wa-fab .wa-fab-btn {
+      width: 3.5rem; height: 3.5rem;
+      border-radius: 50%;
+      background: #25D366;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.45), 0 0 0 2px rgba(255,255,255,0.22);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    #wa-fab:hover .wa-fab-btn, #wa-fab:focus-visible .wa-fab-btn {
+      transform: scale(1.06);
+      box-shadow: 0 6px 28px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,255,255,0.35);
+    }
+    #wa-fab:focus-visible { outline: none; }
+    #wa-fab .wa-fab-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #f5f5f5;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+      max-width: 4.5rem;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    #contact-submit-btn:disabled,
+    #contact-submit-btn[aria-busy="true"] {
+      opacity: 0.88;
+      cursor: wait;
+      transform: none !important;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<div id="content-fallback-banner" class="hidden" role="status" aria-live="polite">
+  يُعرض المحتوى الافتراضي — أضِف إعدادات السحابة في <code style="background:rgba(0,0,0,0.25);padding:2px 6px;border-radius:4px">js/config.js</code> أو تحقق من الاتصال.
+</div>
+
+<!-- ══════════════════════════════════════════
+  NAVBAR
+══════════════════════════════════════════ -->
+<nav id="navbar" class="py-4 md:py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between">
+
+    <!-- RIGHT: Logo (كما في الصورة — اليمين) -->
+    <a href="#hero" class="flex flex-col items-end no-underline">
+      <p id="nav-brand-name" class="text-white font-black text-xl leading-none" style="letter-spacing:-0.01em">قادر برودكشن</p>
+      <p id="nav-brand-en" class="text-gold font-light text-xs mt-0.5" style="letter-spacing:0.25em">QADER PRODUCTION</p>
+    </a>
+
+    <!-- CENTER: Nav Links (filled by app.js) -->
+    <div id="nav-links-desktop" class="hidden md:flex items-center gap-8"></div>
+
+    <!-- LEFT: CTA + Admin link -->
+    <div class="hidden md:flex items-center gap-3">
+      <a href="adminqader/" class="text-xs text-gray-600 hover:text-gold transition-colors" title="لوحة التحكم" aria-label="لوحة التحكم">
+        <i class="fa fa-cog"></i>
+      </a>
+      <a id="nav-cta" href="#contact" class="px-6 py-2.5 rounded-lg text-sm font-bold text-black border transition-all hover:shadow-lg hover:opacity-95" style="background:linear-gradient(135deg,#FF7A45,#EC5B24,#C7471D);border-color:rgba(236,91,36,0.5);box-shadow:0 4px 20px rgba(236,91,36,0.2)">
+        تواصل معنا
+      </a>
+    </div>
+
+    <!-- Hamburger (mobile) -->
+    <button type="button" id="hamburger" class="md:hidden text-white text-xl" onclick="window.__qaderToggleMobile && window.__qaderToggleMobile()" aria-expanded="false" aria-controls="mobile-menu" aria-label="فتح القائمة">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden px-6 pt-4 pb-6" style="background:rgba(13,13,13,0.98);border-top:1px solid rgba(236,91,36,0.1)">
+    <div id="nav-links-mobile" class="flex flex-col gap-4"></div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+  HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <!-- Background: pure black + subtle noise texture -->
+  <div class="hero-overlay" style="background:#0D0D0D"></div>
+
+  <!-- Diagonal gold lines pattern (bottom-right decorative) -->
+  <div id="hero-pattern" style="
+    position:absolute; inset:0; overflow:hidden; pointer-events:none;
+  ">
+    <!-- SVG diagonal lines pattern -->
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:0.18">
+      <defs>
+        <pattern id="diag" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+          <line x1="0" y1="0" x2="0" y2="40" stroke="#EC5B24" stroke-width="0.6"/>
+        </pattern>
+        <mask id="diag-mask">
+          <radialGradient id="rg" cx="80%" cy="80%" r="60%">
+            <stop offset="0%" stop-color="white" stop-opacity="1"/>
+            <stop offset="100%" stop-color="white" stop-opacity="0"/>
+          </radialGradient>
+          <rect width="100%" height="100%" fill="url(#rg)"/>
+        </mask>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#diag)" mask="url(#diag-mask)"/>
+    </svg>
+    <!-- Soft gold glow bottom-left -->
+    <div style="
+      position:absolute; bottom:-10%; left:-5%;
+      width:500px; height:500px; border-radius:50%;
+      background:radial-gradient(circle, rgba(236,91,36,0.07) 0%, transparent 70%);
+      pointer-events:none;
+    "></div>
+  </div>
+
+  <!-- HERO CONTENT — keep original text layout -->
+  <div id="hero-inner" class="relative z-10 w-full md:h-full flex flex-col justify-start md:justify-center px-4 sm:px-8 md:px-16 lg:px-24 pt-[4.75rem] md:pt-[72px]">
+
+    <!-- LEFT IMAGES (pattern art) — positioned absolutely on desktop -->
+    <div id="hero-pattern-images" aria-hidden="true">
+      <div class="hero-pattern palm"></div>
+      <div class="hero-pattern haram"></div>
+    </div>
+
+    <div class="relative z-10">
+      <!-- Top label: "QADER PRODUCTION ———" (top right, like the image) -->
+      <div id="h-tag" class="flex items-center justify-end gap-4 mb-6 md:mb-14 fade-in" style="opacity:0">
+        <span class="hero-tag-text text-gold font-light text-xs md:text-sm" style="letter-spacing:0.35em">QADER PRODUCTION</span>
+        <div style="width:60px;height:1px;background:#EC5B24;flex-shrink:0"></div>
+      </div>
+
+      <!-- MAIN TITLE — huge, right-aligned -->
+      <div class="text-right">
+        <h1 id="h-title" class="fade-up font-black mb-6 md:mb-8 flex flex-col gap-1 md:gap-2" style="opacity:0;transform:translateY(40px);font-size:clamp(3rem,9vw,8rem);line-height:1.18;padding-bottom:0.22em">
+          <span class="text-white block hero-line1 hidden" aria-hidden="true"></span>
+          <span class="text-white block">إبداع يليق</span>
+          <span class="block gold-gradient-text">بكل لحظة</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p id="h-sub" class="fade-up text-gray-400 text-base md:text-lg font-light mb-8 md:mb-14 max-w-xl mr-0 ml-auto leading-relaxed" style="opacity:0;transform:translateY(40px)">
+          نصنع المحتوى البصري الذي يتحدث بدلاً عنك — بدقة احترافية، وإبداع لا حدود له.
+        </p>
+
+        <!-- CTA Buttons — right-aligned -->
+        <div id="h-btns" class="fade-up flex items-center justify-end gap-4 flex-wrap" style="opacity:0;transform:translateY(40px)">
+          <a id="hero-cta-primary" href="#portfolio" class="px-8 py-3.5 rounded-lg font-bold text-black text-sm transition-all hover:scale-[1.02] hover:shadow-xl" style="background:linear-gradient(135deg,#FF7A45,#EC5B24,#C7471D);box-shadow:0 8px 32px rgba(236,91,36,0.22)">
+            اكتشف خدماتنا
+          </a>
+          <a id="hero-cta-secondary" href="#portfolio" class="px-8 py-3.5 rounded-lg font-bold text-white text-sm border transition-all hover:border-gold hover:text-[#FF7A45]" style="border-color:rgba(236,91,36,0.4);background:rgba(255,255,255,0.04)">
+            أعمالنا
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div id="hero-scroll-hint" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600">
+    <div class="w-px h-10 bg-gradient-to-b from-transparent via-gold to-transparent" style="animation:pulse 2s ease-in-out infinite"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  STATS BAR
+══════════════════════════════════════════ -->
+<section class="section-block py-10 md:py-14" style="background:linear-gradient(135deg,rgba(236,91,36,0.08),rgba(236,91,36,0.03),transparent)">
+  <div id="stats-grid" class="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  ABOUT
+══════════════════════════════════════════ -->
+<section id="about" class="section-block py-16 md:py-28 px-4 sm:px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+      <!-- Image side -->
+      <div class="fade-up order-2 md:order-1 relative">
+        <div class="rounded-2xl overflow-hidden aspect-square" style="background:linear-gradient(135deg,#1A1A1A,#141414);border:1px solid rgba(236,91,36,0.15)">
+          <div class="w-full h-full flex items-center justify-center">
+            <!-- Decorative composition -->
+            <div class="relative w-64 h-64">
+              <div class="absolute inset-0 rounded-full" style="border:1px solid rgba(236,91,36,0.15);animation:spin 20s linear infinite"></div>
+              <div class="absolute inset-8 rounded-full" style="border:1px dashed rgba(236,91,36,0.1);animation:spin 14s linear infinite reverse"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <div id="about-deco-letter" class="text-7xl font-black gold-gradient-text">Q</div>
+                  <div id="about-deco-sub" class="text-xs text-gray-500 tracking-widest mt-1">QADER PRODUCTION</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Floating badge -->
+        <div class="relative md:absolute md:-bottom-5 md:-left-5 mt-4 md:mt-0 glass-card p-4 rounded-2xl max-md:max-w-full">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(236,91,36,0.15)">
+              <i class="fa fa-award text-gold"></i>
+            </div>
+            <div>
+              <div id="about-badge-title" class="text-white text-sm font-bold">جودة لا تُجارى</div>
+              <div id="about-badge-sub" class="text-gray-500 text-xs">أعلى معايير الإنتاج</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text side -->
+      <div class="fade-up order-1 md:order-2">
+        <div class="section-eyebrow">من نحن</div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-5 md:mb-6 leading-tight">
+          <span id="about-title-line1" class="block">نصنع تجارب</span>
+          <span id="about-title-highlight" class="block gold-gradient-text">تُرى وتُتذكر</span>
+        </h2>
+        <p class="text-gray-400 text-base md:text-lg leading-relaxed mb-6 md:mb-8 font-light" id="about-text">
+          قادر برودكشن شركة متخصصة في الإنتاج الإعلامي وصناعة المحتوى البصري الاحترافي. نؤمن بأن الصورة القوية قادرة على إيصال الرسائل بطريقة أسرع وأكثر تأثيراً، لذلك نعمل على تحويل الأفكار إلى تجارب بصرية إبداعية.
+        </p>
+
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="glass-card p-5 rounded-2xl">
+            <div class="text-gold text-2xl mb-2"><i class="fa fa-eye"></i></div>
+            <div id="about-vision-title" class="text-white font-bold mb-1">رؤيتنا</div>
+            <div id="about-vision-text" class="text-gray-500 text-sm leading-relaxed">أن نكون من الشركات الرائدة في مجال الإنتاج الإعلامي في المملكة والمنطقة</div>
+          </div>
+          <div class="glass-card p-5 rounded-2xl">
+            <div class="text-gold text-2xl mb-2"><i class="fa fa-bullseye"></i></div>
+            <div id="about-mission-title" class="text-white font-bold mb-1">رسالتنا</div>
+            <div id="about-mission-text" class="text-gray-500 text-sm leading-relaxed">تقديم محتوى بصري احترافي يساعد العلامات التجارية على إيصال رسائلها بطريقة مؤثرة</div>
+          </div>
+        </div>
+
+        <div id="about-tags" class="flex flex-wrap gap-3"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  SERVICES
+══════════════════════════════════════════ -->
+<section id="services" class="section-block py-16 md:py-28 px-4 sm:px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-10 md:mb-16 fade-up px-1">
+      <div class="section-eyebrow justify-center">خدماتنا</div>
+      <h2 id="services-heading" class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">حلول <span class="gold-gradient-text">متكاملة</span> لكل احتياج</h2>
+      <p class="mt-3 text-gray-500 text-sm md:hidden max-w-md mx-auto leading-relaxed">اضغط على أي خدمة لعرض التفاصيل — تصفح أخف دون إرهاق بصري.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5" id="services-grid">
+      <!-- Cards injected by JS or static -->
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  PORTFOLIO
+══════════════════════════════════════════ -->
+<section id="portfolio" class="section-block py-16 md:py-28 px-4 sm:px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-8 md:mb-12 fade-up">
+      <div class="section-eyebrow justify-center">أعمالنا</div>
+      <h2 id="portfolio-heading" class="text-3xl sm:text-4xl md:text-5xl font-black text-white">معرض <span class="gold-gradient-text">الأعمال</span></h2>
+    </div>
+
+    <div class="filter-strip overflow-x-auto mb-8 md:mb-12 fade-up md:overflow-visible pb-1 snap-x snap-mandatory md:snap-none">
+      <div id="filter-btns" class="flex flex-nowrap md:flex-wrap gap-2 md:gap-3 justify-start md:justify-center min-h-[44px] items-center px-1 md:px-0"></div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4" id="portfolio-grid"></div>
+  </div>
+</section>
+
+<!-- Video Modal -->
+<div id="modal-overlay" onclick="closeModal(event)" role="presentation">
+  <div
+    id="modal-dialog"
+    class="modal-box"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    tabindex="-1"
+    onclick="event.stopPropagation()"
+  >
+    <div id="modal-video-area"></div>
+    <div class="p-6">
+      <h3 class="text-white font-bold text-xl mb-2" id="modal-title">عنوان المشروع</h3>
+      <p class="text-gray-400 text-sm" id="modal-desc">وصف المشروع</p>
+    </div>
+    <button type="button" onclick="closeModal()" class="absolute top-4 left-4 w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-all text-sm" aria-label="إغلاق">✕</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  METHODOLOGY
+══════════════════════════════════════════ -->
+<section id="methodology" class="section-block py-16 md:py-28 px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-10 md:mb-16 fade-up">
+      <div class="section-eyebrow justify-center">منهجيتنا</div>
+      <h2 id="methodology-heading" class="text-3xl sm:text-4xl md:text-5xl font-black text-white">كيف <span class="gold-gradient-text">نعمل؟</span></h2>
+    </div>
+
+    <div class="hidden md:block fade-up relative">
+      <div class="absolute top-[22px] right-[10%] left-[10%] h-px" style="background:linear-gradient(to left,rgba(236,91,36,0.5),rgba(236,91,36,0.1));z-index:0"></div>
+      <div id="methodology-steps-desktop" class="grid grid-cols-5 gap-4 relative z-10"></div>
+    </div>
+
+    <div id="methodology-steps-mobile" class="md:hidden flex flex-col gap-6 fade-up"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  WHY US
+══════════════════════════════════════════ -->
+<section id="why-us" class="section-block py-16 md:py-24 px-4 sm:px-6" style="background:linear-gradient(135deg,rgba(236,91,36,0.035),transparent)">
+  <div class="max-w-6xl mx-auto text-center">
+    <div class="section-eyebrow justify-center fade-up">لماذا قادر؟</div>
+    <h2 id="why-us-heading" class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-10 md:mb-16 fade-up leading-tight">شريكك <span class="gold-gradient-text">الإبداعي</span> الأمثل</h2>
+    <div id="why-us-grid" class="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  CLIENTS (عملاءنا) — marquee logos, editable via JSON clients.logos
+══════════════════════════════════════════ -->
+<section id="clients" class="section-block py-14 md:py-20 px-0 sm:px-6 border-t border-b border-white/[0.06]" style="background:linear-gradient(180deg,rgba(236,91,36,0.06),transparent 50%)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-8 md:mb-10">
+    <div id="clients-eyebrow" class="section-eyebrow justify-center clients-eyebrow">عملاءنا</div>
+    <h2 id="clients-heading" class="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight">
+      <span id="clients-title-line">شركاء</span> <span class="gold-gradient-text" id="clients-title-highlight">النجاح</span>
+    </h2>
+    <p id="clients-subtitle" class="mt-2 text-gray-500 text-sm max-w-lg mx-auto hidden"></p>
+  </div>
+  <div id="clients-marquee-wrap" class="clients-marquee-wrap py-4 md:py-6">
+    <div id="clients-marquee-track" class="clients-marquee-track" style="direction:ltr" role="region" aria-label="شعارات العملاء">
+      <div id="clients-strip-1" class="flex items-center gap-10 md:gap-16 px-6 md:px-10 shrink-0"></div>
+      <div id="clients-strip-2" class="flex items-center gap-10 md:gap-16 px-6 md:px-10 shrink-0" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+  CONTACT
+══════════════════════════════════════════ -->
+<section id="contact" class="section-block py-16 md:py-28 px-4 sm:px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-10 md:mb-14 fade-up">
+      <div class="section-eyebrow justify-center">تواصل معنا</div>
+      <h2 id="contact-heading" class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">لنبدأ <span class="gold-gradient-text">مشروعك</span> معاً</h2>
+    </div>
+
+    <div class="glass-card p-6 sm:p-8 md:p-12 rounded-2xl md:rounded-3xl fade-up">
+      <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <label id="contact-label-name" for="contact-input-name" class="admin-label">الاسم الكامل</label>
+          <input id="contact-input-name" type="text" autocomplete="name" maxlength="120" class="admin-input" />
+          <p id="contact-error-name" class="contact-field-error hidden" role="alert"></p>
+        </div>
+        <div>
+          <label id="contact-label-phone" for="contact-input-phone" class="admin-label">رقم الجوال</label>
+          <input id="contact-input-phone" type="tel" autocomplete="tel" maxlength="25" class="admin-input" inputmode="tel" />
+          <p id="contact-error-phone" class="contact-field-error hidden" role="alert"></p>
+        </div>
+      </div>
+      <div class="mb-6">
+        <label id="contact-label-email" for="contact-input-email" class="admin-label">البريد الإلكتروني</label>
+        <input id="contact-input-email" type="email" autocomplete="email" maxlength="254" class="admin-input" />
+        <p id="contact-error-email" class="contact-field-error hidden" role="alert"></p>
+      </div>
+      <div class="mb-6">
+        <p id="contact-label-service" class="admin-label">نوع الخدمة</p>
+        <div id="contact-service-wrap" class="contact-service-wrap">
+          <input type="hidden" id="contact-select-service" name="service" value="" autocomplete="off" />
+          <button type="button" id="contact-service-trigger" class="admin-input contact-service-trigger" aria-expanded="false" aria-haspopup="listbox" aria-controls="contact-service-list" aria-labelledby="contact-label-service">
+            <span id="contact-service-display" class="truncate flex-1 text-right text-gray-500"></span>
+            <i class="fa fa-chevron-down text-gold text-sm shrink-0 transition-transform duration-200 contact-service-chevron" aria-hidden="true"></i>
+          </button>
+          <ul id="contact-service-list" class="contact-service-list" role="listbox" hidden></ul>
+        </div>
+        <p id="contact-error-service" class="contact-field-error hidden" role="alert"></p>
+      </div>
+      <div class="mb-8">
+        <label id="contact-label-message" for="contact-textarea-message" class="admin-label">تفاصيل المشروع</label>
+        <textarea id="contact-textarea-message" rows="4" maxlength="2000" class="admin-input resize-none"></textarea>
+        <p id="contact-error-message" class="contact-field-error hidden" role="alert"></p>
+      </div>
+      <div id="contact-form-status" class="contact-form-status hidden" role="status" aria-live="polite"></div>
+      <button type="button" id="contact-submit-btn" onclick="submitContact(event)" class="contact-submit-btn w-full py-4 rounded-xl font-bold text-black text-base transition-all hover:scale-[1.02] hover:shadow-2xl flex items-center justify-center gap-2 min-h-[3.25rem]" style="background:linear-gradient(135deg,#FF7A45,#EC5B24,#C7471D);box-shadow:0 10px 40px rgba(236,91,36,0.2)">
+        <span class="contact-submit-btn__label">إرسال الطلب ✦</span>
+      </button>
+    </div>
+
+    <div id="contact-cities" class="flex justify-center gap-4 mt-8 flex-wrap fade-up"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  FOOTER
+══════════════════════════════════════════ -->
+<footer style="background:#0A0A0A;border-top:1px solid rgba(236,91,36,0.1)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-10 md:mb-12">
+      <!-- Brand -->
+      <div class="col-span-1 sm:col-span-2 md:col-span-1">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#EC5B24,#C7471D)">
+            <span id="footer-logo-letter" class="text-black font-black text-base flex items-center justify-center w-full h-full">Q</span>
+          </div>
+          <div>
+            <p id="footer-brand-name" class="text-white font-bold leading-none">قادر برودكشن</p>
+            <p id="footer-brand-en" class="text-gold text-xs" style="letter-spacing:0.08em">QADER PRODUCTION</p>
+          </div>
+        </div>
+        <p id="footer-tagline" class="text-gray-500 text-sm leading-relaxed mb-5">إبداع يليق بكل لحظة — نصنع محتوى بصرياً يجعل علامتك تُرى وتُتذكر.</p>
+        <div class="flex gap-2">
+          <a id="social-instagram" href="#" class="social-btn" aria-label="إنستغرام"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+          <a id="social-twitter" href="#" class="social-btn" aria-label="تويتر"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+          <a id="social-snapchat" href="#" class="social-btn" aria-label="سناب شات"><i class="fab fa-snapchat" aria-hidden="true"></i></a>
+          <a id="social-tiktok" href="#" class="social-btn" aria-label="تيك توك"><i class="fab fa-tiktok" aria-hidden="true"></i></a>
+          <a id="social-youtube" href="#" class="social-btn" aria-label="يوتيوب"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h4 id="footer-col-services-title" class="text-white font-bold text-sm mb-5 tracking-wider">خدماتنا</h4>
+        <div id="footer-service-links"></div>
+      </div>
+
+      <div>
+        <h4 id="footer-col-more-title" class="text-white font-bold text-sm mb-5 tracking-wider">المزيد</h4>
+        <div id="footer-more-links"></div>
+      </div>
+
+      <div>
+        <h4 id="footer-col-cities-title" class="text-white font-bold text-sm mb-5 tracking-wider">نخدم في</h4>
+        <div id="footer-cities"></div>
+        <div class="mt-6">
+          <a id="footer-cta" href="#contact" class="px-5 py-2.5 rounded-lg text-sm font-bold text-black inline-block" style="background:linear-gradient(135deg,#FF7A45,#EC5B24,#C7471D)">
+            تواصل معنا
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider mb-8"></div>
+
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <p id="footer-copyright" class="text-gray-600 text-sm">©️ 2025 قادر برودكشن. جميع الحقوق محفوظة.</p>
+      <div class="flex items-center gap-2 text-gray-600 text-sm">
+        <span aria-hidden="true">🇸🇦</span>
+        <span id="footer-made-in">صُنع بفخر في المملكة العربية السعودية</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<a id="wa-fab" href="https://wa.me/966578258199?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%AA%D8%AD%D9%8A%D8%A9%20%D8%B7%D9%8A%D8%A8%D8%A9.%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%AA%D9%88%D8%A7%D8%B5%D9%84%20%D9%85%D8%B9%20%D9%81%D8%B1%D9%8A%D9%82%20%D9%82%D8%A7%D8%AF%D8%B1%20%D8%A8%D8%B1%D9%88%D8%AF%D9%83%D8%B4%D9%86%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%20%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%A7%D8%AC%20%D8%A7%D9%84%D9%85%D8%B1%D8%A6%D9%8A%20%D9%88%D8%A7%D9%84%D9%85%D8%AD%D8%AA%D9%88%D9%89%20%D8%A7%D9%84%D8%A8%D8%B5%D8%B1%D9%8A." class="hidden" target="_blank" rel="noopener noreferrer" aria-label="التواصل عبر واتساب">
+  <span id="wa-fab-label" class="wa-fab-label">تواصل معنا</span>
+  <span class="wa-fab-btn"><i class="fab fa-whatsapp" aria-hidden="true"></i></span>
+</a>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+<script src="js/default-content.js"></script>
+<script src="js/config.js"></script>
+<script src="js/media-urls.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
