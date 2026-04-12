@@ -282,11 +282,12 @@
       color: rgba(255, 140, 90, 0.98);
       font-size: 1.06rem;
       font-weight: 700;
-      letter-spacing: 0.02em;
+      /* letter-spacing breaks Arabic cursive joins — keep at 0 */
+      letter-spacing: 0;
       text-transform: none;
       line-height: 1.45;
       -webkit-font-smoothing: antialiased;
-      text-rendering: geometricPrecision;
+      text-rendering: auto;
     }
     .section-title {
       font-weight: 900;
@@ -315,8 +316,9 @@
 
     @media (max-width: 767px) {
       .section-eyebrow {
-        font-size: 1rem;
-        letter-spacing: 0.018em;
+        font-size: 0.98rem;
+        letter-spacing: 0;
+        line-height: 1.5;
         margin-bottom: 8px;
       }
       .section-title { word-spacing: 0.05em; }
@@ -581,11 +583,8 @@
         color-scheme: dark;
       }
       #hero-pattern svg { opacity: 0.09 !important; }
-      .gold-gradient-text {
-        filter: saturate(0.88) brightness(0.92);
-      }
+      /* No filter on clipped gradient text — breaks WebKit mobile (horizontal slice / missing glyphs) */
       .stat-number { font-size: 2rem; }
-      .section-eyebrow { font-size: 0.98rem; letter-spacing: 0.045em; }
     }
 
     /* Hover lift only for devices that support hover (reduces jitter on touch) */
