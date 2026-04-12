@@ -283,7 +283,8 @@
       position: relative;
       display: inline-block;
       padding: 0;
-      margin-bottom: 10px;
+      /* Room for ::after glow + clear gap before h2 (::after is out-of-flow) */
+      margin-bottom: 1.75rem;
       color: rgba(255, 140, 90, 0.98);
       font-size: 1.06rem;
       font-weight: 700;
@@ -304,13 +305,16 @@
       margin-top: 0;
       -webkit-font-smoothing: antialiased;
     }
+    .section-eyebrow + .section-title {
+      margin-top: 0.35rem;
+    }
     /* Micro-glow underline (no lines/dots) */
     .section-eyebrow::after {
       content: "";
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      bottom: -10px;
+      bottom: -12px;
       width: clamp(44px, 20%, 76px);
       height: 2px;
       border-radius: 999px;
@@ -324,11 +328,12 @@
         font-size: 0.98rem;
         letter-spacing: 0;
         line-height: 1.5;
-        margin-bottom: 8px;
+        margin-bottom: 1.5rem;
       }
       .section-title { word-spacing: 0.05em; }
+      .section-eyebrow + .section-title { margin-top: 0.25rem; }
       .section-eyebrow::after {
-        bottom: -9px;
+        bottom: -10px;
         width: clamp(44px, 28%, 78px);
         opacity: 0.72;
       }
@@ -937,7 +942,7 @@
       <!-- Text side: centered kicker + headline on mobile, RTL block layout from md -->
       <div class="fade-up order-1 md:order-2">
         <div class="max-md:text-center md:text-right max-md:mb-1">
-          <div class="section-eyebrow max-md:mx-auto md:mx-0 max-md:mb-3">من نحن</div>
+          <div class="section-eyebrow max-md:mx-auto md:mx-0">من نحن</div>
           <h2 class="section-title text-white mb-5 md:mb-6 max-md:text-center md:text-right">
             <span id="about-title-line1" class="block">نصنع تجارب</span>
             <span id="about-title-highlight" class="block gold-gradient-text">تُرى وتُتذكر</span>
