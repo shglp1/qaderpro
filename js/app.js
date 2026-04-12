@@ -47,9 +47,24 @@
     return target;
   }
 
+  /** CMS may still store the old placeholder; never let it override public SEO tags. */
+  const PRODUCTION_CANONICAL_URL = 'https://qaderpro.com/';
+
+  function normalizeMetaCanonicalInPlace(meta) {
+    if (!meta || typeof meta !== 'object') return;
+    let raw = meta.canonicalUrl;
+    if (raw != null && typeof raw !== 'string') raw = String(raw);
+    raw = (raw || '').trim();
+    if (!raw || raw === 'null' || /example\.com/i.test(raw)) {
+      meta.canonicalUrl = PRODUCTION_CANONICAL_URL;
+    }
+  }
+
   function mergeContent(def, remote) {
     const out = JSON.parse(JSON.stringify(def));
     if (remote && typeof remote === 'object') deepMerge(out, remote);
+    if (!out.meta || typeof out.meta !== 'object') out.meta = {};
+    normalizeMetaCanonicalInPlace(out.meta);
     return out;
   }
 
