@@ -411,20 +411,33 @@
     if (w < 4) return;
     // Move the track to the right by one full strip width (left → right loop)
     track.style.setProperty('--marquee-shift', w + 'px');
-    /* Higher pxPerSec = shorter duration = faster scroll (strip width ÷ pxPerSec ≈ seconds per loop). */
-    const pxPerSec = 1500;
-    const dur = Math.min(5, Math.max(1, Math.round(w / pxPerSec)));
+    /* Strip width ÷ pxPerSec ≈ seconds per loop. Small mobile strips used to hit 1s min → too fast. */
+    const reduceMotion =
+      typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = typeof window.matchMedia === 'function' && window.matchMedia('(max-width: 767px)').matches;
+    /* Reduced motion: duration controlled in CSS (slow infinite loop); still set shift for seamless loop */
+    if (reduceMotion) return;
+
+    const pxPerSec = isMobile ? 820 : 1080;
+    let dur = Math.round(w / pxPerSec);
+    if (isMobile) dur = Math.max(dur, 8);
+    else dur = Math.max(dur, 6);
+    dur = Math.min(dur, isMobile ? 24 : 20);
     track.style.setProperty('--marquee-duration', dur + 's');
   }
 
   function restartClientsMarqueeAnimation() {
     const track = document.getElementById('clients-marquee-track');
     if (!track) return;
-    // Force restart: set to none → reflow → clear (CSS animation applies)
     track.style.animation = 'none';
     // eslint-disable-next-line no-unused-expressions
     track.offsetHeight;
     track.style.removeProperty('animation');
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        syncClientsMarqueeLayout();
+      });
+    });
   }
 
   function bindClientsMarqueeObservers() {
@@ -724,21 +737,18 @@
     const desktop = document.getElementById('nav-links-desktop');
     const mobile = document.getElementById('nav-links-mobile');
     const items = nav?.items || [];
-    const adminPath = 'adminqader/';
     if (desktop) {
       desktop.innerHTML = items
         .map((it) => `<a href="${esc(it.href)}" class="nav-link">${esc(it.label)}</a>`)
         .join('');
     }
     if (mobile) {
-      mobile.innerHTML =
-        items
-          .map(
-            (it) =>
-              `<a href="${esc(it.href)}" onclick="window.__qaderToggleMobile && window.__qaderToggleMobile()" class="nav-link text-lg py-2 block border-b border-white/5">${esc(it.label)}</a>`
-          )
-          .join('') +
-        `<a href="${adminPath}" onclick="window.__qaderToggleMobile && window.__qaderToggleMobile()" class="nav-link text-lg text-gold py-3 block font-bold">لوحة التحكم</a>`;
+      mobile.innerHTML = items
+        .map(
+          (it) =>
+            `<a href="${esc(it.href)}" onclick="window.__qaderToggleMobile && window.__qaderToggleMobile()" class="nav-link text-lg py-2 block border-b border-white/5">${esc(it.label)}</a>`
+        )
+        .join('');
     }
     const cta = document.getElementById('nav-cta');
     if (cta && nav) {
@@ -1058,10 +1068,10 @@
       const alt = esc(l.name || 'شعار عميل');
       const imgSrc = hasImg ? normalizeImgSrc(rawImg) : '';
       const img = hasImg
-        ? `<img src="${esc(imgSrc)}" alt="${alt}" class="h-9 sm:h-11 md:h-12 w-auto max-w-[100px] sm:max-w-[130px] object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" width="140" height="56" loading="eager" decoding="async" fetchpriority="low"/>`
-        : `<span class="text-gray-500 text-xs sm:text-sm whitespace-nowrap px-2">${esc(l.name || 'شعار')}</span>`;
+        ? `<img src="${esc(imgSrc)}" alt="${alt}" class="clients-logo-img h-12 sm:h-14 md:h-16 w-auto max-w-[128px] sm:max-w-[158px] md:max-w-[176px] object-contain" width="168" height="64" loading="eager" decoding="async" fetchpriority="low"/>`
+        : `<span class="text-gray-400 text-sm sm:text-base whitespace-nowrap px-3 font-medium">${esc(l.name || 'شعار')}</span>`;
       const wrap = (inner) =>
-        `<div class="flex items-center justify-center min-h-[52px] min-w-[80px]">${inner}</div>`;
+        `<div class="flex items-center justify-center min-h-[58px] min-w-[96px] sm:min-w-[108px]">${inner}</div>`;
       if (href && /^https?:\/\//i.test(href)) {
         return wrap(
           `<a href="${esc(href)}" class="block" target="_blank" rel="noopener noreferrer" aria-label="${alt}">${img}</a>`

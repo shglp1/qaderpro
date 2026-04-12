@@ -45,8 +45,7 @@
     };
   </script>
   <style>
-    /* Brand display font: "عام الحرف اليدوية / Year of Handicrafts"
-       Applied to headings only to avoid layout shifts in paragraphs/forms. */
+    /* Display font: عام الحرف اليدوية — site-wide stack; Tajawal fallback */
     @font-face{
       font-family: "YearOfHandicrafts";
       src: url("https://arbfonts.com/wp-content/fonts/new-arabic-fonts/TheYearofHandicrafts-Regular.otf") format("opentype");
@@ -62,6 +61,25 @@
       background: #0D0D0D;
       color: #F5F5F5;
       overflow-x: hidden;
+    }
+
+    /* Font Awesome: restore icon font (inherits display font from body otherwise) */
+    .fa, .fa-solid, .fa-regular, .fas, .far,
+    i[class^="fa-"], i[class*=" fa-"] {
+      font-family: "Font Awesome 6 Free" !important;
+    }
+    .fa-brands, .fab { font-family: "Font Awesome 6 Brands" !important; }
+    .fa-solid, .fas { font-weight: 900 !important; }
+    .fa-regular, .far { font-weight: 400 !important; }
+
+    /* Monospace for code-like content only (not contact textareas) */
+    code, kbd, pre, samp {
+      font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+    }
+
+    .hero-tag-text {
+      font-weight: 600;
+      letter-spacing: 0.22em;
     }
 
     input, button, textarea, select {
@@ -95,6 +113,25 @@
     }
     .nav-link:hover { color: #EC5B24; }
     .nav-link:hover::after { width: 100%; }
+
+    /* Bilingual nav lockup: Arabic + English feel equally intentional */
+    .nav-brand-lockup { align-items: flex-end; text-align: right; max-width: min(72vw, 220px); }
+    #nav-brand-name,
+    #footer-brand-name {
+      font-size: clamp(1.2rem, 4.2vw, 1.5rem);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      line-height: 1.08;
+    }
+    #nav-brand-en,
+    #footer-brand-en {
+      font-size: clamp(0.65rem, 2.1vw, 0.75rem);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      line-height: 1.25;
+      opacity: 0.9;
+      margin-top: 0.2rem;
+    }
 
     /* ─── HERO ─── */
     #hero {
@@ -236,22 +273,30 @@
       padding-bottom: 0.14em;
     }
 
-    /* ─── SECTION LABELS ─── */
+    /* ─── Section kicker + unified title (inherits YearOfHandicrafts) ─── */
     .section-eyebrow {
       position: relative;
       display: inline-block;
       padding: 0;
-      margin-bottom: 18px;
-
-      color: rgba(255, 122, 69, 0.92);
-      font-size: 0.92rem;
+      margin-bottom: 10px;
+      color: rgba(255, 140, 90, 0.98);
+      font-size: 1.06rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-
-      /* Crisp, premium feel */
+      letter-spacing: 0.02em;
+      text-transform: none;
+      line-height: 1.45;
       -webkit-font-smoothing: antialiased;
       text-rendering: geometricPrecision;
+    }
+    .section-title {
+      font-weight: 900;
+      font-size: clamp(1.9rem, 5vw + 0.65rem, 3.5rem);
+      line-height: 1.2;
+      letter-spacing: 0;
+      word-spacing: 0.06em;
+      color: #fff;
+      margin-top: 0;
+      -webkit-font-smoothing: antialiased;
     }
     /* Micro-glow underline (no lines/dots) */
     .section-eyebrow::after {
@@ -270,14 +315,15 @@
 
     @media (max-width: 767px) {
       .section-eyebrow {
-        font-size: 0.84rem;
-        letter-spacing: 0.075em;
-        margin-bottom: 16px;
+        font-size: 1rem;
+        letter-spacing: 0.018em;
+        margin-bottom: 8px;
       }
+      .section-title { word-spacing: 0.05em; }
       .section-eyebrow::after {
         bottom: -9px;
-        width: clamp(40px, 24%, 70px);
-        opacity: 0.7;
+        width: clamp(44px, 28%, 78px);
+        opacity: 0.72;
       }
     }
 
@@ -320,7 +366,7 @@
       margin-bottom: 8px;
     }
     .filter-btn {
-      padding: 8px 22px; border-radius: 50px; font-family: 'Tajawal', sans-serif;
+      padding: 8px 22px; border-radius: 50px;
       font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.3s;
       border: 1px solid rgba(255,255,255,0.12); background: transparent; color: #aaa;
     }
@@ -378,7 +424,7 @@
     .admin-input {
       width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
       color: #F5F5F5; border-radius: 10px; padding: 10px 14px;
-      font-family: 'Tajawal', sans-serif; font-size: 0.9rem; outline: none;
+      font-size: 0.9rem; outline: none;
       transition: border-color 0.3s;
       min-height: 44px;
     }
@@ -539,7 +585,7 @@
         filter: saturate(0.88) brightness(0.92);
       }
       .stat-number { font-size: 2rem; }
-      .section-eyebrow { font-size: 0.72rem; letter-spacing: 0.14em; }
+      .section-eyebrow { font-size: 0.98rem; letter-spacing: 0.045em; }
     }
 
     /* Hover lift only for devices that support hover (reduces jitter on touch) */
@@ -632,7 +678,13 @@
     /* Clients marquee — pixel-based shift (reliable after images load) */
     .clients-marquee-wrap {
       overflow: hidden;
-      /* No edge fade: user wants logos always visible */
+      border-radius: 14px;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.2) 50%, rgba(255,255,255,0.03) 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(0,0,0,0.35);
+      /* No edge fade: logos stay fully visible */
       mask-image: none;
       -webkit-mask-image: none;
     }
@@ -655,13 +707,10 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .clients-marquee-track {
-        animation-duration: 28s;
+        /* Slow continuous loop — never hard-stop motion (accessibility + client request) */
+        animation: clients-marquee-slide 150s linear infinite !important;
       }
     }
-
-    #clients .clients-eyebrow { color: #EC5B24; }
-    #clients .clients-eyebrow::before,
-    #clients .clients-eyebrow::after { background: #EC5B24; }
 
     /* WhatsApp FAB */
     #wa-fab {
@@ -724,9 +773,9 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between">
 
     <!-- RIGHT: Logo (كما في الصورة — اليمين) -->
-    <a href="#hero" class="flex flex-col items-end no-underline">
-      <p id="nav-brand-name" class="text-white font-black text-xl leading-none" style="letter-spacing:-0.01em">قادر برودكشن</p>
-      <p id="nav-brand-en" class="text-gold font-light text-xs mt-0.5" style="letter-spacing:0.25em">QADER PRODUCTION</p>
+    <a href="#hero" class="nav-brand-lockup flex flex-col no-underline">
+      <p id="nav-brand-name" class="text-white font-black">قادر برودكشن</p>
+      <p id="nav-brand-en" class="text-gold">QADER PRODUCTION</p>
     </a>
 
     <!-- CENTER: Nav Links (filled by app.js) -->
@@ -807,8 +856,8 @@
       <div class="text-right">
         <h1 id="h-title" class="fade-up font-black mb-6 md:mb-8 flex flex-col gap-1 md:gap-2" style="opacity:0;transform:translateY(40px);font-size:clamp(3rem,9vw,8rem);line-height:1.18;padding-bottom:0.22em">
           <span class="text-white block hero-line1 hidden" aria-hidden="true"></span>
-          <span class="text-white block">إبداع يليق</span>
-          <span class="block gold-gradient-text">بكل لحظة</span>
+          <span class="text-white block">إبـــداع يليق</span>
+          <span class="block gold-gradient-text">بكل لحــظة</span>
         </h1>
 
         <!-- Subtitle -->
@@ -817,7 +866,7 @@
         </p>
 
         <!-- CTA Buttons — right-aligned -->
-        <div id="h-btns" class="fade-up flex items-center justify-end gap-4 flex-wrap" style="opacity:0;transform:translateY(40px)">
+        <div id="h-btns" class="fade-up flex flex-row flex-wrap items-center justify-start gap-3 sm:gap-4 md:justify-end" dir="rtl" style="opacity:0;transform:translateY(40px)">
           <a id="hero-cta-primary" href="#portfolio" class="px-8 py-3.5 rounded-lg font-bold text-black text-sm transition-all hover:scale-[1.02] hover:shadow-xl" style="background:linear-gradient(135deg,#FF7A45,#EC5B24,#C7471D);box-shadow:0 8px 32px rgba(236,91,36,0.22)">
             اكتشف خدماتنا
           </a>
@@ -868,7 +917,7 @@
           </div>
         </div>
         <!-- Floating badge -->
-        <div class="relative md:absolute md:-bottom-5 md:-left-5 mt-4 md:mt-0 glass-card p-4 rounded-2xl max-md:max-w-full">
+        <div class="relative md:absolute md:-bottom-5 md:-left-5 mt-6 md:mt-0 glass-card p-4 rounded-2xl max-md:max-w-full">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(236,91,36,0.15)">
               <i class="fa fa-award text-gold"></i>
@@ -881,31 +930,38 @@
         </div>
       </div>
 
-      <!-- Text side -->
+      <!-- Text side: centered kicker + headline on mobile, RTL block layout from md -->
       <div class="fade-up order-1 md:order-2">
-        <div class="section-eyebrow">من نحن</div>
-        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-5 md:mb-6 leading-tight">
-          <span id="about-title-line1" class="block">نصنع تجارب</span>
-          <span id="about-title-highlight" class="block gold-gradient-text">تُرى وتُتذكر</span>
-        </h2>
-        <p class="text-gray-400 text-base md:text-lg leading-relaxed mb-6 md:mb-8 font-light" id="about-text">
+        <div class="max-md:text-center md:text-right max-md:mb-1">
+          <div class="section-eyebrow max-md:mx-auto md:mx-0 max-md:mb-3">من نحن</div>
+          <h2 class="section-title text-white mb-5 md:mb-6 max-md:text-center md:text-right">
+            <span id="about-title-line1" class="block">نصنع تجارب</span>
+            <span id="about-title-highlight" class="block gold-gradient-text">تُرى وتُتذكر</span>
+          </h2>
+        </div>
+        <p class="text-gray-400 text-base md:text-lg leading-relaxed mb-6 md:mb-8 font-light text-right max-md:mx-auto max-md:max-w-prose md:max-w-none" id="about-text">
           قادر برودكشن شركة متخصصة في الإنتاج الإعلامي وصناعة المحتوى البصري الاحترافي. نؤمن بأن الصورة القوية قادرة على إيصال الرسائل بطريقة أسرع وأكثر تأثيراً، لذلك نعمل على تحويل الأفكار إلى تجارب بصرية إبداعية.
         </p>
 
-        <div class="grid grid-cols-2 gap-4 mb-8">
-          <div class="glass-card p-5 rounded-2xl">
-            <div class="text-gold text-2xl mb-2"><i class="fa fa-eye"></i></div>
-            <div id="about-vision-title" class="text-white font-bold mb-1">رؤيتنا</div>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 mb-8">
+          <div class="glass-card p-4 sm:p-5 rounded-2xl text-right">
+            <!-- RTL row: icon first in DOM → visual right on phone; md+ stacks icon above title -->
+            <div class="flex flex-row items-center gap-3 justify-center md:flex-col md:items-start md:gap-0 mb-2 md:mb-3">
+              <div class="text-gold text-xl sm:text-2xl shrink-0 leading-none md:mb-2" aria-hidden="true"><i class="fa fa-eye"></i></div>
+              <div id="about-vision-title" class="text-white font-bold">رؤيتنا</div>
+            </div>
             <div id="about-vision-text" class="text-gray-500 text-sm leading-relaxed">أن نكون من الشركات الرائدة في مجال الإنتاج الإعلامي في المملكة والمنطقة</div>
           </div>
-          <div class="glass-card p-5 rounded-2xl">
-            <div class="text-gold text-2xl mb-2"><i class="fa fa-bullseye"></i></div>
-            <div id="about-mission-title" class="text-white font-bold mb-1">رسالتنا</div>
+          <div class="glass-card p-4 sm:p-5 rounded-2xl text-right">
+            <div class="flex flex-row items-center gap-3 justify-center md:flex-col md:items-start md:gap-0 mb-2 md:mb-3">
+              <div class="text-gold text-xl sm:text-2xl shrink-0 leading-none md:mb-2" aria-hidden="true"><i class="fa fa-bullseye"></i></div>
+              <div id="about-mission-title" class="text-white font-bold">رسالتنا</div>
+            </div>
             <div id="about-mission-text" class="text-gray-500 text-sm leading-relaxed">تقديم محتوى بصري احترافي يساعد العلامات التجارية على إيصال رسائلها بطريقة مؤثرة</div>
           </div>
         </div>
 
-        <div id="about-tags" class="flex flex-wrap gap-3"></div>
+        <div id="about-tags" class="flex flex-wrap w-full gap-2 sm:gap-3 max-md:justify-center md:justify-start max-w-2xl sm:max-w-none max-md:mx-auto md:mx-0"></div>
       </div>
     </div>
   </div>
@@ -920,7 +976,7 @@
   <div class="max-w-7xl mx-auto">
     <div class="text-center mb-10 md:mb-16 fade-up px-1">
       <div class="section-eyebrow justify-center">خدماتنا</div>
-      <h2 id="services-heading" class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">حلول <span class="gold-gradient-text">متكاملة</span> لكل احتياج</h2>
+      <h2 id="services-heading" class="section-title text-white">حلول <span class="gold-gradient-text">متكاملة</span> لكل احتياج</h2>
       <p class="mt-3 text-gray-500 text-sm md:hidden max-w-md mx-auto leading-relaxed">اضغط على أي خدمة لعرض التفاصيل — تصفح أخف دون إرهاق بصري.</p>
     </div>
 
@@ -939,7 +995,7 @@
   <div class="max-w-7xl mx-auto">
     <div class="text-center mb-8 md:mb-12 fade-up">
       <div class="section-eyebrow justify-center">أعمالنا</div>
-      <h2 id="portfolio-heading" class="text-3xl sm:text-4xl md:text-5xl font-black text-white">معرض <span class="gold-gradient-text">الأعمال</span></h2>
+      <h2 id="portfolio-heading" class="section-title text-white">معرض <span class="gold-gradient-text">الأعمال</span></h2>
     </div>
 
     <div class="filter-strip overflow-x-auto mb-8 md:mb-12 fade-up md:overflow-visible pb-1 snap-x snap-mandatory md:snap-none">
@@ -979,7 +1035,7 @@
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-10 md:mb-16 fade-up">
       <div class="section-eyebrow justify-center">منهجيتنا</div>
-      <h2 id="methodology-heading" class="text-3xl sm:text-4xl md:text-5xl font-black text-white">كيف <span class="gold-gradient-text">نعمل؟</span></h2>
+      <h2 id="methodology-heading" class="section-title text-white">كيف <span class="gold-gradient-text">نعمل؟</span></h2>
     </div>
 
     <div class="hidden md:block fade-up relative">
@@ -999,7 +1055,7 @@
 <section id="why-us" class="section-block py-16 md:py-24 px-4 sm:px-6" style="background:linear-gradient(135deg,rgba(236,91,36,0.035),transparent)">
   <div class="max-w-6xl mx-auto text-center">
     <div class="section-eyebrow justify-center fade-up">لماذا قادر؟</div>
-    <h2 id="why-us-heading" class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-10 md:mb-16 fade-up leading-tight">شريكك <span class="gold-gradient-text">الإبداعي</span> الأمثل</h2>
+    <h2 id="why-us-heading" class="section-title text-white mb-10 md:mb-16 fade-up">شريكك <span class="gold-gradient-text">الإبداعي</span> الأمثل</h2>
     <div id="why-us-grid" class="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5"></div>
   </div>
 </section>
@@ -1009,18 +1065,18 @@
 <!-- ══════════════════════════════════════════
   CLIENTS (عملاءنا) — marquee logos, editable via JSON clients.logos
 ══════════════════════════════════════════ -->
-<section id="clients" class="section-block py-14 md:py-20 px-0 sm:px-6 border-t border-b border-white/[0.06]" style="background:linear-gradient(180deg,rgba(236,91,36,0.06),transparent 50%)">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-8 md:mb-10">
-    <div id="clients-eyebrow" class="section-eyebrow justify-center clients-eyebrow">عملاءنا</div>
-    <h2 id="clients-heading" class="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight">
+<section id="clients" class="section-block py-16 md:py-28 px-0 sm:px-6 border-t border-b border-white/[0.06]" style="background:linear-gradient(180deg,rgba(236,91,36,0.06),transparent 50%)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-10 md:mb-16">
+    <div id="clients-eyebrow" class="section-eyebrow justify-center">عملاءنا</div>
+    <h2 id="clients-heading" class="section-title text-white">
       <span id="clients-title-line">شركاء</span> <span class="gold-gradient-text" id="clients-title-highlight">النجاح</span>
     </h2>
     <p id="clients-subtitle" class="mt-2 text-gray-500 text-sm max-w-lg mx-auto hidden"></p>
   </div>
   <div id="clients-marquee-wrap" class="clients-marquee-wrap py-4 md:py-6">
     <div id="clients-marquee-track" class="clients-marquee-track" style="direction:ltr" role="region" aria-label="شعارات العملاء">
-      <div id="clients-strip-1" class="flex items-center gap-10 md:gap-16 px-6 md:px-10 shrink-0"></div>
-      <div id="clients-strip-2" class="flex items-center gap-10 md:gap-16 px-6 md:px-10 shrink-0" aria-hidden="true"></div>
+      <div id="clients-strip-1" class="flex items-center gap-12 sm:gap-14 md:gap-16 px-6 sm:px-8 md:px-10 shrink-0"></div>
+      <div id="clients-strip-2" class="flex items-center gap-12 sm:gap-14 md:gap-16 px-6 sm:px-8 md:px-10 shrink-0" aria-hidden="true"></div>
     </div>
   </div>
 </section>
@@ -1034,7 +1090,7 @@
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-10 md:mb-14 fade-up">
       <div class="section-eyebrow justify-center">تواصل معنا</div>
-      <h2 id="contact-heading" class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">لنبدأ <span class="gold-gradient-text">مشروعك</span> معاً</h2>
+      <h2 id="contact-heading" class="section-title text-white">لنبدأ <span class="gold-gradient-text">مشروعك</span> معاً</h2>
     </div>
 
     <div class="glass-card p-6 sm:p-8 md:p-12 rounded-2xl md:rounded-3xl fade-up">
@@ -1095,8 +1151,8 @@
             <span id="footer-logo-letter" class="text-black font-black text-base flex items-center justify-center w-full h-full">Q</span>
           </div>
           <div>
-            <p id="footer-brand-name" class="text-white font-bold leading-none">قادر برودكشن</p>
-            <p id="footer-brand-en" class="text-gold text-xs" style="letter-spacing:0.08em">QADER PRODUCTION</p>
+            <p id="footer-brand-name" class="text-white font-black">قادر برودكشن</p>
+            <p id="footer-brand-en" class="text-gold">QADER PRODUCTION</p>
           </div>
         </div>
         <p id="footer-tagline" class="text-gray-500 text-sm leading-relaxed mb-5">إبداع يليق بكل لحظة — نصنع محتوى بصرياً يجعل علامتك تُرى وتُتذكر.</p>
