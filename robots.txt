@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+
+# Admin UI is not for public indexing (also uses noindex in HTML).
+Disallow: /adminqader/
+
+Sitemap: https://qaderpro.com/sitemap.xml

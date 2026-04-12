@@ -610,6 +610,7 @@
     setMetaTag('og:type', 'website', true);
     if (m.canonicalUrl) {
       setMetaTag('og:url', m.canonicalUrl, true);
+      setMetaTag('twitter:url', m.canonicalUrl, false);
       updateHreflangLinks(m.canonicalUrl);
     }
     setMetaTag('og:site_name', b.nameAr || m.title || document.title, true);
