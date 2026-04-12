@@ -65,10 +65,15 @@
 
     /* Font Awesome: restore icon font (inherits display font from body otherwise) */
     .fa, .fa-solid, .fa-regular, .fas, .far,
-    i[class^="fa-"], i[class*=" fa-"] {
+    i[class^="fa-"]:not(.fab):not(.fa-brands),
+    i[class*=" fa-"]:not(.fab):not(.fa-brands) {
       font-family: "Font Awesome 6 Free" !important;
     }
-    .fa-brands, .fab { font-family: "Font Awesome 6 Brands" !important; }
+    /* Brands must not match the rules above — " fa-whatsapp" would wrongly hit Free and break the glyph */
+    .fa-brands, .fab {
+      font-family: "Font Awesome 6 Brands" !important;
+      font-weight: 400 !important;
+    }
     .fa-solid, .fas { font-weight: 900 !important; }
     .fa-regular, .far { font-weight: 400 !important; }
 
