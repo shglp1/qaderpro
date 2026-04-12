@@ -529,6 +529,11 @@
     .admin-label { font-size: 0.8rem; color: #888; font-weight: 500; margin-bottom: 6px; display: block; }
 
     /* ─── FOOTER ─── */
+    /* Arabic column titles: never use Tailwind tracking-* — letter-spacing breaks cursive joins */
+    footer .footer-section-heading {
+      letter-spacing: 0;
+      text-rendering: auto;
+    }
     .footer-link { color: #888; font-size: 0.9rem; transition: color 0.3s; text-decoration: none; display: block; margin-bottom: 10px; }
     .footer-link:hover { color: #EC5B24; }
     .social-btn {
@@ -1174,17 +1179,17 @@
       </div>
 
       <div>
-        <h4 id="footer-col-services-title" class="text-white font-bold text-sm mb-5 tracking-wider">خدماتنا</h4>
+        <h4 id="footer-col-services-title" class="footer-section-heading text-white font-bold text-sm mb-5">خدماتنا</h4>
         <div id="footer-service-links"></div>
       </div>
 
       <div>
-        <h4 id="footer-col-more-title" class="text-white font-bold text-sm mb-5 tracking-wider">المزيد</h4>
+        <h4 id="footer-col-more-title" class="footer-section-heading text-white font-bold text-sm mb-5">المزيد</h4>
         <div id="footer-more-links"></div>
       </div>
 
       <div>
-        <h4 id="footer-col-cities-title" class="text-white font-bold text-sm mb-5 tracking-wider">نخدم في</h4>
+        <h4 id="footer-col-cities-title" class="footer-section-heading text-white font-bold text-sm mb-5">نخدم في</h4>
         <div id="footer-cities"></div>
         <div class="mt-6">
           <a id="footer-cta" href="#contact" class="px-5 py-2.5 rounded-lg text-sm font-bold text-black inline-block" style="background:linear-gradient(135deg,#FF7A45,#EC5B24,#C7471D)">
