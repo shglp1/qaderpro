@@ -433,12 +433,12 @@
     /* Reduced motion: duration controlled in CSS (slow infinite loop); still set shift for seamless loop */
     if (reduceMotion) return;
 
-    /* Mobile: lower px/s + higher min duration = visibly slower loop (narrow strip felt rushed at 820) */
-    const pxPerSec = isMobile ? 480 : 1080;
+    /* Device-independent comfortable ticker speed: ~80-100px/s (was 480/1080 which was 10× too fast) */
+    const pxPerSec = isMobile ? 80 : 100;
     let dur = Math.round(w / pxPerSec);
-    if (isMobile) dur = Math.max(dur, 22);
-    else dur = Math.max(dur, 6);
-    dur = Math.min(dur, isMobile ? 48 : 20);
+    if (isMobile) dur = Math.max(dur, 25);
+    else dur = Math.max(dur, 20);
+    dur = Math.min(dur, isMobile ? 90 : 90);
     track.style.setProperty('--marquee-duration', dur + 's');
   }
 

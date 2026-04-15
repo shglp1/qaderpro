@@ -696,8 +696,9 @@
       margin-left: auto;
       margin-right: auto;
       max-width: 100%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.2) 50%, rgba(255,255,255,0.03) 100%);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(0,0,0,0.35);
+      /* Lighter background so dark logos are visible */
+      background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.06) 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.15);
       /* No edge fade: logos stay fully visible */
       mask-image: none;
       -webkit-mask-image: none;
@@ -714,7 +715,7 @@
       display: flex;
       width: max-content;
       will-change: transform;
-      --marquee-duration: 8s;
+      --marquee-duration: 30s; /* safe fallback before JS calculates exact duration */
       --marquee-shift: 50%;
       /* Move left → right */
       animation: clients-marquee-slide var(--marquee-duration) linear infinite;
@@ -1078,7 +1079,7 @@
 <!-- ══════════════════════════════════════════
   CLIENTS (عملاءنا) — marquee logos, editable via JSON clients.logos
 ══════════════════════════════════════════ -->
-<section id="clients" class="section-block py-16 md:py-28 px-0 sm:px-6 border-t border-b border-white/[0.06]" style="background:linear-gradient(180deg,rgba(236,91,36,0.06),transparent 50%)">
+<section id="clients" class="section-block py-16 md:py-28 px-0 sm:px-6 border-t border-b border-white/[0.06]" style="background:linear-gradient(180deg,rgba(236,91,36,0.09),rgba(255,255,255,0.03) 50%)">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-10 md:mb-16">
     <div id="clients-eyebrow" class="section-eyebrow justify-center">عملاءنا</div>
     <h2 id="clients-heading" class="section-title text-white">
