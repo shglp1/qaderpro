@@ -1548,11 +1548,12 @@
     gsap.registerPlugin(ScrollTrigger);
 
     function runHeroTimeline() {
-      const tl = gsap.timeline();
-      tl.from('#h-tag', { opacity: 0, duration: 0.6, delay: 0.3 })
-        .from('#h-title', { opacity: 0, y: 40, duration: 0.8, ease: 'power3.out' }, '-=0.2')
-        .from('#h-sub', { opacity: 0, y: 30, duration: 0.7, ease: 'power3.out' }, '-=0.5')
-        .from('#h-btns', { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out' }, '-=0.4');
+      gsap
+        .timeline()
+        .to('#h-tag', { opacity: 1, duration: 0.6, delay: 0.3 })
+        .to('#h-title', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.2')
+        .to('#h-sub', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+        .to('#h-btns', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4');
     }
 
     // Trigger as soon as font is decoded — NOT gated on window.load (which waits for all images/videos).

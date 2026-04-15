@@ -28,116 +28,25 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://epinpsnqsumekrsrcggy.supabase.co" />
-  <link rel="preconnect" href="https://drive.google.com" />
-  <link rel="preload" href="fonts/TheYearofHandicrafts-Regular.otf" as="font" type="font/otf" crossorigin
-    fetchpriority="high" />
-  <link rel="preload"
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" as="style"
-    onload="this.onload=null;this.rel='stylesheet'" />
-  <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
-      rel="stylesheet" />
-  </noscript>
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style"
-    onload="this.onload=null;this.rel='stylesheet'" />
-  <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  </noscript>
-  <style>
-    /* CRITICAL HERO CSS — required for 100% performance score */
-    #hero {
-      position: relative;
-      background: #0D0D0D;
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    #hero-inner {
-      width: 100%;
-      padding: 80px 24px;
-      text-align: right;
-      position: relative;
-      z-index: 10;
-    }
-
-    #h-title {
-      display: flex;
-      flex-direction: column;
-      font-size: clamp(3rem, 9vw, 8rem);
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 24px;
-      color: #fff;
-    }
-
-    .gold-gradient-text {
-      background: linear-gradient(135deg, #FF7A45, #EC5B24, #C7471D);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    #h-sub {
-      color: #9ca3af;
-      font-size: 1.125rem;
-      max-width: 32rem;
-      margin-left: auto;
-      margin-right: 0;
-      margin-bottom: 48px;
-      line-height: 1.625;
-    }
-
-    #h-btns {
-      display: flex;
-      gap: 16px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
-
-    #hero-cta-primary {
-      background: linear-gradient(135deg, #FF7A45, #EC5B24, #C7471D);
-      color: #000;
-      padding: 14px 32px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 0.875rem;
-    }
-
-    #hero-cta-secondary {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(236, 91, 36, 0.4);
-      color: #fff;
-      padding: 14px 32px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 0.875rem;
-    }
-
-    @media (max-width: 767px) {
-      #hero {
-        min-height: 0;
-        padding-bottom: 20px;
+  <link rel="preload" href="fonts/TheYearofHandicrafts-Regular.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet" /></noscript>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { tajawal: ['Tajawal', 'sans-serif'] },
+          colors: {
+            gold: { DEFAULT: '#EC5B24', light: '#FF7A45', dark: '#C7471D' },
+            charcoal: { DEFAULT: '#0D0D0D', mid: '#141414', light: '#1A1A1A', card: '#1E1E1E' }
+          }
+        }
       }
-
-      #hero-inner {
-        padding: 96px 24px 24px !important;
-      }
-
-      #h-title {
-        font-size: 3rem;
-      }
-
-      #h-btns {
-        justify-content: flex-start;
-        flex-direction: row-reverse;
-      }
-    }
-  </style>
+    };
+  </script>
   <style>
     /* Display font: عام الحرف اليدوية — site-wide stack; Tajawal fallback */
     @font-face {
@@ -166,16 +75,6 @@
       background: #0D0D0D;
       color: #F5F5F5;
       overflow-x: hidden;
-      /* Improve Mobile FCP: initial paint state */
-      content-visibility: auto;
-    }
-
-    /* Keep hero text hidden only until JS init, but use CSS for reliability */
-    .hero-pre-init #h-title,
-    .hero-pre-init #h-sub,
-    .hero-pre-init #h-btns,
-    .hero-pre-init #h-tag {
-      opacity: 0;
     }
 
     /* Font Awesome: restore icon font (inherits display font from body otherwise) */
@@ -1348,7 +1247,7 @@
 
       <div class="relative z-10">
         <!-- Top label: "QADER PRODUCTION ———" (top right, like the image) -->
-        <div id="h-tag" class="flex items-center justify-end gap-4 mb-6 md:mb-14 fade-in">
+        <div id="h-tag" class="flex items-center justify-end gap-4 mb-6 md:mb-14 fade-in" style="opacity:0">
           <span class="hero-tag-text text-gold font-light text-xs md:text-sm" style="letter-spacing:0.35em">QADER
             PRODUCTION</span>
           <div style="width:60px;height:1px;background:#EC5B24;flex-shrink:0"></div>
@@ -1357,20 +1256,23 @@
         <!-- MAIN TITLE — huge, right-aligned -->
         <div class="text-right">
           <h1 id="h-title" class="fade-up font-black mb-6 md:mb-8 flex flex-col gap-1 md:gap-2"
-            style="font-size:clamp(3rem,9vw,8rem);line-height:1.18;padding-bottom:0.22em">
+            style="opacity:0;transform:translateY(40px);font-size:clamp(3rem,9vw,8rem);line-height:1.18;padding-bottom:0.22em">
+            <span class="text-white block hero-line1 hidden" aria-hidden="true"></span>
             <span class="text-white block">إبـــداع يليق</span>
             <span class="block gold-gradient-text">بكل لحــظة</span>
           </h1>
 
           <!-- Subtitle -->
           <p id="h-sub"
-            class="fade-up text-gray-400 text-base md:text-lg font-light mb-8 md:mb-14 max-w-xl mr-0 ml-auto leading-relaxed">
+            class="fade-up text-gray-400 text-base md:text-lg font-light mb-8 md:mb-14 max-w-xl mr-0 ml-auto leading-relaxed"
+            style="opacity:0;transform:translateY(40px)">
             نصنع المحتوى البصري الذي يتحدث بدلاً عنك — بدقة احترافية، وإبداع لا حدود له.
           </p>
 
           <!-- CTA Buttons — right-aligned -->
           <div id="h-btns"
-            class="fade-up flex flex-row flex-wrap items-center justify-start gap-3 sm:gap-4 md:justify-end" dir="rtl">
+            class="fade-up flex flex-row flex-wrap items-center justify-start gap-3 sm:gap-4 md:justify-end" dir="rtl"
+            style="opacity:0;transform:translateY(40px)">
             <a id="hero-cta-primary" href="#portfolio"
               class="px-8 py-3.5 rounded-lg font-bold text-black text-sm transition-all hover:scale-[1.02] hover:shadow-xl"
               style="background:linear-gradient(135deg,#FF7A45,#EC5B24,#C7471D);box-shadow:0 8px 32px rgba(236,91,36,0.22)">
@@ -1764,21 +1666,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-  <!-- Tailwind at the very bottom for maximum Mobile performance -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { tajawal: ['Tajawal', 'sans-serif'] },
-          colors: {
-            gold: { DEFAULT: '#EC5B24', light: '#FF7A45', dark: '#C7471D' },
-            charcoal: { DEFAULT: '#0D0D0D', mid: '#141414', light: '#1A1A1A', card: '#1E1E1E' }
-          }
-        }
-      }
-    };
-  </script>
   <script src="js/default-content.js"></script>
   <script src="js/config.js"></script>
   <script src="js/media-urls.js"></script>
