@@ -128,7 +128,7 @@
     next.push(Date.now());
     try {
       localStorage.setItem(CONTACT_RATE_KEY, JSON.stringify(next));
-    } catch (_) {}
+    } catch (_) { }
   }
 
   const CONTACT_FIELD_ORDER = ['name', 'phone', 'email', 'service', 'message'];
@@ -883,11 +883,11 @@
       <div id="svc-body-${idx}" class="service-card__body">
         <ul class="service-card__ul space-y-0 md:space-y-1.5 px-4 pb-4 pt-0 md:px-6 md:pb-6 md:pt-2">
         ${(s.items || [])
-          .map(
-            (item) =>
-              `<li class="text-[#b8b8b8] md:text-gray-500 text-sm md:text-sm flex items-start gap-2.5 py-2 md:py-0 border-b border-white/[0.06] md:border-0 last:border-0"><span class="w-1.5 h-1.5 rounded-full bg-gold/80 flex-shrink-0 mt-1.5 md:mt-2" aria-hidden="true"></span><span class="leading-relaxed">${esc(item)}</span></li>`
-          )
-          .join('')}
+            .map(
+              (item) =>
+                `<li class="text-[#b8b8b8] md:text-gray-500 text-sm md:text-sm flex items-start gap-2.5 py-2 md:py-0 border-b border-white/[0.06] md:border-0 last:border-0"><span class="w-1.5 h-1.5 rounded-full bg-gold/80 flex-shrink-0 mt-1.5 md:mt-2" aria-hidden="true"></span><span class="leading-relaxed">${esc(item)}</span></li>`
+            )
+            .join('')}
         </ul>
       </div>
     </article>`
@@ -1085,7 +1085,7 @@
       const alt = esc(l.name || 'شعار عميل');
       const imgSrc = hasImg ? normalizeImgSrc(rawImg) : '';
       const img = hasImg
-        ? `<img src="${esc(imgSrc)}" alt="${alt}" class="clients-logo-img h-12 sm:h-14 md:h-16 w-auto max-w-[128px] sm:max-w-[158px] md:max-w-[176px] object-contain" width="168" height="64" loading="eager" decoding="async" fetchpriority="low"/>`
+        ? `<img src="${esc(imgSrc)}" alt="${alt}" class="clients-logo-img h-12 sm:h-14 md:h-16 w-auto max-w-[128px] sm:max-w-[158px] md:max-w-[176px] object-contain" width="168" height="64" loading="lazy" decoding="async" fetchpriority="low"/>`
         : `<span class="text-gray-400 text-sm sm:text-base whitespace-nowrap px-3 font-medium">${esc(l.name || 'شعار')}</span>`;
       const wrap = (inner) =>
         `<div class="flex items-center justify-center min-h-[58px] min-w-[96px] sm:min-w-[108px]">${inner}</div>`;
@@ -1150,7 +1150,7 @@
     else if (!raw.startsWith('966')) raw = '966' + raw;
     const msg = encodeURIComponent(
       w.message ||
-        'السلام عليكم، تحية طيبة. أود التواصل مع فريق قادر برودكشن بخصوص خدمات الإنتاج المرئي والمحتوى البصري.'
+      'السلام عليكم، تحية طيبة. أود التواصل مع فريق قادر برودكشن بخصوص خدمات الإنتاج المرئي والمحتوى البصري.'
     );
     a.href = `https://wa.me/${raw}?text=${msg}`;
     if (lbl) lbl.textContent = w.label || 'تواصل معنا';
@@ -1341,7 +1341,7 @@
       if (v) {
         try {
           v.pause();
-        } catch (_) {}
+        } catch (_) { }
       }
       area.innerHTML = '';
     }
@@ -1546,14 +1546,25 @@
   function initHeroTimeline() {
     if (typeof gsap === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger);
-    window.addEventListener('load', () => {
+
+    function runHeroTimeline() {
       gsap
         .timeline()
         .to('#h-tag', { opacity: 1, duration: 0.6, delay: 0.3 })
         .to('#h-title', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.2')
         .to('#h-sub', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
         .to('#h-btns', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4');
-    });
+    }
+
+    // Trigger as soon as font is decoded — NOT gated on window.load (which waits for all images/videos).
+    // The font is preloaded and local, so this resolves almost instantly.
+    if ('fonts' in document) {
+      document.fonts.load('400 1em "YearOfHandicrafts"')
+        .then(runHeroTimeline)
+        .catch(runHeroTimeline);
+    } else {
+      runHeroTimeline();
+    }
   }
 
   function initStatCounters() {
@@ -1609,7 +1620,7 @@
     if (realtimeChannel && supabaseClient) {
       try {
         supabaseClient.removeChannel(realtimeChannel);
-      } catch (_) {}
+      } catch (_) { }
     }
     realtimeChannel = supabaseClient
       .channel('site_settings_live')
