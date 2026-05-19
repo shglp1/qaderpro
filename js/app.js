@@ -48,7 +48,7 @@
   }
 
   /** CMS may still store the old placeholder; never let it override public SEO tags. */
-  const PRODUCTION_CANONICAL_URL = 'https://qaderpro.com/';
+  const PRODUCTION_CANONICAL_URL = 'https://www.qaderpro.com/';
 
   function normalizeMetaCanonicalInPlace(meta) {
     if (!meta || typeof meta !== 'object') return;

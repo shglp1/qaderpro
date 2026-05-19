@@ -13,7 +13,7 @@ window.DEFAULT_SITE_CONTENT = {
     keywords:
       'إنتاج إعلامي، محتوى بصري، فيديو تعريفي، إعلانات تجارية، السعودية، قادر برودكشن، Qader Production, media production Saudi Arabia, commercial video',
     ogImage: '',
-    canonicalUrl: 'https://qaderpro.com/'
+    canonicalUrl: 'https://www.qaderpro.com/'
   },
   brand: {
     nameAr: 'قادر برودكشن',
