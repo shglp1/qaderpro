@@ -55,7 +55,7 @@
     let raw = meta.canonicalUrl;
     if (raw != null && typeof raw !== 'string') raw = String(raw);
     raw = (raw || '').trim();
-    if (!raw || raw === 'null' || /example\.com/i.test(raw)) {
+    if (!raw || raw === 'null' || /example\.com/i.test(raw) || raw === 'https://qaderpro.com' || raw === 'https://qaderpro.com/') {
       meta.canonicalUrl = PRODUCTION_CANONICAL_URL;
     }
   }
@@ -618,17 +618,25 @@
     portfolioItems = Array.isArray(data.portfolio?.items) ? data.portfolio.items : [];
 
     const m = data.meta || {};
+    
+    // Force canonicalUrl to be https://www.qaderpro.com/ if it is empty, null, example.com, or non-www version
+    let canonUrl = (m.canonicalUrl || '').trim();
+    if (!canonUrl || canonUrl === 'null' || /example\.com/i.test(canonUrl) || canonUrl === 'https://qaderpro.com' || canonUrl === 'https://qaderpro.com/') {
+      canonUrl = 'https://www.qaderpro.com/';
+    }
+    m.canonicalUrl = canonUrl;
+
     const b = data.brand || {};
     if (m.title) document.title = m.title;
     setMetaTag('description', m.description, false);
     setMetaTag('og:title', m.title || document.title, true);
     setMetaTag('og:description', m.description, true);
     setMetaTag('og:type', 'website', true);
-    if (m.canonicalUrl) {
-      setMetaTag('og:url', m.canonicalUrl, true);
-      setMetaTag('twitter:url', m.canonicalUrl, false);
-      updateHreflangLinks(m.canonicalUrl);
-    }
+    
+    // Force og:url and twitter:url to be https://www.qaderpro.com/
+    setMetaTag('og:url', 'https://www.qaderpro.com/', true);
+    setMetaTag('twitter:url', 'https://www.qaderpro.com/', false);
+    updateHreflangLinks('https://www.qaderpro.com/');
     setMetaTag('og:site_name', b.nameAr || m.title || document.title, true);
     setMetaTag('og:locale', 'ar_SA', true);
     setMetaTag('og:locale:alternate', 'en_US', true);
@@ -644,7 +652,9 @@
     injectStructuredData(data);
 
     const linkCanon = document.querySelector('link[rel="canonical"]');
-    if (linkCanon && m.canonicalUrl) linkCanon.href = m.canonicalUrl;
+    if (linkCanon) {
+      linkCanon.href = 'https://www.qaderpro.com/';
+    }
     const navBrandName = document.getElementById('nav-brand-name');
     const navBrandEn = document.getElementById('nav-brand-en');
     if (navBrandName) navBrandName.textContent = b.nameAr || '';
