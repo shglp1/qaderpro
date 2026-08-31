@@ -631,6 +631,14 @@
     const drivePreview =
       M && typeof M.googleDrivePreviewEmbedUrl === 'function' ? M.googleDrivePreviewEmbedUrl(u) : null;
     if (drivePreview) {
+      // Drive /preview iframe UI is broken on mobile (oversized controls). Use native <video> instead.
+      if (prefersMobileVideoPlayer()) {
+        const directUrl =
+          M && typeof M.googleDriveDirectVideoUrl === 'function' ? M.googleDriveDirectVideoUrl(u) : null;
+        if (directUrl) {
+          return `<video class="w-full h-full object-contain bg-black" controls playsinline webkit-playsinline preload="metadata" src="${esc(directUrl)}"></video>`;
+        }
+      }
       return `<iframe class="w-full h-full border-0" src="${esc(drivePreview)}" title="Google Drive" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
     }
 
@@ -1378,6 +1386,16 @@
       };
       loadState.showTimer = window.setTimeout(showLoader, 350);
       attachModalMediaLoadHandlers(wrap, loadState);
+      attachDriveMobileVideoFallback(wrap, p.video);
+      const M = window.QaderMediaUrls;
+      const isDriveIframe =
+        M &&
+        typeof M.isGoogleDriveUrl === 'function' &&
+        M.isGoogleDriveUrl(p.video) &&
+        wrap.querySelector('iframe');
+      if (isDriveIframe && prefersMobileVideoPlayer()) {
+        area.classList.add('is-drive-iframe');
+      }
     }
     document.getElementById('modal-title').textContent = p.title;
     document.getElementById('modal-desc').textContent = p.desc;
