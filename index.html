@@ -644,7 +644,6 @@
     }
 
     #modal-video-area .video-viewport,
-    #modal-video-area iframe,
     #modal-video-area video {
       position: absolute;
       top: 0;
@@ -652,6 +651,40 @@
       width: 100%;
       height: 100%;
       border: 0;
+    }
+
+    #modal-video-area .video-viewport > iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Google Drive mobile: iframe rendered at desktop size then scaled down */
+    .drive-mobile-scaler {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .drive-mobile-scaler iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 960px;
+      height: 680px;
+      border: 0;
+      transform-origin: top left;
+    }
+
+    #modal-video-area.is-drive-iframe .video-viewport {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      height: auto;
     }
 
     .modal-close-btn {
@@ -1114,13 +1147,18 @@
         background: #000;
       }
 
-      /* Drive preview: loading UI fits 16/9 but playing UI needs ~140px extra chrome on mobile */
+      /* Drive preview: height set by JS scaler (desktop UI scaled to mobile width) */
       #modal-video-area.is-drive-iframe {
         aspect-ratio: unset;
         width: 100%;
-        height: clamp(380px, 52dvh, 500px);
-        min-height: 380px;
+        height: auto;
+        min-height: 0;
         flex-shrink: 0;
+        overflow: hidden;
+      }
+
+      #modal-video-area.is-drive-iframe .drive-mobile-scaler {
+        min-height: 200px;
       }
 
       .modal-close-btn {

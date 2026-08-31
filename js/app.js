@@ -562,6 +562,62 @@
     return window.matchMedia('(max-width: 767px)').matches;
   }
 
+  /** Drive /preview renders desktop-sized controls; scale iframe to fit mobile width. */
+  const DRIVE_MOBILE_REF_W = 960;
+  const DRIVE_MOBILE_REF_H = 680;
+
+  function fitDriveMobileScaler(scaler) {
+    if (!scaler) return;
+    const iframe = scaler.querySelector('iframe');
+    if (!iframe) return;
+    const containerW = scaler.clientWidth || scaler.parentElement?.clientWidth || 0;
+    if (!containerW) return;
+    const scale = containerW / DRIVE_MOBILE_REF_W;
+    iframe.style.width = DRIVE_MOBILE_REF_W + 'px';
+    iframe.style.height = DRIVE_MOBILE_REF_H + 'px';
+    iframe.style.transform = 'scale(' + scale + ')';
+    iframe.style.transformOrigin = 'top left';
+    scaler.style.height = Math.ceil(DRIVE_MOBILE_REF_H * scale) + 'px';
+  }
+
+  function setupDriveMobileScaler(wrap, area) {
+    if (!wrap || !area || !prefersMobileVideoPlayer()) return;
+    const scaler = wrap.querySelector('[data-drive-scaler]');
+    if (!scaler) return;
+    area.classList.add('is-drive-iframe');
+    const fit = () => fitDriveMobileScaler(scaler);
+    fit();
+    const iframe = scaler.querySelector('iframe');
+    if (iframe) {
+      iframe.addEventListener('load', () => {
+        fit();
+        window.setTimeout(fit, 150);
+      }, { once: true });
+    }
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(fit);
+      ro.observe(scaler);
+      wrap._driveResizeObserver = ro;
+    } else {
+      wrap._driveResizeHandler = fit;
+      window.addEventListener('resize', fit);
+    }
+    window.setTimeout(fit, 100);
+    window.setTimeout(fit, 500);
+  }
+
+  function teardownDriveMobileScaler(wrap) {
+    if (!wrap) return;
+    if (wrap._driveResizeObserver) {
+      wrap._driveResizeObserver.disconnect();
+      wrap._driveResizeObserver = null;
+    }
+    if (wrap._driveResizeHandler) {
+      window.removeEventListener('resize', wrap._driveResizeHandler);
+      wrap._driveResizeHandler = null;
+    }
+  }
+
   function buildDriveMobileFallbackHtml(url) {
     const cfg = siteContent?.modal || {};
     const M = window.QaderMediaUrls;
@@ -631,13 +687,10 @@
     const drivePreview =
       M && typeof M.googleDrivePreviewEmbedUrl === 'function' ? M.googleDrivePreviewEmbedUrl(u) : null;
     if (drivePreview) {
-      // Drive /preview iframe UI is broken on mobile (oversized controls). Use native <video> instead.
       if (prefersMobileVideoPlayer()) {
-        const directUrl =
-          M && typeof M.googleDriveDirectVideoUrl === 'function' ? M.googleDriveDirectVideoUrl(u) : null;
-        if (directUrl) {
-          return `<video class="w-full h-full object-contain bg-black" controls playsinline webkit-playsinline preload="metadata" src="${esc(directUrl)}"></video>`;
-        }
+        return `<div class="drive-mobile-scaler w-full" data-drive-scaler>
+          <iframe class="border-0" src="${esc(drivePreview)}" title="Google Drive" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        </div>`;
       }
       return `<iframe class="w-full h-full border-0" src="${esc(drivePreview)}" title="Google Drive" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
     }
@@ -1375,7 +1428,11 @@
       prewarmVideoUrl(p.video);
       area.classList.remove('is-drive-iframe');
       const player = buildModalVideoHtml(p.video);
-      area.innerHTML = `<div class="video-viewport absolute inset-0 w-full h-full">${player}</div>`;
+      const isDriveMobile = player.indexOf('data-drive-scaler') !== -1;
+      const viewportClass = isDriveMobile
+        ? 'video-viewport w-full'
+        : 'video-viewport absolute inset-0 w-full h-full';
+      area.innerHTML = `<div class="${viewportClass}">${player}</div>`;
       const wrap = area.firstElementChild;
       const loadState = { showTimer: null, loader: null, shown: false };
       const showLoader = () => {
@@ -1386,16 +1443,7 @@
       };
       loadState.showTimer = window.setTimeout(showLoader, 350);
       attachModalMediaLoadHandlers(wrap, loadState);
-      attachDriveMobileVideoFallback(wrap, p.video);
-      const M = window.QaderMediaUrls;
-      const isDriveIframe =
-        M &&
-        typeof M.isGoogleDriveUrl === 'function' &&
-        M.isGoogleDriveUrl(p.video) &&
-        wrap.querySelector('iframe');
-      if (isDriveIframe && prefersMobileVideoPlayer()) {
-        area.classList.add('is-drive-iframe');
-      }
+      setupDriveMobileScaler(wrap, area);
     }
     document.getElementById('modal-title').textContent = p.title;
     document.getElementById('modal-desc').textContent = p.desc;
@@ -1415,6 +1463,8 @@
     }
     const area = document.getElementById('modal-video-area');
     if (area) {
+      const wrap = area.querySelector('.video-viewport');
+      teardownDriveMobileScaler(wrap || area.firstElementChild);
       const v = area.querySelector('video');
       if (v) {
         try {
