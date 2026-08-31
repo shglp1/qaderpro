@@ -588,12 +588,6 @@
     }
 
     const M = window.QaderMediaUrls;
-    const driveDirect =
-      M && typeof M.googleDriveDirectVideoUrl === 'function' ? M.googleDriveDirectVideoUrl(u) : null;
-    if (driveDirect && prefersMobileVideoPlayer()) {
-      return `<video class="w-full h-full bg-black" controls playsinline preload="metadata" src="${esc(driveDirect)}"></video>`;
-    }
-
     const drivePreview =
       M && typeof M.googleDrivePreviewEmbedUrl === 'function' ? M.googleDrivePreviewEmbedUrl(u) : null;
     if (drivePreview) {
@@ -1312,7 +1306,7 @@
     if (area) {
       prewarmVideoUrl(p.video);
       const player = buildModalVideoHtml(p.video);
-      area.innerHTML = `<div class="relative w-full h-full">${player}</div>`;
+      area.innerHTML = `<div class="video-viewport absolute inset-0 w-full h-full">${player}</div>`;
       const wrap = area.firstElementChild;
       let loader = null;
       const iframe = area.querySelector('iframe');
