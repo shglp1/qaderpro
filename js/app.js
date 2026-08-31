@@ -631,13 +631,6 @@
     const drivePreview =
       M && typeof M.googleDrivePreviewEmbedUrl === 'function' ? M.googleDrivePreviewEmbedUrl(u) : null;
     if (drivePreview) {
-      if (prefersMobileVideoPlayer()) {
-        const driveDirect =
-          M && typeof M.googleDriveDirectVideoUrl === 'function' ? M.googleDriveDirectVideoUrl(u) : null;
-        if (driveDirect) {
-          return `<video class="w-full h-full object-contain bg-black" controls playsinline webkit-playsinline preload="metadata" src="${esc(driveDirect)}"></video>`;
-        }
-      }
       return `<iframe class="w-full h-full border-0" src="${esc(drivePreview)}" title="Google Drive" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
     }
 
@@ -1376,7 +1369,6 @@
       const player = buildModalVideoHtml(p.video);
       area.innerHTML = `<div class="video-viewport absolute inset-0 w-full h-full">${player}</div>`;
       const wrap = area.firstElementChild;
-      attachDriveMobileVideoFallback(wrap, p.video);
       const loadState = { showTimer: null, loader: null, shown: false };
       const showLoader = () => {
         if (loadState.shown || !wrap) return;
