@@ -1114,6 +1114,14 @@
         background: #000;
       }
 
+      /* Drive preview iframe includes player chrome beyond 16:9 — needs extra height on mobile */
+      #modal-video-area.is-drive-iframe {
+        aspect-ratio: unset;
+        min-height: 320px;
+        height: calc((100vw - 24px) * 9 / 16 + 100px);
+        max-height: min(60dvh, 480px);
+      }
+
       .modal-close-btn {
         position: absolute;
         top: 8px;

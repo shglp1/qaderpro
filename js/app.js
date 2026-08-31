@@ -588,6 +588,12 @@
     }
 
     const M = window.QaderMediaUrls;
+    const driveDirect =
+      M && typeof M.googleDriveDirectVideoUrl === 'function' ? M.googleDriveDirectVideoUrl(u) : null;
+    if (driveDirect && prefersMobileVideoPlayer()) {
+      return `<video class="w-full h-full object-contain bg-black" controls playsinline preload="metadata" src="${esc(driveDirect)}"></video>`;
+    }
+
     const drivePreview =
       M && typeof M.googleDrivePreviewEmbedUrl === 'function' ? M.googleDrivePreviewEmbedUrl(u) : null;
     if (drivePreview) {
@@ -1299,6 +1305,14 @@
     }
   }
 
+  function syncModalVideoAreaLayout(area, url) {
+    if (!area) return;
+    const M = window.QaderMediaUrls;
+    const isDrive = M && typeof M.isGoogleDriveUrl === 'function' && M.isGoogleDriveUrl(url);
+    const isDriveIframe = isDrive && !!area.querySelector('iframe') && prefersMobileVideoPlayer();
+    area.classList.toggle('is-drive-iframe', isDriveIframe);
+  }
+
   function openModal(id) {
     const p = portfolioItems.find((x) => x.id === id);
     if (!p) return;
@@ -1307,6 +1321,7 @@
       prewarmVideoUrl(p.video);
       const player = buildModalVideoHtml(p.video);
       area.innerHTML = `<div class="video-viewport absolute inset-0 w-full h-full">${player}</div>`;
+      syncModalVideoAreaLayout(area, p.video);
       const wrap = area.firstElementChild;
       let loader = null;
       const iframe = area.querySelector('iframe');
@@ -1335,6 +1350,7 @@
                   : null;
               if (preview && wrap) {
                 wrap.innerHTML = `<iframe class="w-full h-full border-0" src="${esc(preview)}" title="Google Drive" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+                syncModalVideoAreaLayout(area, p.video);
               }
             },
             { once: true }
@@ -1377,6 +1393,7 @@
           v.pause();
         } catch (_) { }
       }
+      area.classList.remove('is-drive-iframe');
       area.innerHTML = '';
     }
     overlay.classList.remove('open');

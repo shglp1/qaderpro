@@ -60,7 +60,7 @@
     if (!isGoogleDriveUrl(u)) return null;
     const id = googleDriveFileId(u);
     if (!id) return null;
-    return 'https://drive.google.com/uc?export=download&id=' + id;
+    return 'https://drive.google.com/uc?export=download&confirm=t&id=' + id;
   }
 
   /**
