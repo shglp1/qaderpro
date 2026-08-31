@@ -605,12 +605,14 @@
     #modal-overlay {
       position: fixed;
       inset: 0;
-      z-index: 999;
+      z-index: 9999;
       display: none;
-      background: rgba(10, 10, 10, 0.75);
+      background: rgba(0, 0, 0, 0.68);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       align-items: center;
       justify-content: center;
+      padding: 1rem;
     }
 
     #modal-overlay.open {
@@ -618,17 +620,23 @@
     }
 
     .modal-box {
-      width: 90%;
-      max-width: 900px;
+      width: 100%;
+      max-width: 860px;
+      max-height: 90vh;
       background: #141414;
-      border: 1px solid rgba(236, 91, 36, 0.2);
+      border: 1px solid rgba(236, 91, 36, 0.35);
       border-radius: 20px;
       overflow: hidden;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(236, 91, 36, 0.15);
+      margin: auto;
     }
 
     #modal-video-area {
-      aspect-ratio: 16/9;
+      aspect-ratio: 16 / 9;
+      width: 100%;
       background: #000;
       display: flex;
       align-items: center;
@@ -643,19 +651,20 @@
       display: block;
       width: 100%;
       height: 100%;
+      object-fit: contain;
       border: 0;
     }
 
     .modal-close-btn {
       position: absolute;
-      top: 1rem;
-      left: 1rem;
-      z-index: 20;
-      width: 2.75rem;
-      height: 2.75rem;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 30;
+      width: 2.5rem;
+      height: 2.5rem;
       border-radius: 9999px;
       border: 1.5px solid #EC5B24;
-      background: rgba(10, 10, 10, 0.85);
+      background: rgba(0, 0, 0, 0.75);
       color: #EC5B24;
       display: flex;
       align-items: center;
@@ -663,6 +672,7 @@
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
+      backdrop-filter: blur(4px);
       transition: all 0.2s ease-in-out;
     }
 
@@ -1080,17 +1090,19 @@
 
       #modal-overlay.open {
         align-items: center;
-        padding: 0;
-        overflow: hidden;
+        justify-content: center;
+        padding: 16px 12px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .modal-box {
         width: 100%;
-        height: 100vh;
-        max-height: 100%;
-        margin: 0;
-        overflow: hidden;
-        border-radius: 0;
+        max-width: 540px;
+        max-height: calc(100dvh - 32px);
+        border-radius: 16px;
+        margin: auto;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(236, 91, 36, 0.2);
         display: flex;
         flex-direction: column;
       }
@@ -1098,22 +1110,24 @@
       #modal-video-area {
         aspect-ratio: 16 / 9;
         width: 100%;
+        max-height: min(55dvh, calc((100vw - 24px) * 9 / 16));
         flex-shrink: 0;
         background: #000;
       }
 
       .modal-close-btn {
         position: absolute;
-        top: 10px;
-        left: 10px;
+        top: 8px;
+        left: 8px;
         right: auto;
-        z-index: 1001;
-        width: 40px;
-        height: 40px;
+        z-index: 30;
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
       }
 
       .modal-text {
-        padding: 1.25rem 1rem !important;
+        padding: 1rem !important;
         overflow-y: auto;
         flex-grow: 1;
         -webkit-overflow-scrolling: touch;
