@@ -558,6 +558,10 @@
     </div>`;
   }
 
+  function prefersMobileVideoPlayer() {
+    return window.matchMedia('(max-width: 767px)').matches;
+  }
+
   /**
    * YouTube / Vimeo / direct file → inline player. Other HTTPS → external open link (many sites block iframe).
    */
@@ -583,10 +587,15 @@
       return `<iframe class="w-full h-full border-0" src="${src}" title="Vimeo video" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
     }
 
+    const M = window.QaderMediaUrls;
+    const driveDirect =
+      M && typeof M.googleDriveDirectVideoUrl === 'function' ? M.googleDriveDirectVideoUrl(u) : null;
+    if (driveDirect && prefersMobileVideoPlayer()) {
+      return `<video class="w-full h-full bg-black" controls playsinline preload="metadata" src="${esc(driveDirect)}"></video>`;
+    }
+
     const drivePreview =
-      window.QaderMediaUrls && typeof window.QaderMediaUrls.googleDrivePreviewEmbedUrl === 'function'
-        ? window.QaderMediaUrls.googleDrivePreviewEmbedUrl(u)
-        : null;
+      M && typeof M.googleDrivePreviewEmbedUrl === 'function' ? M.googleDrivePreviewEmbedUrl(u) : null;
     if (drivePreview) {
       return `<iframe class="w-full h-full border-0" src="${esc(drivePreview)}" title="Google Drive" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
     }
@@ -1321,6 +1330,22 @@
       if (video) {
         video.addEventListener('loadeddata', done, { once: true });
         video.addEventListener('error', done, { once: true });
+        const M = window.QaderMediaUrls;
+        if (M && typeof M.isGoogleDriveUrl === 'function' && M.isGoogleDriveUrl(p.video)) {
+          video.addEventListener(
+            'error',
+            () => {
+              const preview =
+                typeof M.googleDrivePreviewEmbedUrl === 'function'
+                  ? M.googleDrivePreviewEmbedUrl(p.video)
+                  : null;
+              if (preview && wrap) {
+                wrap.innerHTML = `<iframe class="w-full h-full border-0" src="${esc(preview)}" title="Google Drive" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+              }
+            },
+            { once: true }
+          );
+        }
       }
       const finish = () => {
         window.clearTimeout(showTimer);
@@ -1344,7 +1369,12 @@
   function closeModal(e) {
     const overlay = document.getElementById('modal-overlay');
     if (!overlay) return;
-    if (e && e.target && e.target.id !== 'modal-overlay') return;
+    if (e && e.target) {
+      const t = e.target;
+      const onCloseBtn =
+        t.id === 'modal-close-btn' || (typeof t.closest === 'function' && t.closest('#modal-close-btn'));
+      if (t.id !== 'modal-overlay' && !onCloseBtn) return;
+    }
     const area = document.getElementById('modal-video-area');
     if (area) {
       const v = area.querySelector('video');

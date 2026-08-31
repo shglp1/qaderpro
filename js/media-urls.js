@@ -53,6 +53,17 @@
   }
 
   /**
+   * Direct stream URL for native <video> (better on mobile than Drive preview iframe).
+   */
+  function googleDriveDirectVideoUrl(url) {
+    const u = (url || '').trim();
+    if (!isGoogleDriveUrl(u)) return null;
+    const id = googleDriveFileId(u);
+    if (!id) return null;
+    return 'https://drive.google.com/uc?export=download&id=' + id;
+  }
+
+  /**
    * Dropbox share links: use raw=1 for direct file streaming in <video>
    */
   function normalizeDirectMediaUrl(url) {
@@ -70,6 +81,7 @@
     googleDriveFileId,
     normalizeImageUrl,
     googleDrivePreviewEmbedUrl,
+    googleDriveDirectVideoUrl,
     normalizeDirectMediaUrl,
     isGoogleDriveUrl,
     isDropboxUrl
