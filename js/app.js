@@ -562,6 +562,46 @@
     return window.matchMedia('(max-width: 767px)').matches;
   }
 
+  function buildDriveMobileFallbackHtml(url) {
+    const cfg = siteContent?.modal || {};
+    const M = window.QaderMediaUrls;
+    const viewUrl =
+      M && typeof M.googleDriveViewUrl === 'function' ? M.googleDriveViewUrl(url) : url;
+    const msg =
+      cfg.driveMobileFallbackMessage ||
+      'تعذّر التشغيل داخل الموقع على الجوال. افتح الفيديو في Google Drive.';
+    const label = cfg.openExternalLabel || 'فتح الفيديو';
+    return `<div class="flex flex-col items-center justify-center p-6 text-center h-full overflow-auto">
+      <div class="modal-play-icon mx-auto mb-4"><i class="fa fa-play mr-[-4px]"></i></div>
+      <p class="text-gray-400 text-sm mb-5 max-w-md leading-relaxed">${esc(msg)}</p>
+      <a href="${esc(viewUrl)}" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-xl font-bold text-black text-sm shrink-0" style="background:linear-gradient(135deg,#E2C06E,#C9A84C,#A07830)">${esc(label)}</a>
+    </div>`;
+  }
+
+  function attachDriveMobileVideoFallback(wrap, url) {
+    if (!wrap || !prefersMobileVideoPlayer()) return;
+    const M = window.QaderMediaUrls;
+    if (!M || typeof M.isGoogleDriveUrl !== 'function' || !M.isGoogleDriveUrl(url)) return;
+    const video = wrap.querySelector('video');
+    if (!video) return;
+    const candidates =
+      typeof M.googleDriveDirectVideoUrls === 'function' ? M.googleDriveDirectVideoUrls(url) : [];
+    let attempt = 0;
+    video.addEventListener(
+      'error',
+      () => {
+        attempt += 1;
+        if (attempt < candidates.length) {
+          video.src = candidates[attempt];
+          video.load();
+          return;
+        }
+        wrap.innerHTML = buildDriveMobileFallbackHtml(url);
+      },
+      { once: false }
+    );
+  }
+
   /**
    * YouTube / Vimeo / direct file → inline player. Other HTTPS → external open link (many sites block iframe).
    */
@@ -591,6 +631,13 @@
     const drivePreview =
       M && typeof M.googleDrivePreviewEmbedUrl === 'function' ? M.googleDrivePreviewEmbedUrl(u) : null;
     if (drivePreview) {
+      if (prefersMobileVideoPlayer()) {
+        const driveDirect =
+          M && typeof M.googleDriveDirectVideoUrl === 'function' ? M.googleDriveDirectVideoUrl(u) : null;
+        if (driveDirect) {
+          return `<video class="w-full h-full object-contain bg-black" controls playsinline webkit-playsinline preload="metadata" src="${esc(driveDirect)}"></video>`;
+        }
+      }
       return `<iframe class="w-full h-full border-0" src="${esc(drivePreview)}" title="Google Drive" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
     }
 
@@ -1299,16 +1346,6 @@
     }
   }
 
-  function isDriveMobileLayout(url) {
-    const M = window.QaderMediaUrls;
-    return (
-      !!M &&
-      typeof M.isGoogleDriveUrl === 'function' &&
-      M.isGoogleDriveUrl(url) &&
-      prefersMobileVideoPlayer()
-    );
-  }
-
   function attachModalMediaLoadHandlers(wrap, loadState) {
     if (!wrap || !loadState) return;
     const iframe = wrap.querySelector('iframe');
@@ -1335,10 +1372,11 @@
     const area = document.getElementById('modal-video-area');
     if (area) {
       prewarmVideoUrl(p.video);
-      area.classList.toggle('is-drive-iframe', isDriveMobileLayout(p.video));
+      area.classList.remove('is-drive-iframe');
       const player = buildModalVideoHtml(p.video);
       area.innerHTML = `<div class="video-viewport absolute inset-0 w-full h-full">${player}</div>`;
       const wrap = area.firstElementChild;
+      attachDriveMobileVideoFallback(wrap, p.video);
       const loadState = { showTimer: null, loader: null, shown: false };
       const showLoader = () => {
         if (loadState.shown || !wrap) return;
@@ -1346,9 +1384,7 @@
         wrap.insertAdjacentHTML('afterbegin', modalLoaderHtml());
         loadState.loader = wrap.querySelector('#modal-loader');
       };
-      if (!isDriveMobileLayout(p.video)) {
-        loadState.showTimer = window.setTimeout(showLoader, 350);
-      }
+      loadState.showTimer = window.setTimeout(showLoader, 350);
       attachModalMediaLoadHandlers(wrap, loadState);
     }
     document.getElementById('modal-title').textContent = p.title;

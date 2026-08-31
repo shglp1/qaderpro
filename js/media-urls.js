@@ -53,14 +53,34 @@
   }
 
   /**
-   * Direct stream URL for native <video> (better on mobile than Drive preview iframe).
+   * Direct stream URLs for native <video> (proper mobile controls; no broken Drive iframe UI).
    */
-  function googleDriveDirectVideoUrl(url) {
+  function googleDriveDirectVideoUrls(url) {
     const u = (url || '').trim();
-    if (!isGoogleDriveUrl(u)) return null;
+    if (!isGoogleDriveUrl(u)) return [];
     const id = googleDriveFileId(u);
-    if (!id) return null;
-    return 'https://drive.google.com/uc?export=download&confirm=t&id=' + id;
+    if (!id) return [];
+    return [
+      'https://drive.google.com/uc?export=download&confirm=t&id=' + id,
+      'https://drive.google.com/uc?export=view&id=' + id,
+      'https://drive.google.com/uc?id=' + id + '&export=download&confirm=t'
+    ];
+  }
+
+  function googleDriveDirectVideoUrl(url) {
+    const urls = googleDriveDirectVideoUrls(url);
+    return urls.length ? urls[0] : null;
+  }
+
+  /**
+   * Open in Google Drive app/browser when inline stream fails on mobile.
+   */
+  function googleDriveViewUrl(url) {
+    const u = (url || '').trim();
+    if (!isGoogleDriveUrl(u)) return u;
+    const id = googleDriveFileId(u);
+    if (!id) return u;
+    return 'https://drive.google.com/file/d/' + id + '/view';
   }
 
   /**
@@ -82,6 +102,8 @@
     normalizeImageUrl,
     googleDrivePreviewEmbedUrl,
     googleDriveDirectVideoUrl,
+    googleDriveDirectVideoUrls,
+    googleDriveViewUrl,
     normalizeDirectMediaUrl,
     isGoogleDriveUrl,
     isDropboxUrl
