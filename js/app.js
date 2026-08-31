@@ -588,12 +588,6 @@
     }
 
     const M = window.QaderMediaUrls;
-    const driveDirect =
-      M && typeof M.googleDriveDirectVideoUrl === 'function' ? M.googleDriveDirectVideoUrl(u) : null;
-    if (driveDirect && prefersMobileVideoPlayer()) {
-      return `<video class="w-full h-full object-contain bg-black" controls playsinline preload="metadata" src="${esc(driveDirect)}"></video>`;
-    }
-
     const drivePreview =
       M && typeof M.googleDrivePreviewEmbedUrl === 'function' ? M.googleDrivePreviewEmbedUrl(u) : null;
     if (drivePreview) {
@@ -1305,12 +1299,34 @@
     }
   }
 
-  function syncModalVideoAreaLayout(area, url) {
-    if (!area) return;
+  function isDriveMobileLayout(url) {
     const M = window.QaderMediaUrls;
-    const isDrive = M && typeof M.isGoogleDriveUrl === 'function' && M.isGoogleDriveUrl(url);
-    const isDriveIframe = isDrive && !!area.querySelector('iframe') && prefersMobileVideoPlayer();
-    area.classList.toggle('is-drive-iframe', isDriveIframe);
+    return (
+      !!M &&
+      typeof M.isGoogleDriveUrl === 'function' &&
+      M.isGoogleDriveUrl(url) &&
+      prefersMobileVideoPlayer()
+    );
+  }
+
+  function attachModalMediaLoadHandlers(wrap, loadState) {
+    if (!wrap || !loadState) return;
+    const iframe = wrap.querySelector('iframe');
+    const video = wrap.querySelector('video');
+    const finish = () => {
+      window.clearTimeout(loadState.showTimer);
+      loadState.showTimer = null;
+      if (loadState.loader) {
+        loadState.loader.remove();
+        loadState.loader = null;
+      }
+    };
+    if (iframe) iframe.addEventListener('load', finish, { once: true });
+    if (video) {
+      video.addEventListener('loadeddata', finish, { once: true });
+      video.addEventListener('error', finish, { once: true });
+    }
+    window.setTimeout(finish, 8000);
   }
 
   function openModal(id) {
@@ -1319,55 +1335,21 @@
     const area = document.getElementById('modal-video-area');
     if (area) {
       prewarmVideoUrl(p.video);
+      area.classList.toggle('is-drive-iframe', isDriveMobileLayout(p.video));
       const player = buildModalVideoHtml(p.video);
       area.innerHTML = `<div class="video-viewport absolute inset-0 w-full h-full">${player}</div>`;
-      syncModalVideoAreaLayout(area, p.video);
       const wrap = area.firstElementChild;
-      let loader = null;
-      const iframe = area.querySelector('iframe');
-      const video = area.querySelector('video');
-      let shown = false;
-      const show = () => {
-        if (shown || !wrap) return;
-        shown = true;
+      const loadState = { showTimer: null, loader: null, shown: false };
+      const showLoader = () => {
+        if (loadState.shown || !wrap) return;
+        loadState.shown = true;
         wrap.insertAdjacentHTML('afterbegin', modalLoaderHtml());
-        loader = wrap.querySelector('#modal-loader');
+        loadState.loader = wrap.querySelector('#modal-loader');
       };
-      const done = () => loader && loader.remove();
-      const showTimer = window.setTimeout(show, 200);
-      if (iframe) iframe.addEventListener('load', done, { once: true });
-      if (video) {
-        video.addEventListener('loadeddata', done, { once: true });
-        video.addEventListener('error', done, { once: true });
-        const M = window.QaderMediaUrls;
-        if (M && typeof M.isGoogleDriveUrl === 'function' && M.isGoogleDriveUrl(p.video)) {
-          video.addEventListener(
-            'error',
-            () => {
-              const preview =
-                typeof M.googleDrivePreviewEmbedUrl === 'function'
-                  ? M.googleDrivePreviewEmbedUrl(p.video)
-                  : null;
-              if (preview && wrap) {
-                wrap.innerHTML = `<iframe class="w-full h-full border-0" src="${esc(preview)}" title="Google Drive" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-                syncModalVideoAreaLayout(area, p.video);
-              }
-            },
-            { once: true }
-          );
-        }
+      if (!isDriveMobileLayout(p.video)) {
+        loadState.showTimer = window.setTimeout(showLoader, 350);
       }
-      const finish = () => {
-        window.clearTimeout(showTimer);
-        done();
-      };
-      if (iframe) iframe.addEventListener('load', finish, { once: true });
-      if (video) {
-        video.addEventListener('loadeddata', finish, { once: true });
-        video.addEventListener('error', finish, { once: true });
-      }
-      // Safety: never keep the loader forever
-      window.setTimeout(finish, 3000);
+      attachModalMediaLoadHandlers(wrap, loadState);
     }
     document.getElementById('modal-title').textContent = p.title;
     document.getElementById('modal-desc').textContent = p.desc;
